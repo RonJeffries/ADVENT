@@ -21,8 +21,8 @@ class WorldTest {
             room("living room") {}
         }
         assertThat("bar").isEqualTo("bar")
-        assertThat(world.contents.size).isEqualTo(1)
-        assertThat(world.contents[0].name).isEqualTo("living room")
+        assertThat(world.rooms.size).isEqualTo(1)
+        assertThat(world.rooms[0].name).isEqualTo("living room")
     }
 }
 
