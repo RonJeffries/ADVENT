@@ -31,6 +31,9 @@ class WorldTest {
         }
         assertThat(world.rooms.size).isEqualTo(2)
         assertThat(world.rooms[1].name).isEqualTo("clearing")
+        val r1Moves = world.rooms[1].moves[0]
+        val expected = Pair("n","woods")
+        assertThat(r1Moves).isEqualTo(expected)
     }
 }
 
