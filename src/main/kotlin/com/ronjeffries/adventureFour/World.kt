@@ -10,5 +10,4 @@ class World {
         room.init()
         return room
     }
-
 }

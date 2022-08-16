@@ -5,11 +5,6 @@ import org.junit.jupiter.api.Test
 
 class WorldTest {
     @Test
-    fun hookAgain() {
-        assertThat(2).isEqualTo(2)
-    }
-
-    @Test
     fun createWorld() {
         val world = world {println("creating")}
         assertThat(world.name).isEqualTo("world")
@@ -20,9 +15,22 @@ class WorldTest {
         val world = world {
             room("living room") {}
         }
-        assertThat("bar").isEqualTo("bar")
         assertThat(world.rooms.size).isEqualTo(1)
         assertThat(world.rooms[0].name).isEqualTo("living room")
+    }
+
+    @Test
+    internal fun roomsWithGo() {
+        val world = world {
+            room("woods") {
+                go("s","clearing")
+            }
+            room("clearing") {
+                go("n", "woods")
+            }
+        }
+        assertThat(world.rooms.size).isEqualTo(2)
+        assertThat(world.rooms[1].name).isEqualTo("clearing")
     }
 }
 
