@@ -10,4 +10,6 @@ class World {
         room.init()
         return room
     }
+
+    val roomCount get() = rooms.size
 }

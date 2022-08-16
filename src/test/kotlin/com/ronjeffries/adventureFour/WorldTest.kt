@@ -15,7 +15,7 @@ class WorldTest {
         val world = world {
             room("living room") {}
         }
-        assertThat(world.rooms.size).isEqualTo(1)
+        assertThat(world.roomCount).isEqualTo(1)
         assertThat(world.rooms[0].name).isEqualTo("living room")
     }
 
@@ -29,7 +29,7 @@ class WorldTest {
                 go("n", "woods")
             }
         }
-        assertThat(world.rooms.size).isEqualTo(2)
+        assertThat(world.roomCount).isEqualTo(2)
         assertThat(world.rooms[1].name).isEqualTo("clearing")
         val r1Moves = world.rooms[1].moves[0]
         val expected = Pair("n","woods")
