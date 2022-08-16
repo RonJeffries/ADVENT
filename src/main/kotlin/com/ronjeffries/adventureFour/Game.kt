@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-class Game(val world: World, val startingName: String) {
+class Game(val world: World, startingName: String) {
     var currentRoomName = startingName
 
     fun command(cmd: String) {
