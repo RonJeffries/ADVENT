@@ -14,7 +14,7 @@ class GameTest {
                 go("n", "woods")
             }
         }
-        val game = Game(world)
+        val game = Game(world, "woods")
         assertThat(game.currentRoomName).isEqualTo("woods")
         game.command("s")
         assertThat(game.currentRoomName).isEqualTo("clearing")

@@ -2,11 +2,11 @@ package com.ronjeffries.adventureFour
 
 class World {
     val name = "world"
-    val rooms = mutableListOf<Room>()
+    private val rooms = mutableMapOf<String,Room>()
 
     fun room(name: String, init: Room.()->Unit) : Room {
         val room = Room(name)
-        rooms += room
+        rooms[name] = room
         room.init()
         return room
     }
@@ -14,10 +14,10 @@ class World {
     val roomCount get() = rooms.size
 
     fun hasRoomNamed(name: String): Boolean {
-        return rooms.any { it.name == name}
+        return rooms.containsKey(name)
     }
 
     fun roomNamed(name:String) :Room {
-        return rooms.first {it.name == name}
+        return rooms[name]!!
     }
 }
