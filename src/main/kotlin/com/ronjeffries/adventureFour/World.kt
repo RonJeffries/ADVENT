@@ -12,4 +12,12 @@ class World {
     }
 
     val roomCount get() = rooms.size
+
+    fun hasRoomNamed(name: String): Boolean {
+        return rooms.any { it.name == name}
+    }
+
+    fun roomNamed(name:String) :Room {
+        return rooms.first {it.name == name}
+    }
 }

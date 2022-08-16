@@ -5,4 +5,8 @@ class Room(val name: String) {
     fun go(direction: String, roomName: String) {
         moves += Pair(direction, roomName)
     }
+
+    fun move(direction: String) :String {
+        return moves.first { it.first == direction}.second
+    }
 }

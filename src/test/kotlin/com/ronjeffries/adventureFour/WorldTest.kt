@@ -16,7 +16,7 @@ class WorldTest {
             room("living room") {}
         }
         assertThat(world.roomCount).isEqualTo(1)
-        assertThat(world.rooms[0].name).isEqualTo("living room")
+        assertThat(world.hasRoomNamed("living room")).isEqualTo(true)
     }
 
     @Test
@@ -30,10 +30,10 @@ class WorldTest {
             }
         }
         assertThat(world.roomCount).isEqualTo(2)
-        assertThat(world.rooms[1].name).isEqualTo("clearing")
-        val r1Moves = world.rooms[1].moves[0]
-        val expected = Pair("n","woods")
-        assertThat(r1Moves).isEqualTo(expected)
+        assert(world.hasRoomNamed("clearing"))
+        val clearing:Room = world.roomNamed("clearing")
+        val newLocName:String = clearing.move("n")
+        assertThat(newLocName).isEqualTo("woods")
     }
 }
 
