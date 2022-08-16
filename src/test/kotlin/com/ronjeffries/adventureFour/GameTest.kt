@@ -18,5 +18,7 @@ class GameTest {
         assertThat(game.currentRoomName).isEqualTo("woods")
         game.command("s")
         assertThat(game.currentRoomName).isEqualTo("clearing")
+        game.command("n")
+        assertThat(game.currentRoomName).isEqualTo("woods")
     }
 }
