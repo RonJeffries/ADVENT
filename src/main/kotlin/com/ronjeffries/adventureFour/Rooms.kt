@@ -1,13 +1,14 @@
 package com.ronjeffries.adventureFour
 
 class Rooms {
+    private val rooms = mutableMapOf<String,Room>()
+    val size get() = rooms.size
+
     val roomReferences: Set<String> get() {
         val result = mutableSetOf<String>()
         rooms.forEach { _, room -> result += room.roomReferences }
         return result
     }
-    private val rooms = mutableMapOf<String,Room>()
-    val size get() = rooms.size
 
     fun add(room: Room) {
         rooms.put(room.name, room)
@@ -24,5 +25,4 @@ class Rooms {
     fun unsafeRoomNamed(name: String): Room {
         return rooms[name]!!
     }
-
 }
