@@ -27,7 +27,7 @@ class World {
         return rooms.getOrDefault(name, default)
     }
 
-    fun roomNamed(name: String): Room {
-        return rooms.roomNamed(name)
+    fun unsafeRoomNamed(name: String): Room {
+        return rooms.unsafeRoomNamed(name)
     }
 }

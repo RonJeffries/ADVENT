@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
 class Game(val world: World, startingName: String) {
-    var currentRoom = world.roomNamed(startingName)
+    var currentRoom = world.unsafeRoomNamed(startingName)
     val currentRoomName get() = currentRoom.name
 
     fun command(cmd: String) {

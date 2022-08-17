@@ -16,7 +16,7 @@ class Rooms {
         return rooms.containsKey(name)
     }
 
-    fun roomNamed(name: String): Room {
+    fun unsafeRoomNamed(name: String): Room {
         return rooms[name]!!
     }
 
