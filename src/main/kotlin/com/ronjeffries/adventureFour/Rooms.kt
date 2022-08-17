@@ -1,6 +1,11 @@
 package com.ronjeffries.adventureFour
 
 class Rooms {
+    val roomReferences: Set<String> get() {
+        val result = mutableSetOf<String>()
+        rooms.forEach { _, room -> result += room.roomReferences }
+        return result
+    }
     private val rooms = mutableMapOf<String,Room>()
     val size get() = rooms.size
 

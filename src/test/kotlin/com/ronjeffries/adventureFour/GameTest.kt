@@ -36,5 +36,9 @@ class GameTest {
         // mp such room as Y3, defaults to stay in Y2
         game.command("xyzzy")
         assertThat(game.currentRoomName).isEqualTo("woods")
+        val refs = game.roomReferences
+        assertThat(refs).contains("Y3")
+        val expected = setOf("Y3", "Y2", "clearing", "woods")
+        assertThat(refs).isEqualTo(expected)
     }
 }

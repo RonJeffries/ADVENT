@@ -7,6 +7,7 @@ fun world(details: World.()->Unit): World{
 }
 
 class World {
+    val roomReferences: Set<String> get() = rooms.roomReferences
     val name = "world"
     private val rooms = Rooms()
 

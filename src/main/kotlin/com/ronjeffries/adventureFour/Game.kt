@@ -1,6 +1,7 @@
 package com.ronjeffries.adventureFour
 
 class Game(val world: World, startingName: String) {
+    val roomReferences: Set<String> get() = world.roomReferences
     var currentRoom = world.unsafeRoomNamed(startingName)
     val currentRoomName get() = currentRoom.name
 
