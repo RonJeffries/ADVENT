@@ -1,7 +1,8 @@
 package com.ronjeffries.adventureFour
 
 class Game(val world: World, startingName: String) {
-    var currentRoomName = startingName
+    var currentRoom = world.roomNamed(startingName)
+    val currentRoomName get() = currentRoom.name
 
     fun command(cmd: String) {
         when(cmd) {
@@ -13,10 +14,7 @@ class Game(val world: World, startingName: String) {
     }
 
     fun move(dir:String) {
-        currentRoomName = currentRoom().moves.firstOrNull{it.first==dir}?.second ?:currentRoomName
-    }
-
-    fun currentRoom(): Room {
-        return world.roomNamed(currentRoomName)
+        val name = currentRoom.moves.firstOrNull{it.first==dir}?.second ?:currentRoom.name
+        currentRoom = world.roomNamedOrDefault(name,currentRoom)
     }
 }

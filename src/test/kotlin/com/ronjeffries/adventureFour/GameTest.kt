@@ -16,6 +16,7 @@ class GameTest {
             }
             room("Y2") {
                 go("xyzzy","woods")
+                go("s", "Y3")
             }
         }
         val game = Game(world, "woods")
@@ -26,6 +27,13 @@ class GameTest {
         assertThat(game.currentRoomName).isEqualTo("woods")
         game.command("xyzzy")
         assertThat(game.currentRoomName).isEqualTo("Y2")
+        game.command("xyzzy")
+        assertThat(game.currentRoomName).isEqualTo("woods")
+        game.command("xyzzy")
+        assertThat(game.currentRoomName).isEqualTo("Y2")
+        game.command("s") // points to Y3 erroneously
+        assertThat(game.currentRoomName).isEqualTo("Y2")
+        // mp such room as Y3, defaults to stay in Y2
         game.command("xyzzy")
         assertThat(game.currentRoomName).isEqualTo("woods")
     }

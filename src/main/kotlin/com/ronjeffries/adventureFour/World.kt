@@ -23,7 +23,11 @@ class World {
         return rooms.containsKey(name)
     }
 
-    fun roomNamed(name:String) :Room {
+    fun roomNamedOrDefault(name: String, default: Room) :Room {
+        return rooms.getOrDefault(name, default)
+    }
+
+    fun roomNamed(name: String): Room {
         return rooms[name]!!
     }
 }
