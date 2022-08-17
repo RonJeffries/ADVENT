@@ -8,11 +8,11 @@ fun world(details: World.()->Unit): World{
 
 class World {
     val name = "world"
-    private val rooms = mutableMapOf<String,Room>()
+    private val rooms = Rooms()
 
     fun room(name: String, details: Room.()->Unit) : Room {
         val room = Room(name)
-        rooms[name] = room
+        rooms.add(room)
         room.details()
         return room
     }
@@ -28,6 +28,6 @@ class World {
     }
 
     fun roomNamed(name: String): Room {
-        return rooms[name]!!
+        return rooms.roomNamed(name)
     }
 }
