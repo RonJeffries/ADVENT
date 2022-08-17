@@ -7,9 +7,11 @@ fun world(details: World.()->Unit): World{
 }
 
 class World {
-    val roomReferences: Set<String> get() = rooms.roomReferences
     val name = "world"
     private val rooms = Rooms()
+
+    val roomCount get() = rooms.size
+    val roomReferences: Set<String> get() = rooms.roomReferences
 
     fun room(name: String, details: Room.()->Unit) : Room {
         val room = Room(name)
@@ -18,7 +20,6 @@ class World {
         return room
     }
 
-    val roomCount get() = rooms.size
 
     fun hasRoomNamed(name: String): Boolean {
         return rooms.containsKey(name)
