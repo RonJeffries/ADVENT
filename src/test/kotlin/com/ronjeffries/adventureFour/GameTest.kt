@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class GameTest {
     @Test
-    internal fun gameCheck() {
+    fun gameCheck() {
         val world = world {
             room("woods") {
                 go("s","clearing")
@@ -40,5 +40,17 @@ class GameTest {
         assertThat(refs).contains("Y3")
         val expected = setOf("Y3", "Y2", "clearing", "woods")
         assertThat(refs).isEqualTo(expected)
+    }
+
+    @Test
+    fun roomDescriptions() {
+        val long = "You're somewhere with a long descriptions"
+        val world = world {
+            room("somewhere") {
+                desc("You're somewhere.", long)
+            }
+        }
+        val room = world.roomNamedOrDefault("somewhere", Room("xxxx"))
+        assertThat(room.longDesc).isEqualTo(long)
     }
 }
