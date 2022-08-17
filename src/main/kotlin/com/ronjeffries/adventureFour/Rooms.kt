@@ -6,12 +6,12 @@ class Rooms {
 
     val roomReferences: Set<String> get() {
         val result = mutableSetOf<String>()
-        rooms.forEach { _, room -> result += room.roomReferences }
+        rooms.forEach { (_, room) -> result += room.roomReferences }
         return result
     }
 
     fun add(room: Room) {
-        rooms.put(room.name, room)
+        rooms[room.name] = room
     }
 
     fun getOrDefault(name: String, default: Room): Room {
