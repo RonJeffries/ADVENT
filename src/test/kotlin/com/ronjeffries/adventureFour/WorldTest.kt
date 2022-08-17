@@ -36,9 +36,3 @@ class WorldTest {
         assertThat(newLocName).isEqualTo("woods")
     }
 }
-
-fun world(init: World.()->Unit): World{
-    val world = World()
-    world.init()
-    return world
-}
