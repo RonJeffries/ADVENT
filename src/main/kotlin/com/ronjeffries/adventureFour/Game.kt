@@ -7,15 +7,13 @@ class Game(val world: World, startingName: String) {
         when(cmd) {
             "s" -> move("s")
             "n" -> move("n")
+            "xyzzy" -> move("xyzzy")
             else -> {println("unknown cmd $cmd")}
         }
     }
 
     fun move(dir:String) {
-        val room: Room = currentRoom()
-        val moves = room.moves
-        val move = moves.firstOrNull{it.first==dir}
-       currentRoomName = move?.second ?:currentRoomName
+        currentRoomName = currentRoom().moves.firstOrNull{it.first==dir}?.second ?:currentRoomName
     }
 
     fun currentRoom(): Room {
