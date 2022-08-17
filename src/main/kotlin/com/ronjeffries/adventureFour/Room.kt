@@ -7,7 +7,7 @@ class Room(val name: String) {
         return moves.map { it.second}.toSet()
     }
     fun go(direction: String, roomName: String) {
-        moves += Pair(direction, roomName)
+        moves += direction to roomName
     }
 
     fun move(direction: String) :String {
