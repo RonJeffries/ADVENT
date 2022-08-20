@@ -2,12 +2,13 @@ package com.ronjeffries.adventureFour
 
 import javafx.scene.Parent
 import javafx.scene.control.TextArea
+import javafx.scene.control.TextField
 import tornadofx.*
 
 var myText: TextArea by singleAssign()
-
+var myCommand: TextField by singleAssign()
 var count = 1
-var textContents = "Hello Ron"
+var textContents = "Welcome to Tiny Adventure!"
 
 class MainView: View() {
     override val root: Parent = vbox {
@@ -16,15 +17,18 @@ class MainView: View() {
         myText = textarea(textContents) {
             isEditable = false
         }
-        button("Press me") {
-            action { someonePressedMe() }
+        myCommand = textfield ("> ") {
+            action { someoneTyped() }
         }
     }
 }
 
-fun someonePressedMe() {
-    var newLine = "\nI saw that again $count"
+fun someoneTyped() {
+    var newLine = "\nThat was command $count"
+    myText.appendText("\n" + myCommand.text)
     myText.appendText(newLine)
+    myCommand.text = "> "
+    myCommand.appendText("")
     count++
 }
 
