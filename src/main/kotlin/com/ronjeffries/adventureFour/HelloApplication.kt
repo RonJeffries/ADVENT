@@ -1,21 +1,21 @@
 package com.ronjeffries.adventureFour
 
-import javafx.application.Application
-import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.scene.control.Label
-import javafx.stage.Stage
+import javafx.scene.control.TextArea
 import tornadofx.*
-import tornadofx.Stylesheet.Companion.label
 
-var myLabel: Label by singleAssign()
+var myText: TextArea by singleAssign()
+
+var count = 1
+var textContents = "Hello Ron"
 
 class MainView: View() {
     override val root: Parent = vbox {
         minWidth = 400.0
         minHeight = 200.0
-        myLabel = label("Hello Ron")
+        myText = textarea(textContents) {
+            isEditable = false
+        }
         button("Press me") {
             action { someonePressedMe() }
         }
@@ -23,8 +23,9 @@ class MainView: View() {
 }
 
 fun someonePressedMe() {
-    println("pressed")
-    myLabel.text = "I saw that!"
+    var newLine = "\nI saw that again $count"
+    myText.appendText(newLine)
+    count++
 }
 
 class HelloApplication : App(MainView::class) {
