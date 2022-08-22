@@ -32,7 +32,8 @@ class World {
         return rooms.unsafeRoomNamed(name)
     }
 
-    fun command(cmd: String, currentRoom: Room): String {
-        return currentRoom.command(cmd)
+    fun command(cmd: String, currentRoom: Room): Room {
+        val name = currentRoom.command(cmd)
+        return roomNamedOrDefault(name, currentRoom)
     }
 }

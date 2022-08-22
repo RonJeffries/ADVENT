@@ -7,7 +7,6 @@ class Game(val world: World, startingName: String) {
     val roomReferences: Set<String> get() = world.roomReferences
 
     fun command(cmd: String) {
-        val name = world.command(cmd, currentRoom)
-        currentRoom = world.roomNamedOrDefault(name,currentRoom)
+        currentRoom = world.command(cmd, currentRoom)
     }
 }
