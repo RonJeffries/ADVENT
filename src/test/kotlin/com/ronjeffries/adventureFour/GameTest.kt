@@ -53,4 +53,21 @@ class GameTest {
         val room = world.roomNamedOrDefault("somewhere", Room("xxxx"))
         assertThat(room.longDesc).isEqualTo(long)
     }
+
+    @Test
+    fun `game gets good results`() {
+        val world = world {
+            room("first"){
+                desc("short first", "long first")
+                go("s","second")
+            }
+            room("second") {
+                desc("short second", "long second")
+                go("n", "first")
+            }
+        }
+        val game = Game(world, "first")
+        game.command("s")
+        assertThat(game.resultString).isEqualTo("long second")
+    }
 }
