@@ -6,9 +6,11 @@ fun world(details: World.()->Unit): World{
     return world
 }
 
+
 class World {
     val name = "world"
     private val rooms = Rooms()
+    private var response: GameResponse = GameResponse("useless name")
 
     val roomCount get() = rooms.size
     val roomReferences: Set<String> get() = rooms.roomReferences
@@ -33,7 +35,8 @@ class World {
     }
 
     fun command(cmd: String, currentRoom: Room): Room {
-        val name = currentRoom.command(cmd)
+        response = GameResponse("useless name")
+        val name = currentRoom.command(cmd, response)
         return roomNamedOrDefault(name, currentRoom)
     }
 }
