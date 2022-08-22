@@ -12,7 +12,8 @@ class Room(val name: String) {
         longDesc = long
     }
     fun move(direction: String) :String {
-        return moves.first { it.first == direction}.second
+        val pair =  moves.firstOrNull { it.first == direction}
+        return pair?.second ?: name
     }
 
     // Game Play

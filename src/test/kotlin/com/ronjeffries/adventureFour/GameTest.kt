@@ -69,5 +69,7 @@ class GameTest {
         val game = Game(world, "first")
         game.command("s")
         assertThat(game.resultString).isEqualTo("long second")
+        game.command("s")
+        assertThat(game.resultString).isEqualTo("long second")
     }
 }
