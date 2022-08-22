@@ -31,4 +31,8 @@ class World {
     fun unsafeRoomNamed(name: String): Room {
         return rooms.unsafeRoomNamed(name)
     }
+
+    fun command(cmd: String, currentRoom: Room): String {
+        return currentRoom.command(cmd, this)
+    }
 }
