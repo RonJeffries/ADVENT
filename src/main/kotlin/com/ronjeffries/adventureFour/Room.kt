@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
 class Room(val name: String) {
-    val moves = mutableListOf<Pair<String,String>>()
+    val moves = mutableMapOf<String,String>()
     var shortDesc = ""
     var longDesc = ""
 
@@ -11,20 +11,19 @@ class Room(val name: String) {
         shortDesc = short
         longDesc = long
     }
-    fun move(direction: String) :String {
-        val pair =  moves.firstOrNull { it.first == direction}
-        return pair?.second ?: name
+    fun go(direction: String, roomName: String) {
+        moves += direction to roomName
     }
 
     // Game Play
 
-    fun go(direction: String, roomName: String) {
-        moves += direction to roomName
+    fun move(direction: String) :String {
+        return moves.getOrDefault(direction, name)
     }
 
     // Utilities and Other
 
     val roomReferences: Set<String> get () {
-        return moves.map { it.second}.toSet()
+        return moves.values.toSet()
     }
 }
