@@ -21,6 +21,15 @@ class Room(val name: String) {
         return moves.getValue(direction)
     }
 
+    fun command(cmd: String): String {
+        return when(cmd) {
+            "s" -> move("s")
+            "n" -> move("n")
+            "xyzzy" -> move("xyzzy")
+            else -> "unknown cmd $cmd"
+        }
+    }
+
     // Utilities and Other
 
     val roomReferences: Set<String> get () {

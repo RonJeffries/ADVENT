@@ -7,12 +7,7 @@ class Game(val world: World, startingName: String) {
     val roomReferences: Set<String> get() = world.roomReferences
 
     fun command(cmd: String) {
-        val name = when(cmd) {
-            "s" -> currentRoom.move("s")
-            "n" -> currentRoom.move("n")
-            "xyzzy" -> currentRoom.move("xyzzy")
-            else -> "unknown cmd $cmd"
-        }
+        val name = currentRoom.command(cmd)
         currentRoom = world.roomNamedOrDefault(name,currentRoom)
     }
 }
