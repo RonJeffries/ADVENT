@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
 class Room(val name: String) {
-    val moves = mutableMapOf<String,String>()
+    val moves = mutableMapOf<String,String>().withDefault { name }
     var shortDesc = ""
     var longDesc = ""
 
@@ -18,7 +18,7 @@ class Room(val name: String) {
     // Game Play
 
     fun move(direction: String) :String {
-        return moves.getOrDefault(direction, name)
+        return moves.getValue(direction)
     }
 
     // Utilities and Other
