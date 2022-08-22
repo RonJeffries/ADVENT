@@ -20,7 +20,6 @@ class World {
         return room
     }
 
-
     fun hasRoomNamed(name: String): Boolean {
         return rooms.containsKey(name)
     }

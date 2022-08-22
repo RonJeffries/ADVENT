@@ -38,12 +38,10 @@ class MainView: View() {
     fun someoneTyped() {
         val cmd = myCommand.text
         game.command(cmd)
-        val newLine = "\n"+game.currentRoom.longDesc
         myText.appendText("\n" + cmd)
-        myText.appendText(newLine)
+        myText.appendText("\n"+game.resultString)
         myCommand.text = ""
         myCommand.appendText("")
-        count++
     }
 }
 

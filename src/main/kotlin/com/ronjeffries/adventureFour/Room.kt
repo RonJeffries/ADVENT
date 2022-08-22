@@ -5,19 +5,25 @@ class Room(val name: String) {
     var shortDesc = ""
     var longDesc = ""
 
-    val roomReferences: Set<String> get () {
-        return moves.map { it.second}.toSet()
-    }
-    fun go(direction: String, roomName: String) {
-        moves += direction to roomName
-    }
-
-    fun move(direction: String) :String {
-        return moves.first { it.first == direction}.second
-    }
+    // DSL Builders
 
     fun desc(short: String, long: String) {
         shortDesc = short
         longDesc = long
+    }
+    fun move(direction: String) :String {
+        return moves.first { it.first == direction}.second
+    }
+
+    // Game Play
+
+    fun go(direction: String, roomName: String) {
+        moves += direction to roomName
+    }
+
+    // Utilities and Other
+
+    val roomReferences: Set<String> get () {
+        return moves.map { it.second}.toSet()
     }
 }
