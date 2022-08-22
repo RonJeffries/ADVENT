@@ -21,7 +21,7 @@ class Room(val name: String) {
         return moves.getValue(direction)
     }
 
-    fun command(cmd: String, world: World): String {
+    fun command(cmd: String): String {
         return when(cmd) {
             "s" -> move("s")
             "n" -> move("n")

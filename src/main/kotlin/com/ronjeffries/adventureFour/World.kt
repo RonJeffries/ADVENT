@@ -33,6 +33,6 @@ class World {
     }
 
     fun command(cmd: String, currentRoom: Room): String {
-        return currentRoom.command(cmd, this)
+        return currentRoom.command(cmd)
     }
 }
