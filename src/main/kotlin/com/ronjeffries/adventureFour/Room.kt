@@ -21,13 +21,14 @@ class Room(val name: String) {
         return moves.getValue(direction)
     }
 
-    fun command(cmd: String, response: GameResponse): String {
-        return when(cmd) {
+    fun command(cmd: String, response: GameResponse): Unit {
+        val name = when(cmd) {
             "s" -> move("s")
             "n" -> move("n")
             "xyzzy" -> move("xyzzy")
             else -> "unknown cmd $cmd"
         }
+        response.nextRoomName = name
     }
 
     // Utilities and Other

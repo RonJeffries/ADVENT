@@ -36,7 +36,8 @@ class World {
 
     fun command(cmd: String, currentRoom: Room): Room {
         response = GameResponse("useless name")
-        val name = currentRoom.command(cmd, response)
-        return roomNamedOrDefault(name, currentRoom)
+        currentRoom.command(cmd, response)
+        response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)
+        return response.nextRoom
     }
 }
