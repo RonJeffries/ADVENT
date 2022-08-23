@@ -28,7 +28,7 @@ class Room(val name: String) {
             name
     }
 
-    fun command(cmd: String, response: GameResponse): Unit {
+    fun command(cmd: String, response: GameResponse) {
         val name = when(cmd) {
             "s" -> move("s", response)
             "e" -> move("e", response)
