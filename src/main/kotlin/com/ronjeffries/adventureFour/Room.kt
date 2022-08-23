@@ -1,10 +1,10 @@
 package com.ronjeffries.adventureFour
 
 
-typealias GoTarget = Pair<String, ()->Boolean>
+typealias GoTarget = Pair<String, (GameResponse)->Boolean>
 
 class Room(val name: String) {
-    val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(name, {true}) }
+    val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(name, {r:GameResponse->true}) }
     var shortDesc = ""
     var longDesc = ""
 
@@ -14,15 +14,15 @@ class Room(val name: String) {
         shortDesc = short
         longDesc = long
     }
-    fun go(direction: String, roomName: String, allowed: ()->Boolean = {true}) {
+    fun go(direction: String, roomName: String, allowed: (GameResponse)->Boolean = {r:GameResponse -> true}) {
         moves += direction to Pair(roomName, allowed)
     }
 
     // Game Play
 
-    fun move(direction: String) :String {
-        val (target,allowed) = moves.getValue(direction)
-        return if (allowed())
+    fun move(direction: String, response: GameResponse): String {
+        val (target, allowed) = moves.getValue(direction)
+        return if (allowed(response))
             target
         else
             name
@@ -30,11 +30,11 @@ class Room(val name: String) {
 
     fun command(cmd: String, response: GameResponse): Unit {
         val name = when(cmd) {
-            "s" -> move("s")
-            "n" -> move("n")
-            "e" -> move("e")
-            "w" -> move("w")
-            "xyzzy" -> move("xyzzy")
+            "s" -> move("s", response)
+            "e" -> move("e", response)
+            "w" -> move("w", response)
+            "n" -> move("n", response)
+            "xyzzy" -> move("xyzzy", response)
             else -> "unknown cmd $cmd"
         }
         response.nextRoomName = name
