@@ -93,4 +93,32 @@ class GameTest {
         assertThat(game.resultString).isEqualTo("The grate is closed!\n" +
                 "You find yourself in the fascinating first room.")
     }
+
+    @Test
+    fun `magic unlocks door`() {
+        val world = world {
+            room("palace") {
+                desc("You are in an empty room.",
+                    "You are in an empty room in the palace."
+                            + "There is a padlocked door to the east")
+                go("e","treasure") {
+                    if (it.status.getOrDefault("unlocked", false))
+                        true
+                    else {
+                        it.say("The room is locked by a glowing lock")
+                        false
+                    }
+                }
+            }
+            room("treasure") {
+                desc("You're in the treasure room",
+                    "You are in a treasure room, rich with gold and jewels")
+                go("w", "palace")
+            }
+        }
+        val game = Game(world,"palace")
+        game.command("e")
+        assertThat(game.resultString).isEqualTo("The room is locked by a glowing lock\n" +
+                "You are in an empty room in the palace.There is a padlocked door to the east")
+    }
 }
