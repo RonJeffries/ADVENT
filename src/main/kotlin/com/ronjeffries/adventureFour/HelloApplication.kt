@@ -7,7 +7,6 @@ import tornadofx.*
 
 var myText: TextArea by singleAssign()
 var myCommand: TextField by singleAssign()
-var count = 1
 var textContents = "Welcome to Tiny Adventure!"
 
 class MainView: View() {
