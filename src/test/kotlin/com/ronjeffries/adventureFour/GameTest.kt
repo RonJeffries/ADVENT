@@ -120,5 +120,9 @@ class GameTest {
         game.command("e")
         assertThat(game.resultString).isEqualTo("The room is locked by a glowing lock\n" +
                 "You are in an empty room in the palace.There is a padlocked door to the east")
+        game.command("cast wd40")
+        assertThat(game.resultString).contains("unlocked")
+        game.command("e")
+        assertThat(game.resultString).contains("rich with gold")
     }
 }

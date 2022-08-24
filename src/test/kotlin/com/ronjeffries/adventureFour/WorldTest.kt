@@ -32,7 +32,7 @@ class WorldTest {
         assertThat(world.roomCount).isEqualTo(2)
         assert(world.hasRoomNamed("clearing"))
         val clearing:Room = world.unsafeRoomNamed("clearing")
-        val newLocName:String = clearing.move("n", GameResponse())
+        val newLocName:String = clearing.move("n", world)
         assertThat(newLocName).isEqualTo("woods")
     }
 }
