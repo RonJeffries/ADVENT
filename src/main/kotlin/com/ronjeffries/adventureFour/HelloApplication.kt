@@ -16,11 +16,20 @@ class MainView: View() {
             desc("You're at wellhouse", "You're in a charming wellhouse")
             go("n", "wellhouse")
             go("s", "clearing")
+            go("e", "cows")
         }
         room("clearing") {
-            desc("You're in a clearing", "You're in a charming clearing")
+            desc("You're in a clearing", "You're in a charming clearing. There is a fence to the east.")
             go("n", "wellhouse")
             go("s","clearing")
+            go("e", "cows") {
+                it.say("You can't climb the fence!")
+                false
+            }
+        }
+        room("cows") {
+            desc("You're in with the cows.", "You're in a pasture with some cows.")
+            go("w", "wellhouse")
         }
     }
     val game = Game(world, "wellhouse")
