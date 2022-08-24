@@ -43,7 +43,6 @@ class Room(val name: String) {
     // Utilities and Other
 
     val roomReferences: Set<String> get () {
-//        return setOf("Y3", "Y2", "clearing", "woods")
         return moves.values.map {it.first}.toSet()
     }
 }
