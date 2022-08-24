@@ -29,9 +29,7 @@ class RoomTest {
         assertThat(response.nextRoomName).isEqualTo("first")
         assertThat(response.sayings).isEqualTo("The grate is closed!\n")
         val r2 = GameResponse()
-        println("trying north")
         myRoom.command("n", r2)
-        println("tried north")
         assertThat(r2.nextRoomName).isEqualTo("second")
     }
 }
