@@ -9,7 +9,7 @@ class Rooms {
     }
 
     fun add(room: Room) {
-        rooms[room.name] = room
+        rooms[room.roomName] = room
     }
 
     fun getOrDefault(name: String, default: Room): Room {

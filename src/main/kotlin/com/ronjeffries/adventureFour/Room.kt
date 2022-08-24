@@ -3,8 +3,8 @@ package com.ronjeffries.adventureFour
 
 typealias GoTarget = Pair<String, (GameResponse)->Boolean>
 
-class Room(val name: String) {
-    val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(name, {r:GameResponse->true}) }
+class Room(val roomName: String) {
+    val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName, { r:GameResponse->true}) }
     var shortDesc = ""
     var longDesc = ""
 
@@ -21,19 +21,16 @@ class Room(val name: String) {
     // Game Play
 
     fun move(direction: String, response: GameResponse): String {
-        val (target, allowed) = moves.getValue(direction)
+        val (targetName, allowed) = moves.getValue(direction)
         return if (allowed(response))
-            target
+            targetName
         else
-            name
+            roomName
     }
 
     fun command(cmd: String, response: GameResponse) {
         val name = when(cmd) {
-            "s" -> move("s", response)
-            "e" -> move("e", response)
-            "w" -> move("w", response)
-            "n" -> move("n", response)
+            "s","e","w","n" -> move(cmd, response)
             "xyzzy" -> move("xyzzy", response)
             else -> "unknown cmd $cmd"
         }
