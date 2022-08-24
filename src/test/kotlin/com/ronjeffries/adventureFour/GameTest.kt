@@ -72,4 +72,25 @@ class GameTest {
         game.command("s")
         assertThat(game.resultString).isEqualTo("long second")
     }
+
+    @Test
+    fun `game can provide sayings`() {
+        val myWorld = world {
+            room("first") {
+                desc("You're in the first room.", "You find yourself in the fascinating first room.")
+                go("n", "second") { true }
+                go("s","second") {
+                    it.say("The grate is closed!")
+                    false
+                }
+            }
+            room("second") {
+                desc("second room", "the long second room")
+            }
+        }
+        val game = Game(myWorld, "first")
+        game.command("s")
+        assertThat(game.resultString).isEqualTo("The grate is closed!\n" +
+                "You find yourself in the fascinating first room.")
+    }
 }
