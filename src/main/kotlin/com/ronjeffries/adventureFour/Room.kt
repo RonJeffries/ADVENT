@@ -39,7 +39,7 @@ class Room(val roomName: String) {
     }
 
     private fun castSpell(spell: String, world: World): String {
-        world.status.put("unlocked", true)
+        world.flags.get("unlocked").set(true)
         world.response.say("The magic wd40 works! The padlock is unlocked!")
         return roomName
     }

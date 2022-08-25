@@ -17,9 +17,9 @@ class StatusTest {
     @Test
     fun `Status map`() {
         BooleanStatusMap().apply {
-            assertThat(item("unlocked").isFalse).isEqualTo(true)
-            item("unlocked").not()
-            assertThat(item("unlocked").isTrue).isEqualTo(true)
+            assertThat(get("unlocked").isFalse).isEqualTo(true)
+            get("unlocked").not()
+            assertThat(get("unlocked").isTrue).isEqualTo(true)
         }
     }
 }

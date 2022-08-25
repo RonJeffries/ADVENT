@@ -8,8 +8,8 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
+    val flags = BooleanStatusMap()
     val name = "world"
-    val status = mutableMapOf<String,Boolean>()
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
     var response: GameResponse = GameResponse()

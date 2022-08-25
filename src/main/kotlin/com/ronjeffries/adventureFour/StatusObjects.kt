@@ -3,7 +3,7 @@ package com.ronjeffries.adventureFour
 class BooleanStatusMap {
     val map = mutableMapOf<String, BooleanStatus>()
 
-    fun item(name:String): BooleanStatus {
+    fun get(name:String): BooleanStatus {
         return map.getOrPut(name) { BooleanStatus() }
     }
 }
