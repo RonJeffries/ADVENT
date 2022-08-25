@@ -1,8 +1,10 @@
 package com.ronjeffries.adventureFour
 
+import javafx.geometry.Pos
 import javafx.scene.Parent
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 var myText: TextArea by singleAssign()
@@ -38,15 +40,17 @@ class MainView: View() {
         minHeight = 200.0
         myText = textarea(textContents + "\n"+game.currentRoom.longDesc) {
             isEditable = false
+            vgrow = Priority.ALWAYS
         }
         myCommand = textfield ("") {
             action { someoneTyped() }
+            promptText = "Command"
         }
     }
     fun someoneTyped() {
         val cmd = myCommand.text
         game.command(cmd)
-        myText.appendText("\n" + cmd)
+        myText.appendText("\n> " + cmd)
         myText.appendText("\n"+game.resultString)
         myCommand.text = ""
         myCommand.appendText("")
