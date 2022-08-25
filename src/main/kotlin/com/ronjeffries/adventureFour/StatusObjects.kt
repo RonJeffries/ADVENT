@@ -12,7 +12,7 @@ class BooleanStatus(var value: Boolean = false) {
     val isTrue: Boolean get() = value
     val isFalse: Boolean get() = !value
 
-    fun not(): Unit {
+    fun not() {
         value = !value
     }
 
