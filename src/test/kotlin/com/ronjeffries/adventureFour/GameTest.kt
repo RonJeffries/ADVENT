@@ -102,7 +102,7 @@ class GameTest {
                     "You are in an empty room in the palace."
                             + "There is a padlocked door to the east")
                 go("e","treasure") {
-                    if (flags.get("unlocked").isTrue)
+                    if (flag("unlocked").isTrue)
                         true
                     else {
                         say("The room is locked by a glowing lock")

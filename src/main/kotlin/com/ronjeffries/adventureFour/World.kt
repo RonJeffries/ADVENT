@@ -17,6 +17,8 @@ class World {
     val roomCount get() = rooms.size
     val roomReferences: Set<String> get() = rooms.roomReferences
 
+    fun flag(name: String) = flags.get(name)
+
     fun room(name: String, details: Room.()->Unit) : Room {
         val room = Room(name)
         rooms.add(room)

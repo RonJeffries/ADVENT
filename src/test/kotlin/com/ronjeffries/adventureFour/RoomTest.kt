@@ -34,4 +34,18 @@ class RoomTest {
         myRoom.command("n", myWorld)
         assertThat(r2.nextRoomName).isEqualTo("second")
     }
+
+    @Test
+    fun `room has contents`() {
+        val world = world {
+            room("storage") {
+                desc("storage room", "large storage room")
+                item("broom")
+                item("broom")
+            }
+        }
+        val room = world.unsafeRoomNamed("storage")
+        assertThat(room.contents).contains("broom")
+        assertThat(room.contents.size).isEqualTo(1)
+    }
 }

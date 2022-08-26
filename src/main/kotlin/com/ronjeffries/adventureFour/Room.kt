@@ -4,6 +4,7 @@ package com.ronjeffries.adventureFour
 typealias GoTarget = Pair<String, (World)->Boolean>
 
 class Room(val roomName: String) {
+    val contents = mutableSetOf<String>()
     val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName, { r:World->true}) }
     var shortDesc = ""
     var longDesc = ""
@@ -42,6 +43,10 @@ class Room(val roomName: String) {
         world.flags.get("unlocked").set(true)
         world.response.say("The magic wd40 works! The padlock is unlocked!")
         return roomName
+    }
+
+    fun item(thing: String) {
+        contents+=thing
     }
 
     // Utilities and Other
