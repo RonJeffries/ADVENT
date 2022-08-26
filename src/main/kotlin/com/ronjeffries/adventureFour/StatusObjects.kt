@@ -8,15 +8,11 @@ class BooleanStatusMap {
     }
 }
 
-class BooleanStatus(var value: Boolean = false) {
-    val isTrue: Boolean get() = value
-    val isFalse: Boolean get() = !value
-
-    fun not() {
-        value = !value
-    }
-
-    fun set(truth: Boolean) {
-        value = truth
-    }
+class BooleanStatus(var value: Int = 0) {
+    val isTrue: Boolean get() = value != 0
+    val isFalse: Boolean get() = value == 0
+    fun increment() { value++ }
+    fun not() { value = if (isTrue) 0 else 1 }
+    fun set(truth: Boolean) { value = if (truth) 1 else 0 }
+    fun set(number: Int) { value = number }
 }
