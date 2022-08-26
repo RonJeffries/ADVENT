@@ -21,6 +21,12 @@ class Room(val roomName: String) {
 
     // Game Play
 
+    fun itemString(): String {
+        var report = ""
+        contents.forEach { report += "You find $it.\n" }
+        return report
+    }
+
     fun move(direction: String, world: World): String {
         val (targetName, allowed) = moves.getValue(direction)
         return if (allowed(world))
