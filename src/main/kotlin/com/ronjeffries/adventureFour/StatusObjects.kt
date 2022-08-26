@@ -1,14 +1,14 @@
 package com.ronjeffries.adventureFour
 
-class BooleanStatusMap {
-    val map = mutableMapOf<String, BooleanStatus>()
+class GameStatusMap {
+    val map = mutableMapOf<String, GameStatus>()
 
-    fun get(name:String): BooleanStatus {
-        return map.getOrPut(name) { BooleanStatus() }
+    fun get(name:String): GameStatus {
+        return map.getOrPut(name) { GameStatus() }
     }
 }
 
-class BooleanStatus(var value: Int = 0) {
+class GameStatus(var value: Int = 0) {
     val isTrue: Boolean get() = value != 0
     val isFalse: Boolean get() = value == 0
     fun increment() { value++ }

@@ -8,7 +8,7 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
-    val flags = BooleanStatusMap()
+    val flags = GameStatusMap()
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class StatusTest {
     @Test
     fun `status isTrue`() {
-        val status = BooleanStatus()
+        val status = GameStatus()
         assertThat(status.isTrue).isEqualTo(false)
         status.set(true)
         assertThat(status.isTrue).isEqualTo(true)
@@ -23,7 +23,7 @@ class StatusTest {
 
     @Test
     fun `Status map`() {
-        BooleanStatusMap().apply {
+        GameStatusMap().apply {
             assertThat(get("unlocked").isFalse).isEqualTo(true)
             get("unlocked").not()
             assertThat(get("unlocked").isTrue).isEqualTo(true)
