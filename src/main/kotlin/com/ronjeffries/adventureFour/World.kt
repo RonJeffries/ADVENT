@@ -57,4 +57,8 @@ class World {
     fun say(s: String) {
         response.say(s)
     }
+
+    fun showInventory() {
+        say( inventory.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
+    }
 }

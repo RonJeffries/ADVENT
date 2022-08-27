@@ -35,12 +35,27 @@ class Room(val roomName: String) {
 
     fun command(cmd: String, world: World) {
         val name = when(cmd) {
+            "take axe" -> take("axe", world)
+            "take bottle" -> take("bottle", world)
+            "take cows" -> take("cows", world)
+            "inventory" -> inventory(world)
             "s","e","w","n" -> move(cmd, world)
             "xyzzy" -> move("xyzzy", world)
             "cast wd40" -> castSpell("wd40", world)
             else -> "unknown cmd $cmd"
         }
         world.response.nextRoomName = name
+    }
+
+    private fun inventory(world: World): String {
+        world.showInventory()
+        return roomName
+    }
+
+    private fun take(item:String, world: World): String {
+        world.take(item)
+        world.response.say("$item taken.")
+        return roomName
     }
 
     private fun castSpell(spell: String, world: World): String {
