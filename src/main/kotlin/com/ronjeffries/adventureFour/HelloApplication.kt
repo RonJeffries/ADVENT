@@ -15,12 +15,16 @@ class MainView: View() {
     val world = world {
         room("wellhouse") {
             desc("You're at wellhouse", "You're in a charming wellhouse")
+            item("keys")
+            item("bottle")
+            item("water")
             go("n", "wellhouse")
             go("s", "clearing")
             go("e", "cows")
         }
         room("clearing") {
             desc("You're in a clearing", "You're in a charming clearing. There is a fence to the east.")
+            item("cows")
             go("n", "wellhouse")
             go("s","clearing")
             go("e", "cows") {
@@ -38,7 +42,7 @@ class MainView: View() {
     override val root: Parent = vbox {
         minWidth = 400.0
         minHeight = 200.0
-        myText = textarea(textContents + "\n"+game.currentRoom.longDesc) {
+        myText = textarea(textContents + "\n"+game.currentRoom.longDesc + ".\n" + game.currentRoom.itemString()) {
             isEditable = false
             vgrow = Priority.ALWAYS
         }

@@ -22,9 +22,7 @@ class Room(val roomName: String) {
     // Game Play
 
     fun itemString(): String {
-        var report = ""
-        contents.forEach { report += "You find $it.\n" }
-        return report
+        return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
     fun move(direction: String, world: World): String {

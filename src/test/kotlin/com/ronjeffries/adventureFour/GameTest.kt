@@ -68,9 +68,9 @@ class GameTest {
         }
         val game = Game(world, "first")
         game.command("s")
-        assertThat(game.resultString).isEqualTo("long second")
+        assertThat(game.resultString).isEqualTo("long second\n")
         game.command("s")
-        assertThat(game.resultString).isEqualTo("long second")
+        assertThat(game.resultString).isEqualTo("long second\n")
     }
 
     @Test
@@ -91,7 +91,7 @@ class GameTest {
         val game = Game(myWorld, "first")
         game.command("s")
         assertThat(game.resultString).isEqualTo("The grate is closed!\n" +
-                "You find yourself in the fascinating first room.")
+                "You find yourself in the fascinating first room.\n")
     }
 
     @Test
@@ -99,13 +99,13 @@ class GameTest {
         val world = world {
             room("palace") {
                 desc("You are in an empty room.",
-                    "You are in an empty room in the palace."
-                            + "There is a padlocked door to the east")
+                    "You are in an empty room in the palace. "
+                            + "There is a padlocked door to the east.")
                 go("e","treasure") {
                     if (flag("unlocked").isTrue)
                         true
                     else {
-                        say("The room is locked by a glowing lock")
+                        say("The room is locked by a glowing lock!")
                         false
                     }
                 }
@@ -118,8 +118,8 @@ class GameTest {
         }
         val game = Game(world,"palace")
         game.command("e")
-        assertThat(game.resultString).isEqualTo("The room is locked by a glowing lock\n" +
-                "You are in an empty room in the palace.There is a padlocked door to the east")
+        assertThat(game.resultString).isEqualTo("The room is locked by a glowing lock!\n" +
+                "You are in an empty room in the palace. There is a padlocked door to the east.\n")
         game.command("cast wd40")
         assertThat(game.resultString).contains("unlocked")
         game.command("e")
