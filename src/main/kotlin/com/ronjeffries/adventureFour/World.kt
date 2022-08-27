@@ -9,6 +9,7 @@ fun world(details: World.()->Unit): World{
 
 class World {
     val flags = GameStatusMap()
+    val inventory = mutableSetOf<String>()
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
@@ -24,6 +25,14 @@ class World {
         rooms.add(room)
         room.details()
         return room
+    }
+
+    fun take(item:String) {
+        inventory += item
+    }
+
+    fun inventoryHas(item: String): Boolean {
+        return inventory.contains(item)
     }
 
     fun hasRoomNamed(name: String): Boolean {

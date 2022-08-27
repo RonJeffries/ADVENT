@@ -35,4 +35,15 @@ class WorldTest {
         val newLocName:String = clearing.move("n", world)
         assertThat(newLocName).isEqualTo("woods")
     }
+
+    @Test
+    fun `world has inventory`() {
+        val world = world {
+            room("woods") {
+                go("s","clearing")
+            }
+        }
+        world.take("axe")
+        assertThat(world.inventoryHas("axe"))
+    }
 }
