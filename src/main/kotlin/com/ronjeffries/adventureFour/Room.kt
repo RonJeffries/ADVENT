@@ -25,8 +25,8 @@ class Room(val roomName: String) {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    fun move(direction: String, world: World): String {
-        val (targetName, allowed) = moves.getValue(direction)
+    fun move(verb: String, world: World): String {
+        val (targetName, allowed) = moves.getValue(verb)
         return if (allowed(world))
             targetName
         else
