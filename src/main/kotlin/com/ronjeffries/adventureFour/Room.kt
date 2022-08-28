@@ -35,9 +35,9 @@ class Room(val roomName: String) {
 
     fun command(cmd: String, world: World) {
         val name = when(cmd) {
-            "take axe" -> take("axe", world)
-            "take bottle" -> take("bottle", world)
-            "take cows" -> take("cows", world)
+            "take axe" -> take(cmd, "axe", world)
+            "take bottle" -> take(cmd, "bottle", world)
+            "take cows" -> take(cmd, "cows", world)
             "inventory" -> inventory(world)
             "s","e","w","n" -> move(cmd, world)
             "xyzzy" -> move("xyzzy", world)
@@ -52,7 +52,7 @@ class Room(val roomName: String) {
         return roomName
     }
 
-    private fun take(noun:String, world: World): String {
+    private fun take(verb: String, noun: String, world: World): String {
         world.take(noun)
         world.response.say("$noun taken.")
         return roomName
