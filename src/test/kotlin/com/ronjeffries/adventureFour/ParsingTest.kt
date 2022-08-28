@@ -3,6 +3,11 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
+typealias Command = String
+
+private fun Command.parse(): List<String> {
+    return this.split(Regex("\\W+"))
+}
 
 class ParsingTest {
     @Test
@@ -31,12 +36,18 @@ class ParsingTest {
         assertThat(result).isEqualTo("I don't understand ns.\n")
         result = command("take axe")
         assertThat(result).isEqualTo("Taken: axe")
+        result = command("grab axe")
+        assertThat(result).isEqualTo("Taken: axe")
+        result = command("fetch axe")
+        assertThat(result).isEqualTo("Taken: axe")
+        result = command("get axe")
+        assertThat(result).isEqualTo("Taken: axe")
         result = command("fake axe")
         assertThat(result).isEqualTo("I don't understand fake axe.\n")
     }
 }
 
-private fun command(cmd:String): String {
+private fun command(cmd:Command): String {
     val words = cmd.parse()
     if (words.size == 0) return "no command found"
     val verb = words[0]
@@ -77,14 +88,11 @@ fun inVertical(verb:String): String {
 }
 
 fun twoWords(verb: String, noun: String): String {
-    val isGet:(String)->Boolean = { it == "get"}
-    val isTake:(String)->Boolean = { it == "take"}
+    val isGet:(String)->Boolean = { it in listOf("get","take","fetch", "grab") }
     val action: (String)->String =
         if (isGet(verb)) {
             ::take
-        } else if (isTake(verb))
-            ::take
-        else
+        } else
             { return "I don't understand $verb $noun.\n" }
     return action(noun)
 }
@@ -92,7 +100,3 @@ fun twoWords(verb: String, noun: String): String {
 private fun move(dir: String): String = "move $dir"
 
 fun take(noun:String): String = "Taken: $noun"
-
-private fun String.parse(): List<String> {
-    return this.split(Regex("\\W+"))
-}
