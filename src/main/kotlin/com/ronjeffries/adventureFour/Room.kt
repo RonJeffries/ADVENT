@@ -52,9 +52,9 @@ class Room(val roomName: String) {
         return roomName
     }
 
-    private fun take(item:String, world: World): String {
-        world.take(item)
-        world.response.say("$item taken.")
+    private fun take(noun:String, world: World): String {
+        world.take(noun)
+        world.response.say("$noun taken.")
         return roomName
     }
 
