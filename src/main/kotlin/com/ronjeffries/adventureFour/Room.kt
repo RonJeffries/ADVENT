@@ -25,7 +25,7 @@ class Room(val roomName: String) {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    fun move(verb: String, world: World): String {
+    fun move(verb: String, noun: String, world: World): String {
         val (targetName, allowed) = moves.getValue(verb)
         return if (allowed(world))
             targetName
@@ -38,16 +38,16 @@ class Room(val roomName: String) {
             "take axe" -> take(cmd, "axe", world)
             "take bottle" -> take(cmd, "bottle", world)
             "take cows" -> take(cmd, "cows", world)
-            "inventory" -> inventory(world)
-            "s","e","w","n" -> move(cmd, world)
-            "xyzzy" -> move("xyzzy", world)
-            "cast wd40" -> castSpell("wd40", world)
+            "inventory" -> inventory(cmd,cmd, world)
+            "s","e","w","n" -> move(cmd, "", world)
+            "xyzzy" -> move(cmd, "", world)
+            "cast wd40" -> castSpell(cmd,"wd40", world)
             else -> "unknown cmd $cmd"
         }
         world.response.nextRoomName = name
     }
 
-    private fun inventory(world: World): String {
+    private fun inventory(verb: String, noun: String, world: World): String {
         world.showInventory()
         return roomName
     }
@@ -58,7 +58,7 @@ class Room(val roomName: String) {
         return roomName
     }
 
-    private fun castSpell(spell: String, world: World): String {
+    private fun castSpell(noun: String, verb: String, world: World): String {
         world.flags.get("unlocked").set(true)
         world.response.say("The magic wd40 works! The padlock is unlocked!")
         return roomName
