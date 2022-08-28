@@ -31,6 +31,8 @@ class ParsingTest {
         assertThat(result).isEqualTo("I don't understand ns.\n")
         result = command("take axe")
         assertThat(result).isEqualTo("Taken: axe")
+        result = command("fake axe")
+        assertThat(result).isEqualTo("I don't understand fake axe.\n")
     }
 }
 
@@ -75,11 +77,16 @@ fun inVertical(verb:String): String {
 }
 
 fun twoWords(verb: String, noun: String): String {
-    return when(verb) {
-        "get" -> take(noun)
-        "take"-> take(noun)
-        else -> "I don't understand $verb $noun.\n"
-    }
+    val isGet:(String)->Boolean = { it == "get"}
+    val isTake:(String)->Boolean = { it == "take"}
+    val action: (String)->String =
+        if (isGet(verb)) {
+            ::take
+        } else if (isTake(verb))
+            ::take
+        else
+            { return "I don't understand $verb $noun.\n" }
+    return action(noun)
 }
 
 private fun move(dir: String): String = "move $dir"
