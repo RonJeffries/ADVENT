@@ -47,7 +47,7 @@ private fun command(cmd:String): String {
         "Too many words!"
 }
 
-fun oneWord(verb: String): String {
+fun oneWordX(verb: String): String {
     val action =  when(verb) {
         "n","s","e","w" -> ::move
         "nw","sw","ne","se" -> ::move
@@ -57,9 +57,27 @@ fun oneWord(verb: String): String {
     return action(verb)
 }
 
+fun oneWord(verb: String): String {
+    val cardinal = listOf<String>("n","s","e","w")
+    val ordinal = listOf("nw", "sw", "ne", "se")
+    val action =  when(verb) {
+        in cardinal -> ::move
+        in ordinal -> ::move
+        inVertical(verb) -> ::move
+        else -> { return "I don't understand $verb.\n" }
+    }
+    return action(verb)
+}
+
+fun inVertical(verb:String): String {
+    val isIn = verb in listOf("up", "dn", "down")
+    if (isIn) return verb else return ""
+}
+
 fun twoWords(verb: String, noun: String): String {
     return when(verb) {
-        "take","get" -> take(noun)
+        "get" -> take(noun)
+        "take"-> take(noun)
         else -> "I don't understand $verb $noun.\n"
     }
 }
