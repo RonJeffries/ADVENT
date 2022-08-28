@@ -43,8 +43,8 @@ class WorldTest {
                 go("s","clearing")
             }
         }
-        world.take("axe")
-        world.take("bottle")
+        world.addToInventory("axe")
+        world.addToInventory("bottle")
         assertThat(world.inventoryHas("axe"))
         val game = Game(world,"woods")
         game.command("inventory")
@@ -52,5 +52,29 @@ class WorldTest {
         assertThat(s).contains("axe")
         assertThat(s).contains("bottle")
         assertThat(s).isEqualTo("You have axe, bottle.\n\n\n")
+    }
+
+    @Test
+    fun `take command works`() {
+        val world = world {
+            room("woods") {
+                desc("You are in the woods.", "You are in the dark woods.")
+                item("axe")
+            }
+        }
+        val room = world.unsafeRoomNamed("woods")
+        val response = GameResponse()
+        response.nextRoom = room // hackery
+        world.response = response
+        room.command("take axe", world)
+        assertThat(world.resultString).contains("You are in the dark woods.\n")
+        assertThat(world.resultString).doesNotContain("take axe taken")
+        assertThat(world.resultString).contains("axe taken")
+        assertThat(world.resultString).doesNotContain("You find axe.")
+        val r2 = GameResponse()
+        world.response = r2
+        r2.nextRoom = room
+        room.command("take axe", world)
+        assertThat(r2.resultString).contains("I see no axe here!\n")
     }
 }

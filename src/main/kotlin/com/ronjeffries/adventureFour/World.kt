@@ -27,7 +27,7 @@ class World {
         return room
     }
 
-    fun take(item:String) {
+    fun addToInventory(item:String) {
         inventory += item
     }
 

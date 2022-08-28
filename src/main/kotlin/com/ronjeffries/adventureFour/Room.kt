@@ -34,17 +34,22 @@ class Room(val roomName: String) {
     }
 
     fun command(cmd: String, world: World) {
-        val name = when(cmd) {
-            "take axe" -> take(cmd, "axe", world)
-            "take bottle" -> take(cmd, "bottle", world)
-            "take cows" -> take(cmd, "cows", world)
-            "inventory" -> inventory(cmd,cmd, world)
-            "s","e","w","n" -> move(cmd, "", world)
-            "xyzzy" -> move(cmd, "", world)
-            "cast wd40" -> castSpell(cmd,"wd40", world)
-            else -> "unknown cmd $cmd"
+        val action: (String, String, World)->String = when(cmd) {
+            "take axe" -> ::take
+            "take bottle" -> ::take
+            "take cows" -> ::take
+            "inventory" -> ::inventory
+            "s","e","w","n" -> ::move
+            "xyzzy" -> ::move
+            "cast wd40" -> ::castSpell
+            else -> ::unknown
         }
+        val name = action(cmd, cmd, world)
         world.response.nextRoomName = name
+    }
+
+    private fun unknown(verb:String, noun:String, world: World): String {
+        return "unknown cmd $verb"
     }
 
     private fun inventory(verb: String, noun: String, world: World): String {
@@ -53,8 +58,16 @@ class Room(val roomName: String) {
     }
 
     private fun take(verb: String, noun: String, world: World): String {
-        world.take(noun)
-        world.response.say("$noun taken.")
+        // interim hackery waiting for new parser
+        val words = noun.split(" ")
+        val realNoun = words.last()
+        val done = contents.remove(realNoun)
+        if ( done ) {
+            world.addToInventory(realNoun)
+            world.response.say("$realNoun taken.")
+        } else {
+            world.response.say("I see no $realNoun here!")
+        }
         return roomName
     }
 
