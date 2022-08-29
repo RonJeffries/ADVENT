@@ -33,7 +33,7 @@ class CommandExperiment {
         assertThat(command.words.size).isEqualTo(2)
         assertThat(command.words[0]).isEqualTo("say")
         assertThat(command.words[1]).isEqualTo("xyzzy")
-        command.makeVerbNoun()
+//        command.makeVerbNoun()
         assertThat(command.verb).isEqualTo("say")
         assertThat(command.noun).isEqualTo("xyzzy")
     }
@@ -76,11 +76,11 @@ class CommandExperiment {
 }
 
 private class Command(val input: String) {
-    var verb = ""
-    var noun = ""
     val words = mutableListOf<String>()
     var operation = this::commandError
     var result: String = ""
+    val verb get() = words[0]
+    val noun get() = words[1]
 
     fun validate(): Command{
         return this
@@ -88,7 +88,6 @@ private class Command(val input: String) {
             .goWords()
             .magicWords()
             .errorIfOnlyOneWord()
-            .makeVerbNoun()
             .findOperation()
     }
 
@@ -114,12 +113,6 @@ private class Command(val input: String) {
     fun magicWords(): Command {
         val magicWords = listOf("xyzzy", "plugh")
         return substituteSingle("say", magicWords)
-    }
-
-    fun makeVerbNoun(): Command {
-        verb = words[0]
-        noun = words[1]
-        return this
     }
 
     fun findOperation(): Command {
