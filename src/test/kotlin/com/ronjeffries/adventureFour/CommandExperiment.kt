@@ -2,7 +2,6 @@ package com.ronjeffries.adventureFour
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import kotlin.reflect.KFunction
 
 
 class CommandExperiment {
@@ -30,7 +29,7 @@ class CommandExperiment {
         val command = Command("xyzzy")
         command.makeWords()
         assertThat(command.words.size).isEqualTo(1)
-        command.expandIfNeeded()
+        command.magicWords()
         assertThat(command.words.size).isEqualTo(2)
         assertThat(command.words[0]).isEqualTo("say")
         assertThat(command.words[1]).isEqualTo("xyzzy")
@@ -86,7 +85,9 @@ private class Command(val input: String) {
     fun validate(): Command{
         return this
             .makeWords()
-            .expandIfNeeded()
+            .goWords()
+            .magicWords()
+            .errorIfOnlyOneWord()
             .makeVerbNoun()
             .findOperation()
     }
@@ -96,21 +97,29 @@ private class Command(val input: String) {
         return this
     }
 
-    fun expandIfNeeded(): Command {
+    fun errorIfOnlyOneWord(): Command {
+        if (words.size == 2) return this
+        words.add(0,"verbError")
+        return this
+    }
+
+    fun goWords(): Command {
         if (words.size == 2) return this
         val directions = listOf(
             "n","e","s","w","north","east","south","west",
             "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
             "up","dn","down")
+        if (words[0] in directions) {
+            words.add(0, "go")
+        }
+        return this
+    }
+
+    fun magicWords(): Command {
+        if (words.size == 2) return this
         val magicWords = listOf("xyzzy", "plugh")
-        val word = words[0]
-        if (word in directions) {
-            words.add(0,"go")
-        } else if (word in magicWords) {
+        if (words[0] in magicWords) {
             words.add(0,"say")
-        } else {
-            words[0] = "verbError"
-            words.add(word)
         }
         return this
     }
