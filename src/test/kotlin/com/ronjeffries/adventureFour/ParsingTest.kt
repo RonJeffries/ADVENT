@@ -3,9 +3,9 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-typealias Command = String
+typealias CMD = String
 
-private fun Command.parse(): List<String> {
+private fun CMD.parse(): List<String> {
     return this.split(Regex("\\W+"))
 }
 
@@ -47,7 +47,7 @@ class ParsingTest {
     }
 }
 
-private fun command(cmd:Command): String {
+private fun command(cmd:CMD): String {
     val words = cmd.parse()
     if (words.size == 0) return "no command found"
     val verb = words[0]
