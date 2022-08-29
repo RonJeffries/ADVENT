@@ -6,35 +6,22 @@ import kotlin.reflect.KFunction
 
 
 class CommandExperiment {
-    @Test
-    fun `valid command`() {
-        val command = Command("go east")
-        command.validate()
-        assertThat(command.verb).isEqualTo("go")
-        assertThat(command.noun).isEqualTo("east")
-    }
 
     @Test
     fun `sequence`() {
         val command = Command("take axe")
-        command
-            .makeWords()
-            .expandIfNeeded()
-            .makeVerbNoun()
-            .findOperation()
-        var result = command.execute()
+        val result = command
+            .validate()
+            .execute()
         assertThat(result).isEqualTo("axe taken.")
     }
 
     @Test
     fun `go command`() {
         val command = Command("go east")
-        command
-            .makeWords()
-            .expandIfNeeded()
-            .makeVerbNoun()
-            .findOperation()
-        var result = command.execute()
+        val result = command
+            .validate()
+            .execute()
         assertThat(result).isEqualTo("went east.")
     }
 }
@@ -46,10 +33,12 @@ private class Command(val input: String) {
     var operation = this::commandError
     var result: String = ""
 
-    fun validate(){
-        words += input.split(" ")
-        verb = words[0]
-        noun = words[1]
+    fun validate(): Command{
+        return this
+            .makeWords()
+            .expandIfNeeded()
+            .makeVerbNoun()
+            .findOperation()
     }
 
     fun makeWords(): Command {
