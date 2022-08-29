@@ -104,24 +104,16 @@ private class Command(val input: String) {
     }
 
     fun goWords(): Command {
-        if (words.size == 2) return this
         val directions = listOf(
             "n","e","s","w","north","east","south","west",
             "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
             "up","dn","down")
-        if (words[0] in directions) {
-            words.add(0, "go")
-        }
-        return this
+        return substituteSingle("go", directions)
     }
 
     fun magicWords(): Command {
-        if (words.size == 2) return this
         val magicWords = listOf("xyzzy", "plugh")
-        if (words[0] in magicWords) {
-            words.add(0,"say")
-        }
-        return this
+        return substituteSingle("say", magicWords)
     }
 
     fun makeVerbNoun(): Command {
@@ -139,6 +131,12 @@ private class Command(val input: String) {
             "verbError" -> ::verbError
             else -> ::commandError
         }
+        return this
+    }
+
+    fun substituteSingle(sub: String, singles: List<String>): Command {
+        if (words.size == 2) return this
+        if (words[0] in singles) words.add(0, sub)
         return this
     }
 
