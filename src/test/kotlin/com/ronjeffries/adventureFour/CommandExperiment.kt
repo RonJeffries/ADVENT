@@ -25,6 +25,18 @@ class CommandExperiment {
         var result = command.execute()
         assertThat(result).isEqualTo("axe taken.")
     }
+
+    @Test
+    fun `go command`() {
+        val command = Command("go east")
+        command
+            .makeWords()
+            .expandIfNeeded()
+            .makeVerbNoun()
+            .findOperation()
+        var result = command.execute()
+        assertThat(result).isEqualTo("went east.")
+    }
 }
 
 private class Command(val input: String) {
@@ -59,7 +71,13 @@ private class Command(val input: String) {
         val test = ::take
         if (verb=="take")
             operation = ::take
+        else if (verb == "go")
+            operation = ::go
         return this
+    }
+
+    fun go(noun: String) {
+        result = "went $noun."
     }
 
     fun take(noun:String) {
