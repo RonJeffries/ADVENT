@@ -87,19 +87,12 @@ private class Command(val input: String) {
         return this
     }
 
-    fun makeVerbNoun(): Command {
-        verb = words[0]
-        noun = words[1]
-        return this
-    }
-
     fun expandIfNeeded(): Command {
         if (words.size == 2) return this
         val directions = listOf(
             "n","e","s","w","north","east","south","west",
             "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
             "up","dn","down")
-
         val magicWords = listOf("xyzzy", "plugh")
         val word = words[0]
         if (word in directions) {
@@ -110,6 +103,12 @@ private class Command(val input: String) {
             words[0] = "verbError"
             words.add(word)
         }
+        return this
+    }
+
+    fun makeVerbNoun(): Command {
+        verb = words[0]
+        noun = words[1]
         return this
     }
 
@@ -126,28 +125,16 @@ private class Command(val input: String) {
         return this
     }
 
-    fun verbError(noun: String) {
-        result = "I don't understand $noun."
-    }
-
-    fun go(noun: String) {
-        result = "went $noun."
-    }
-
-    fun say(noun:String) {
-        result = "said $noun."
-    }
-
-    fun take(noun:String) {
-        result = "$noun taken."
-    }
-
-    fun commandError(noun: String) {
-        result = "command error"
-    }
+    // execution
 
     fun execute(): String {
-        operation(noun)
+        result = operation(noun)
         return result
     }
+
+    fun commandError(noun: String) : String = "command error"
+    fun go(noun: String): String = "went $noun."
+    fun say(noun:String): String = "said $noun."
+    fun take(noun:String): String = "$noun taken."
+    fun verbError(noun: String): String = "I don't understand $noun."
 }
