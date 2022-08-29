@@ -65,6 +65,15 @@ class CommandExperiment {
             .execute()
         assertThat(result).isEqualTo("I don't understand fragglerats.")
     }
+
+    @Test
+    fun `evoke command error`() {
+        val command = Command("vorpal blade")
+        val result = command
+            .validate()
+            .execute()
+        assertThat(result).isEqualTo("command error 'vorpal blade'.")
+    }
 }
 
 private class Command(val input: String) {
@@ -114,14 +123,13 @@ private class Command(val input: String) {
 
     fun findOperation(): Command {
         val test = ::take
-        if (verb=="take")
-            operation = ::take
-        else if (verb == "go")
-            operation = ::go
-        else if (verb == "say")
-            operation = ::say
-        else if (verb == "verbError")
-            operation = ::verbError
+        operation = when (verb) {
+            "take" -> ::take
+            "go" -> ::go
+            "say" -> ::say
+            "verbError" -> ::verbError
+            else -> ::commandError
+        }
         return this
     }
 
@@ -132,7 +140,7 @@ private class Command(val input: String) {
         return result
     }
 
-    fun commandError(noun: String) : String = "command error"
+    fun commandError(noun: String) : String = "command error '$input'."
     fun go(noun: String): String = "went $noun."
     fun say(noun:String): String = "said $noun."
     fun take(noun:String): String = "$noun taken."
