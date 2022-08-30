@@ -5,7 +5,7 @@ typealias GoTarget = Pair<String, (World)->Boolean>
 
 class Room(val roomName: String) {
     val contents = mutableSetOf<String>()
-    val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName, { r:World->true}) }
+    private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     var shortDesc = ""
     var longDesc = ""
 
@@ -15,7 +15,7 @@ class Room(val roomName: String) {
         shortDesc = short
         longDesc = long
     }
-    fun go(direction: String, roomName: String, allowed: (World)->Boolean = {r:World -> true}) {
+    fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
         moves += direction to Pair(roomName, allowed)
     }
 
