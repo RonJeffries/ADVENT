@@ -63,7 +63,6 @@ class CommandExperiment {
             .validate()
             .execute()
         assertThat(result).isEqualTo("Did inventory with 'ignored'.")
-
     }
 
     @Test
@@ -76,12 +75,12 @@ class CommandExperiment {
     }
 
     @Test
-    fun `evoke command error`() {
+    fun `examine command error`() {
         val command = Command("vorpal blade")
         val result = command
             .validate()
-            .execute()
-        assertThat(result).isEqualTo("command error 'vorpal blade'.")
+        assertThat(result.verb).isEqualTo("vorpal")
+        assertThat(result.noun).isEqualTo("blade")
     }
 
     @Test
