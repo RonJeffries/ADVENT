@@ -21,61 +21,62 @@ class Room(val roomName: String) {
 
     // Game Play
 
+    fun command(cmd: String, world: World) {
+        val command = Command(cmd).validate()
+        val action: (Command, World)->String = when(command.verb) {
+            "inventory" -> ::inventory
+            "take" -> ::take
+            "go" -> this::move
+            "say" -> ::castSpell
+            else -> ::unknown
+        }
+        val name:String = action(command, world)
+        world.response.nextRoomName = name
+    }
+
     fun itemString(): String {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    fun go(verb: String, noun: String, world: World): String {
-        val (targetName, allowed) = moves.getValue(noun)
+    fun move(command: Command, world: World): String {
+        val (targetName, allowed) = moves.getValue(command.noun)
         return if (allowed(world))
             targetName
         else
             roomName
     }
 
-    fun command(cmd: String, world: World) {
-        val c = Command(cmd).validate()
-        val action: (String, String, World)->String = when(c.verb) {
-            "inventory" -> ::inventory
-            "take" -> ::take
-            "go" -> this::go
-            "say" -> ::castSpell
-            else -> ::unknown
-        }
-        val name:String = action(c.verb, c.noun, world)
-        world.response.nextRoomName = name
+
+    private fun unknown(command: Command, world: World): String {
+        world.response.say("unknown command ${command.verb}")
+        return "unknown cmd ${command.verb}"
     }
 
-    private fun unknown(verb:String, noun:String, world: World): String {
-        world.response.say("unknown command $verb")
-        return "unknown cmd $verb"
-    }
-
-    private fun inventory(verb: String, noun: String, world: World): String {
+    private fun inventory(command: Command, world: World): String {
         world.showInventory()
         return roomName
     }
 
-    private fun take(verb: String, noun: String, world: World): String {
-        val done = contents.remove(noun)
+    private fun take(command: Command, world: World): String {
+        val done = contents.remove(command.noun)
         if ( done ) {
-            world.addToInventory(noun)
-            world.response.say("$noun taken.")
+            world.addToInventory(command.noun)
+            world.response.say("${command.noun} taken.")
         } else {
-            world.response.say("I see no $noun here!")
+            world.response.say("I see no ${command.noun} here!")
         }
         return roomName
     }
 
-    private fun castSpell(verb: String, noun: String, world: World): String {
-        val returnRoom = when (noun) {
+    private fun castSpell(command: Command, world: World): String {
+        val returnRoom = when (command.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
                 world.response.say("The magic wd40 works! The padlock is unlocked!")
                 roomName
             }
             "xyzzy" -> {
-                val (targetName, allowed) = moves.getValue(noun)
+                val (targetName, allowed) = moves.getValue(command.noun)
                 return if (allowed(world))
                     targetName
                 else
