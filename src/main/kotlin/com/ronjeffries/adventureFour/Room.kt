@@ -46,18 +46,18 @@ class Room(val roomName: String) {
             roomName
     }
 
-    val unknown = {command: Command, world: World ->
+    private val unknown = { command: Command, world: World ->
         println("Arrived in unknown")
         world.response.say("unknown command '${command.verb} ${command.noun}'")
         roomName
     }
 
-    val inventory = {command:Command, world:World ->
+    private val inventory = { _:Command, world:World ->
         world.showInventory()
         roomName
     }
 
-    val take = {command: Command, world: World ->
+    private val take = { command: Command, world: World ->
         val done = contents.remove(command.noun)
         if ( done ) {
             world.addToInventory(command.noun)
@@ -68,7 +68,7 @@ class Room(val roomName: String) {
         roomName
     }
 
-    val castSpell = {command: Command, world: World ->
+    private val castSpell = { command: Command, world: World ->
         val returnRoom = when (command.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
