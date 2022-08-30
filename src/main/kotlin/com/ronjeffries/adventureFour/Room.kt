@@ -34,21 +34,25 @@ class Room(val roomName: String) {
     }
 
     fun command(cmd: String, world: World) {
-        val action: (String, String, World)->String = when(cmd) {
-            "take axe" -> ::take
-            "take bottle" -> ::take
-            "take cows" -> ::take
-            "inventory" -> ::inventory
-            "s","e","w","n" -> ::move
-            "xyzzy" -> ::move
-            "cast wd40" -> ::castSpell
-            else -> ::unknown
+        val c = Command(cmd).validate()
+        val action: (String, String, World)->String = when(c.verb) {
+            else -> when(cmd) {
+                "inventory" -> ::inventory
+                "take axe" -> ::take
+                "take bottle" -> ::take
+                "take cows" -> ::take
+                "s", "e", "w", "n" -> ::move
+                "xyzzy" -> ::move
+                "cast wd40" -> ::castSpell
+                else -> ::unknown
+            }
         }
         val name = action(cmd, cmd, world)
         world.response.nextRoomName = name
     }
 
     private fun unknown(verb:String, noun:String, world: World): String {
+        world.response.say("unoknown command $verb")
         return "unknown cmd $verb"
     }
 
