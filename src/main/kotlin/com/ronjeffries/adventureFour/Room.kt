@@ -35,20 +35,27 @@ class Room(val roomName: String) {
 
     fun command(cmd: String, world: World) {
         val c = Command(cmd).validate()
+        var firstOK = true
         val action: (String, String, World)->String = when(c.verb) {
             "inventory" -> ::inventory
-            else -> when(cmd) {
-                "take axe" -> ::take
-                "take bottle" -> ::take
-                "take cows" -> ::take
-                "take broom" -> ::take
-                "s", "e", "w", "n" -> ::move
-                "xyzzy" -> ::move
-                "cast wd40" -> ::castSpell
-                else -> ::unknown
+            else -> {
+                firstOK = false
+                when (cmd) {
+                    "take axe" -> ::take
+                    "take bottle" -> ::take
+                    "take cows" -> ::take
+                    "take broom" -> ::take
+                    "s", "e", "w", "n" -> ::move
+                    "xyzzy" -> ::move
+                    "cast wd40" -> ::castSpell
+                    else -> ::unknown
+                }
             }
         }
-        val name = action(cmd, cmd, world)
+        val name:String = when (firstOK) {
+            true-> action(c.verb, c.noun, world)
+            false->action(cmd, cmd, world)
+        }
         world.response.nextRoomName = name
     }
 
