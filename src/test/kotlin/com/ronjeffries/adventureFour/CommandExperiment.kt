@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class CommandExperiment {
 
     @Test
-    fun `sequence`() {
+    fun sequence() {
         val command = Command("take axe")
         val result = command
             .validate()
@@ -73,6 +73,15 @@ class CommandExperiment {
             .execute()
         assertThat(result).isEqualTo("command error 'vorpal blade'.")
     }
+
+    @Test
+    fun `too many words`() {
+        val command = Command("too many words")
+        val result = command
+            .validate()
+            .execute()
+        assertThat(result).isEqualTo("I understand only one- and two-word commands, not 'too many words'.")
+    }
 }
 
 private class Command(val input: String) {
@@ -85,6 +94,7 @@ private class Command(val input: String) {
     fun validate(): Command{
         return this
             .makeWords()
+            .oneOrTwoWords()
             .goWords()
             .magicWords()
             .errorIfOnlyOneWord()
@@ -96,9 +106,30 @@ private class Command(val input: String) {
         return this
     }
 
+    fun oneOrTwoWords(): Command {
+        if (words.size < 1 || words.size > 2 ){
+            words.clear()
+            words.add("countError")
+            words.add(input)
+        }
+        return this
+    }
+
     fun errorIfOnlyOneWord(): Command {
         if (words.size == 2) return this
         words.add(0,"verbError")
+        return this
+    }
+
+    fun findOperation(): Command {
+        operation = when (verb) {
+            "take" -> ::take
+            "go" -> ::go
+            "say" -> ::say
+            "verbError" -> ::verbError
+            "countError" -> ::countError
+            else -> ::commandError
+        }
         return this
     }
 
@@ -113,18 +144,6 @@ private class Command(val input: String) {
     fun magicWords(): Command {
         val magicWords = listOf("xyzzy", "plugh")
         return substituteSingle("say", magicWords)
-    }
-
-    fun findOperation(): Command {
-        val test = ::take
-        operation = when (verb) {
-            "take" -> ::take
-            "go" -> ::go
-            "say" -> ::say
-            "verbError" -> ::verbError
-            else -> ::commandError
-        }
-        return this
     }
 
     fun substituteSingle(sub: String, singles: List<String>): Command {
@@ -145,4 +164,5 @@ private class Command(val input: String) {
     fun say(noun:String): String = "said $noun."
     fun take(noun:String): String = "$noun taken."
     fun verbError(noun: String): String = "I don't understand $noun."
+    fun countError(noun: String): String = "I understand only one- and two-word commands, not '$noun'."
 }
