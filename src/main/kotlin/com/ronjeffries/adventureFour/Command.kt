@@ -60,7 +60,7 @@ class Command(val input: String) {
     }
 
     fun magicWords(): Command {
-        val magicWords = listOf("xyzzy", "plugh")
+        val magicWords = listOf("xyzzy", "plugh", "wd40")
         return substituteSingle("say", magicWords)
     }
 

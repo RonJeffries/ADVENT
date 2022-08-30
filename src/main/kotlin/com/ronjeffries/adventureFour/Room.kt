@@ -40,11 +40,10 @@ class Room(val roomName: String) {
             "inventory" -> ::inventory
             "take" -> ::take
             "go" -> this::go
+            "say" -> ::castSpell
             else -> {
                 firstOK = false
                 when (cmd) {
-                    "xyzzy" -> this::go
-                    "cast wd40" -> ::castSpell
                     else -> ::unknown
                 }
             }
@@ -57,7 +56,7 @@ class Room(val roomName: String) {
     }
 
     private fun unknown(verb:String, noun:String, world: World): String {
-        world.response.say("unoknown command $verb")
+        world.response.say("unknown command $verb")
         return "unknown cmd $verb"
     }
 
@@ -77,10 +76,26 @@ class Room(val roomName: String) {
         return roomName
     }
 
-    private fun castSpell(noun: String, verb: String, world: World): String {
-        world.flags.get("unlocked").set(true)
-        world.response.say("The magic wd40 works! The padlock is unlocked!")
-        return roomName
+    private fun castSpell(verb: String, noun: String, world: World): String {
+        val returnRoom = when (noun) {
+            "wd40" -> {
+                world.flags.get("unlocked").set(true)
+                world.response.say("The magic wd40 works! The padlock is unlocked!")
+                roomName
+            }
+            "xyzzy" -> {
+                val (targetName, allowed) = moves.getValue(noun)
+                return if (allowed(world))
+                    targetName
+                else
+                    roomName
+            }
+            else -> {
+                world.response.say("Nothing happens here.")
+                roomName
+            }
+        }
+        return returnRoom
     }
 
     fun item(thing: String) {
