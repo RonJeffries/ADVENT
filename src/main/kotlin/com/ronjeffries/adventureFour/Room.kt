@@ -25,8 +25,8 @@ class Room(val roomName: String) {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    fun move(verb: String, noun: String, world: World): String {
-        val (targetName, allowed) = moves.getValue(verb)
+    fun go(verb: String, noun: String, world: World): String {
+        val (targetName, allowed) = moves.getValue(noun)
         return if (allowed(world))
             targetName
         else
@@ -39,11 +39,11 @@ class Room(val roomName: String) {
         val action: (String, String, World)->String = when(c.verb) {
             "inventory" -> ::inventory
             "take" -> ::take
+            "go" -> this::go
             else -> {
                 firstOK = false
                 when (cmd) {
-                    "s", "e", "w", "n" -> ::move
-                    "xyzzy" -> ::move
+                    "xyzzy" -> this::go
                     "cast wd40" -> ::castSpell
                     else -> ::unknown
                 }
