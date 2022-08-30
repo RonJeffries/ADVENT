@@ -25,10 +25,10 @@ class Room(val roomName: String) {
         val command = Command(cmd).validate()
         val action: (Command, World)->String = when(command.verb) {
             "inventory" -> inventory
-            "take" -> ::take
+            "take" -> take
             "go" -> this::move
-            "say" -> ::castSpell
-            else -> ::unknown
+            "say" -> castSpell
+            else -> unknown
         }
         val name:String = action(command, world)
         world.response.nextRoomName = name
@@ -46,10 +46,9 @@ class Room(val roomName: String) {
             roomName
     }
 
-
-    private fun unknown(command: Command, world: World): String {
+    val unknown = {command: Command, world: World ->
         world.response.say("unknown command ${command.verb}")
-        return "unknown cmd ${command.verb}"
+        "unknown cmd ${command.verb}"
     }
 
     val inventory = {command:Command, world:World ->
@@ -57,12 +56,7 @@ class Room(val roomName: String) {
         roomName
     }
 
-//    private fun inventory(command: Command, world: World): String {
-//        world.showInventory()
-//        return roomName
-//    }
-
-    private fun take(command: Command, world: World): String {
+    val take = {command: Command, world: World ->
         val done = contents.remove(command.noun)
         if ( done ) {
             world.addToInventory(command.noun)
@@ -70,10 +64,10 @@ class Room(val roomName: String) {
         } else {
             world.response.say("I see no ${command.noun} here!")
         }
-        return roomName
+        roomName
     }
 
-    private fun castSpell(command: Command, world: World): String {
+    val castSpell = {command: Command, world: World ->
         val returnRoom = when (command.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
@@ -82,7 +76,7 @@ class Room(val roomName: String) {
             }
             "xyzzy" -> {
                 val (targetName, allowed) = moves.getValue(command.noun)
-                return if (allowed(world))
+                if (allowed(world))
                     targetName
                 else
                     roomName
@@ -92,7 +86,7 @@ class Room(val roomName: String) {
                 roomName
             }
         }
-        return returnRoom
+        returnRoom
     }
 
     fun item(thing: String) {
