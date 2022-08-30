@@ -57,6 +57,16 @@ class CommandExperiment {
     }
 
     @Test
+    fun `single known words with ignored noun`() {
+        val command = Command("inventory")
+        val result = command
+            .validate()
+            .execute()
+        assertThat(result).isEqualTo("Did inventory with 'ignored'.")
+
+    }
+
+    @Test
     fun `single unknown word commands`() {
         val command = Command("fragglerats")
         val result = command

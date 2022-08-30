@@ -13,6 +13,7 @@ class Command(val input: String) {
             .oneOrTwoWords()
             .goWords()
             .magicWords()
+            .singleWordCommands()
             .errorIfOnlyOneWord()
             .findOperation()
     }
@@ -42,6 +43,7 @@ class Command(val input: String) {
             "take" -> ::take
             "go" -> ::go
             "say" -> ::say
+            "inventory" -> ::inventory
             "verbError" -> ::verbError
             "countError" -> ::countError
             else -> ::commandError
@@ -62,6 +64,13 @@ class Command(val input: String) {
         return substituteSingle("say", magicWords)
     }
 
+    fun singleWordCommands(): Command {
+        if (words.size == 2) return this
+        val ignoredNounWords = listOf("inventory", "look")
+        if (words[0] in ignoredNounWords) words.add("ignored")
+        return this
+    }
+
     fun substituteSingle(sub: String, singles: List<String>): Command {
         if (words.size == 2) return this
         if (words[0] in singles) words.add(0, sub)
@@ -79,6 +88,7 @@ class Command(val input: String) {
     fun go(noun: String): String = "went $noun."
     fun say(noun:String): String = "said $noun."
     fun take(noun:String): String = "$noun taken."
+    fun inventory(noun: String): String = "Did inventory with '$noun'."
     fun verbError(noun: String): String = "I don't understand $noun."
     fun countError(noun: String): String = "I understand only one- and two-word commands, not '$noun'."
 }
