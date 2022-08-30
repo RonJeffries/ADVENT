@@ -36,11 +36,12 @@ class Room(val roomName: String) {
     fun command(cmd: String, world: World) {
         val c = Command(cmd).validate()
         val action: (String, String, World)->String = when(c.verb) {
+            "inventory" -> ::inventory
             else -> when(cmd) {
-                "inventory" -> ::inventory
                 "take axe" -> ::take
                 "take bottle" -> ::take
                 "take cows" -> ::take
+                "take broom" -> ::take
                 "s", "e", "w", "n" -> ::move
                 "xyzzy" -> ::move
                 "cast wd40" -> ::castSpell

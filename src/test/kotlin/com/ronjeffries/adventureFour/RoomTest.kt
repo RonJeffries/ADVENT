@@ -54,4 +54,19 @@ class RoomTest {
         assertThat(itemString).contains("broom")
         assertThat(itemString).contains("water")
     }
+
+    @Test
+    fun `can take inventory`() {
+        val world = world {
+            room("storage") {
+                desc("storage room", "large storage room")
+                item("broom")
+            }
+        }
+        val game = Game(world, "storage")
+        game.command("take broom")
+        assertThat(game.resultString).isEqualTo("broom taken.\nlarge storage room\n")
+        game.command("inventory")
+        assertThat(game.resultString).isEqualTo("You have broom.\n\nlarge storage room\n")
+    }
 }
