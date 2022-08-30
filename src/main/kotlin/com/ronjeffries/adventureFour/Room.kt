@@ -47,7 +47,6 @@ class Room(val roomName: String) {
     }
 
     private val unknown = { command: Command, world: World ->
-        println("Arrived in unknown")
         world.response.say("unknown command '${command.verb} ${command.noun}'")
         roomName
     }
