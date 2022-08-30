@@ -24,7 +24,7 @@ class Room(val roomName: String) {
     fun command(cmd: String, world: World) {
         val command = Command(cmd).validate()
         val action: (Command, World)->String = when(command.verb) {
-            "inventory" -> ::inventory
+            "inventory" -> inventory
             "take" -> ::take
             "go" -> this::move
             "say" -> ::castSpell
@@ -52,10 +52,15 @@ class Room(val roomName: String) {
         return "unknown cmd ${command.verb}"
     }
 
-    private fun inventory(command: Command, world: World): String {
+    val inventory = {command:Command, world:World ->
         world.showInventory()
-        return roomName
+        roomName
     }
+
+//    private fun inventory(command: Command, world: World): String {
+//        world.showInventory()
+//        return roomName
+//    }
 
     private fun take(command: Command, world: World): String {
         val done = contents.remove(command.noun)
