@@ -38,13 +38,10 @@ class Room(val roomName: String) {
         var firstOK = true
         val action: (String, String, World)->String = when(c.verb) {
             "inventory" -> ::inventory
+            "take" -> ::take
             else -> {
                 firstOK = false
                 when (cmd) {
-                    "take axe" -> ::take
-                    "take bottle" -> ::take
-                    "take cows" -> ::take
-                    "take broom" -> ::take
                     "s", "e", "w", "n" -> ::move
                     "xyzzy" -> ::move
                     "cast wd40" -> ::castSpell
@@ -70,15 +67,12 @@ class Room(val roomName: String) {
     }
 
     private fun take(verb: String, noun: String, world: World): String {
-        // interim hackery waiting for new parser
-        val words = noun.split(" ")
-        val realNoun = words.last()
-        val done = contents.remove(realNoun)
+        val done = contents.remove(noun)
         if ( done ) {
-            world.addToInventory(realNoun)
-            world.response.say("$realNoun taken.")
+            world.addToInventory(noun)
+            world.response.say("$noun taken.")
         } else {
-            world.response.say("I see no $realNoun here!")
+            world.response.say("I see no $noun here!")
         }
         return roomName
     }
