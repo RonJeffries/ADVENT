@@ -75,11 +75,7 @@ class Room(val roomName: String) {
                 roomName
             }
             "xyzzy" -> {
-                val (targetName, allowed) = moves.getValue(command.noun)
-                if (allowed(world))
-                    targetName
-                else
-                    roomName
+                move(command, world)
             }
             else -> {
                 world.response.say("Nothing happens here.")
