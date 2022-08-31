@@ -3,7 +3,7 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class GameResponseTest {
+class PlayerResponseTest {
     @Test
     fun `response has say method`() {
         val r = GameResponse()

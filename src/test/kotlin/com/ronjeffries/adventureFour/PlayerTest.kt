@@ -3,7 +3,7 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class GameTest {
+class PlayerTest {
     @Test
     fun gameCheck() {
         val world = world {
@@ -19,24 +19,24 @@ class GameTest {
                 go("s", "Y3")
             }
         }
-        val game = Game(world, "woods")
-        assertThat(game.currentRoomName).isEqualTo("woods")
-        game.command("s")
-        assertThat(game.currentRoomName).isEqualTo("clearing")
-        game.command("n")
-        assertThat(game.currentRoomName).isEqualTo("woods")
-        game.command("xyzzy")
-        assertThat(game.currentRoomName).isEqualTo("Y2")
-        game.command("xyzzy")
-        assertThat(game.currentRoomName).isEqualTo("woods")
-        game.command("xyzzy")
-        assertThat(game.currentRoomName).isEqualTo("Y2")
-        game.command("s") // points to Y3 erroneously
-        assertThat(game.currentRoomName).isEqualTo("Y2")
+        val player = Player(world, "woods")
+        assertThat(player.currentRoomName).isEqualTo("woods")
+        player.command("s")
+        assertThat(player.currentRoomName).isEqualTo("clearing")
+        player.command("n")
+        assertThat(player.currentRoomName).isEqualTo("woods")
+        player.command("xyzzy")
+        assertThat(player.currentRoomName).isEqualTo("Y2")
+        player.command("xyzzy")
+        assertThat(player.currentRoomName).isEqualTo("woods")
+        player.command("xyzzy")
+        assertThat(player.currentRoomName).isEqualTo("Y2")
+        player.command("s") // points to Y3 erroneously
+        assertThat(player.currentRoomName).isEqualTo("Y2")
         // mp such room as Y3, defaults to stay in Y2
-        game.command("xyzzy")
-        assertThat(game.currentRoomName).isEqualTo("woods")
-        val refs = game.roomReferences
+        player.command("xyzzy")
+        assertThat(player.currentRoomName).isEqualTo("woods")
+        val refs = player.roomReferences
         assertThat(refs).contains("Y3")
         val expected = setOf("Y3", "Y2", "clearing", "woods")
         assertThat(refs).isEqualTo(expected)
@@ -66,11 +66,11 @@ class GameTest {
                 go("n", "first")
             }
         }
-        val game = Game(world, "first")
-        game.command("s")
-        assertThat(game.resultString).isEqualTo("long second\n")
-        game.command("s")
-        assertThat(game.resultString).isEqualTo("long second\n")
+        val player = Player(world, "first")
+        player.command("s")
+        assertThat(player.resultString).isEqualTo("long second\n")
+        player.command("s")
+        assertThat(player.resultString).isEqualTo("long second\n")
     }
 
     @Test
@@ -88,9 +88,9 @@ class GameTest {
                 desc("second room", "the long second room")
             }
         }
-        val game = Game(myWorld, "first")
-        game.command("s")
-        assertThat(game.resultString).isEqualTo("The grate is closed!\n" +
+        val player = Player(myWorld, "first")
+        player.command("s")
+        assertThat(player.resultString).isEqualTo("The grate is closed!\n" +
                 "You find yourself in the fascinating first room.\n")
     }
 
@@ -116,13 +116,13 @@ class GameTest {
                 go("w", "palace")
             }
         }
-        val game = Game(world,"palace")
-        game.command("e")
-        assertThat(game.resultString).isEqualTo("The room is locked by a glowing lock!\n" +
+        val player = Player(world,"palace")
+        player.command("e")
+        assertThat(player.resultString).isEqualTo("The room is locked by a glowing lock!\n" +
                 "You are in an empty room in the palace. There is a padlocked door to the east.\n")
-        game.command("wd40")
-        assertThat(game.resultString).contains("unlocked")
-        game.command("e")
-        assertThat(game.resultString).contains("rich with gold")
+        player.command("wd40")
+        assertThat(player.resultString).contains("unlocked")
+        player.command("e")
+        assertThat(player.resultString).contains("rich with gold")
     }
 }

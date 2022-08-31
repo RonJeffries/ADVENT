@@ -36,12 +36,12 @@ class MainView: View() {
             go("w", "wellhouse")
         }
     }
-    val game = Game(world, "wellhouse")
+    val player = Player(world, "wellhouse")
 
     override val root: Parent = vbox {
         minWidth = 400.0
         minHeight = 200.0
-        myText = textarea(textContents + "\n"+game.currentRoom.longDesc + ".\n" + game.currentRoom.itemString()) {
+        myText = textarea(textContents + "\n"+player.currentRoom.longDesc + ".\n" + player.currentRoom.itemString()) {
             isEditable = false
             vgrow = Priority.ALWAYS
         }
@@ -52,9 +52,9 @@ class MainView: View() {
     }
     fun someoneTyped() {
         val cmd = myCommand.text
-        game.command(cmd)
+        player.command(cmd)
         myText.appendText("\n> " + cmd)
-        myText.appendText("\n"+game.resultString)
+        myText.appendText("\n"+player.resultString)
         myCommand.text = ""
         myCommand.appendText("")
     }
