@@ -57,9 +57,9 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
             "take" -> take
             "go" -> go
             "say" -> say
-            "inventory" -> ::inventory
+            "inventory" -> inventory
             "verbError" -> verbError
-            "countError" -> ::countError
+            "countError" -> countError
             else -> commandError
         }
         return this
@@ -96,7 +96,7 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
     val go = {noun: String -> "went $noun." }
     val say = {noun:String -> "said $noun." }
     val take = {noun:String -> "$noun taken."}
-    fun inventory(noun: String): String = "Did inventory with '$noun'."
+    val inventory = {noun: String ->  "Did inventory with '$noun'."}
     val verbError = {noun: String -> "I don't understand $noun."}
-    fun countError(noun: String): String = "I understand only one- and two-word commands, not '$noun'."
+    val countError = {noun: String ->  "I understand only one- and two-word commands, not '$noun'."}
 }
