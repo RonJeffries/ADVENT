@@ -33,8 +33,8 @@ class WorldTest {
         assert(world.hasRoomNamed("clearing"))
         val clearing:Room = world.unsafeRoomNamed("clearing")
         val command = Command("go n").validate()
-        val newLocName:String = clearing.move(command, world)
-        assertThat(newLocName).isEqualTo("woods")
+        clearing.move(command, world)
+        assertThat(world.response.nextRoomName).isEqualTo("woods")
     }
 
     @Test

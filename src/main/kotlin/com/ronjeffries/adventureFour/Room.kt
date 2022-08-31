@@ -24,15 +24,14 @@ class Room(val roomName: String) {
     fun command(cmd: String, world: World) {
         world.response.nextRoomName = roomName
         val command = Command(cmd).validate()
-        val action: (Command, World)->String = when(command.verb) {
+        val action: (Command, World)->Unit = when(command.verb) {
             "inventory" -> inventory
             "take" -> take
             "go" -> move
             "say" -> castSpell
             else -> unknown
         }
-        val name:String = action(command, world)
-//        world.response.nextRoomName = name
+        action(command, world)
     }
 
     fun itemString(): String {
@@ -41,21 +40,15 @@ class Room(val roomName: String) {
 
     val move = {command: Command, world: World ->
         val (targetName, allowed) = moves.getValue(command.noun)
-        if (allowed(world)) {
-            world.response.nextRoomName = targetName
-            targetName
-        } else
-            roomName
+        if (allowed(world)) world.response.nextRoomName = targetName
     }
 
     private val unknown = { command: Command, world: World ->
         world.response.say("unknown command '${command.verb} ${command.noun}'")
-        roomName
     }
 
     private val inventory = { _:Command, world:World ->
         world.showInventory()
-        roomName
     }
 
     private val take = { command: Command, world: World ->
@@ -66,25 +59,21 @@ class Room(val roomName: String) {
         } else {
             world.response.say("I see no ${command.noun} here!")
         }
-        roomName
     }
 
     private val castSpell = { command: Command, world: World ->
-        val returnRoom = when (command.noun) {
+        when (command.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
                 world.response.say("The magic wd40 works! The padlock is unlocked!")
-                roomName
             }
             "xyzzy" -> {
                 move(command, world)
             }
             else -> {
                 world.response.say("Nothing happens here.")
-                roomName
             }
         }
-        returnRoom
     }
 
     fun item(thing: String) {
