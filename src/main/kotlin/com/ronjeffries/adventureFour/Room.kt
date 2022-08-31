@@ -22,6 +22,7 @@ class Room(val roomName: String) {
     // Game Play
 
     fun command(cmd: String, world: World) {
+        world.response.nextRoomName = roomName
         val command = Command(cmd).validate()
         val action: (Command, World)->String = when(command.verb) {
             "inventory" -> inventory
@@ -31,7 +32,7 @@ class Room(val roomName: String) {
             else -> unknown
         }
         val name:String = action(command, world)
-        world.response.nextRoomName = name
+//        world.response.nextRoomName = name
     }
 
     fun itemString(): String {
@@ -40,9 +41,10 @@ class Room(val roomName: String) {
 
     val move = {command: Command, world: World ->
         val (targetName, allowed) = moves.getValue(command.noun)
-        if (allowed(world))
+        if (allowed(world)) {
+            world.response.nextRoomName = targetName
             targetName
-        else
+        } else
             roomName
     }
 
