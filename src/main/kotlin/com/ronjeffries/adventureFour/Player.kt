@@ -9,6 +9,7 @@ class Player(val world: World, startingName: String) {
 
     fun command(cmd: String) {
         response = GameResponse()
-        currentRoom = world.command(cmd, currentRoom, response)
+        world.command(cmd, currentRoom, response)
+        currentRoom = response.nextRoom
     }
 }
