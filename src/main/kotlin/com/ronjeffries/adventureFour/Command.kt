@@ -17,7 +17,7 @@ class TestCommandContext : CommandContext {
 
 class Command(val input: String, val context: CommandContext = TestCommandContext()) {
     val words = mutableListOf<String>()
-    var operation = {  noun:String -> "initial operation" }
+    var operation = {  command: Command -> "initial operation" }
     var result: String = ""
     val verb get() = words[0]
     val noun get() = words[1]
@@ -53,15 +53,7 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
     }
 
     fun findOperation(): Command {
-        operation = when (verb) {
-            "take" -> take
-            "go" -> go
-            "say" -> say
-            "inventory" -> inventory
-            "verbError" -> verbError
-            "countError" -> countError
-            else -> commandError
-        }
+        operation = operations.get(verb)!!
         return this
     }
 
@@ -88,15 +80,17 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
     // execution
 
     fun execute(): String {
-        result = findOperation().operation(noun)
+        result = findOperation().operation(this)
         return result
     }
 
-    val commandError = {noun: String -> "command error '$input'." }
-    val go = {noun: String -> "went $noun." }
-    val say = {noun:String -> "said $noun." }
-    val take = {noun:String -> "$noun taken."}
-    val inventory = {noun: String ->  "Did inventory with '$noun'."}
-    val verbError = {noun: String -> "I don't understand $noun."}
-    val countError = {noun: String ->  "I understand only one- and two-word commands, not '$noun'."}
+    val operations = mutableMapOf(
+        "go" to {command: Command -> "went ${command.noun}." },
+        "say" to {command:Command -> "said ${command.noun}." },
+        "take" to {command:Command -> "${command.noun} taken."},
+        "inventory" to {command: Command ->  "Did inventory with '${command.noun}'."},
+        "verbError" to {command: Command -> "I don't understand ${command.noun}."},
+        "countError" to {command: Command ->  "I understand only one- and two-word commands, not '${command.noun}'."},
+        "commandError" to {command: Command -> "command error '${command.input}'." }
+    )
 }
