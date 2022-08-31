@@ -1,6 +1,15 @@
 package com.ronjeffries.adventureFour
 
-class Command(val input: String) {
+class CommandContext{
+    val magicWords = listOf("xyzzy", "plugh", "wd40")
+    val ignoredNounWords = listOf("inventory", "look")
+    val directions = listOf(
+        "n","e","s","w","north","east","south","west",
+        "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
+        "up","dn","down")
+}
+
+class Command(val input: String, val context: CommandContext = CommandContext()) {
     val words = mutableListOf<String>()
     var operation = this::commandError
     var result: String = ""
@@ -51,22 +60,16 @@ class Command(val input: String) {
     }
 
     fun goWords(): Command {
-        val directions = listOf(
-            "n","e","s","w","north","east","south","west",
-            "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
-            "up","dn","down")
-        return substituteSingle("go", directions)
+        return substituteSingle("go", context.directions)
     }
 
     fun magicWords(): Command {
-        val magicWords = listOf("xyzzy", "plugh", "wd40")
-        return substituteSingle("say", magicWords)
+        return substituteSingle("say", context.magicWords)
     }
 
     fun singleWordCommands(): Command {
         if (words.size == 2) return this
-        val ignoredNounWords = listOf("inventory", "look")
-        if (words[0] in ignoredNounWords) words.add("ignored")
+        if (words[0] in context.ignoredNounWords) words.add("ignored")
         return this
     }
 
