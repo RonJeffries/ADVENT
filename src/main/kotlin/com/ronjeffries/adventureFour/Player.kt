@@ -7,9 +7,10 @@ class Player(val world: World, startingName: String) {
     val roomReferences: Set<String> get() = world.roomReferences
     var response: GameResponse = GameResponse()
 
-    fun command(cmd: String) {
+    fun command(commandString: String) {
         response = GameResponse()
-        world.command(cmd, currentRoom, response)
+        var command = Command(commandString)
+        world.command(command, currentRoom, response)
         currentRoom = response.nextRoom
     }
 }

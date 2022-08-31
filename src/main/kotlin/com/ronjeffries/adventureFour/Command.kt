@@ -15,7 +15,6 @@ class Command(val input: String) {
             .magicWords()
             .singleWordCommands()
             .errorIfOnlyOneWord()
-            .findOperation()
     }
 
     fun makeWords(): Command {
@@ -80,7 +79,7 @@ class Command(val input: String) {
     // execution
 
     fun execute(): String {
-        result = operation(noun)
+        result = findOperation().operation(noun)
         return result
     }
 

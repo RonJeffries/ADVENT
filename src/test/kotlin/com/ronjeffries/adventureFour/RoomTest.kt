@@ -22,16 +22,17 @@ class RoomTest {
                     false
                 }
             }
+            room("second"){}
         }
         val myRoom = myWorld.unsafeRoomNamed("first")
+        val secondRoom = myWorld.unsafeRoomNamed("second")
         val response = GameResponse()
-        myWorld.response = response
-        myRoom.command("s", myWorld)
+        val cmd = Command("s")
+        myWorld.command(cmd, myRoom, response)
         assertThat(response.nextRoomName).isEqualTo("first")
         assertThat(response.sayings).isEqualTo("The grate is closed!\n")
         val r2 = GameResponse()
-        myWorld.response = r2
-        myRoom.command("n", myWorld)
+        myWorld.command(Command("s"), secondRoom, r2)
         assertThat(r2.nextRoomName).isEqualTo("second")
     }
 

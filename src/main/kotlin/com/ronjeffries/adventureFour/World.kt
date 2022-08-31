@@ -13,7 +13,7 @@ class World {
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
-    var response: GameResponse = GameResponse()
+    lateinit var response: GameResponse
 
     val roomCount get() = rooms.size
     val roomReferences: Set<String> get() = rooms.roomReferences
@@ -47,7 +47,7 @@ class World {
         return rooms.unsafeRoomNamed(name)
     }
 
-    fun command(cmd: String, currentRoom: Room, newResponse: GameResponse = GameResponse()) {
+    fun command(cmd: Command, currentRoom: Room, newResponse: GameResponse) {
         response = newResponse
         currentRoom.command(cmd, this)
         response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)

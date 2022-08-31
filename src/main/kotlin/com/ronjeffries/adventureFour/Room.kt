@@ -21,9 +21,9 @@ class Room(val roomName: String) {
 
     // Game Play
 
-    fun command(cmd: String, world: World) {
+    fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
-        val command = Command(cmd).validate()
+        command.validate()
         val action: (Command, World)->Unit = when(command.verb) {
             "inventory" -> inventory
             "take" -> take
