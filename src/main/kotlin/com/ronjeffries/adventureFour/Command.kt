@@ -1,15 +1,21 @@
 package com.ronjeffries.adventureFour
 
-class CommandContext{
-    val magicWords = listOf("xyzzy", "plugh", "wd40")
-    val ignoredNounWords = listOf("inventory", "look")
-    val directions = listOf(
+interface CommandContext {
+    val magicWords: List<String>
+    val ignoredNounWords: List<String>
+    val directions: List<String>
+}
+
+class TestCommandContext : CommandContext {
+    override val magicWords = listOf("xyzzy", "plugh", "wd40")
+    override val ignoredNounWords = listOf("inventory", "look")
+    override val directions = listOf(
         "n","e","s","w","north","east","south","west",
         "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
         "up","dn","down")
 }
 
-class Command(val input: String, val context: CommandContext = CommandContext()) {
+class Command(val input: String, val context: CommandContext = TestCommandContext()) {
     val words = mutableListOf<String>()
     var operation = this::commandError
     var result: String = ""
