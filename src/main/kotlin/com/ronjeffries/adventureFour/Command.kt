@@ -17,7 +17,7 @@ class TestCommandContext : CommandContext {
 
 class Command(val input: String, val context: CommandContext = TestCommandContext()) {
     val words = mutableListOf<String>()
-    var operation = this::commandError
+    var operation = {  noun:String -> "initial operation" }
     var result: String = ""
     val verb get() = words[0]
     val noun get() = words[1]
@@ -54,13 +54,13 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
 
     fun findOperation(): Command {
         operation = when (verb) {
-            "take" -> ::take
-            "go" -> ::go
-            "say" -> ::say
+            "take" -> take
+            "go" -> go
+            "say" -> say
             "inventory" -> ::inventory
-            "verbError" -> ::verbError
+            "verbError" -> verbError
             "countError" -> ::countError
-            else -> ::commandError
+            else -> commandError
         }
         return this
     }
@@ -92,11 +92,11 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
         return result
     }
 
-    fun commandError(noun: String) : String = "command error '$input'."
-    fun go(noun: String): String = "went $noun."
-    fun say(noun:String): String = "said $noun."
-    fun take(noun:String): String = "$noun taken."
+    val commandError = {noun: String -> "command error '$input'." }
+    val go = {noun: String -> "went $noun." }
+    val say = {noun:String -> "said $noun." }
+    val take = {noun:String -> "$noun taken."}
     fun inventory(noun: String): String = "Did inventory with '$noun'."
-    fun verbError(noun: String): String = "I don't understand $noun."
+    val verbError = {noun: String -> "I don't understand $noun."}
     fun countError(noun: String): String = "I understand only one- and two-word commands, not '$noun'."
 }
