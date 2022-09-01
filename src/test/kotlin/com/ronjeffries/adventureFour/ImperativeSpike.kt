@@ -43,8 +43,8 @@ class ImperativeSpike {
 }
 
 class ImperativeMap(val map:Map<String,Imperative>, val synonyms:Map<String,String> = synMap) {
-    fun getValue(s:String): Imperative {
-        return map.getValue(synonyms.getValue(s))
+    fun getValue(verb:String, noun:String = ""): Imperative {
+        return map.getValue(synonyms.getValue(verb))
     }
 }
 
