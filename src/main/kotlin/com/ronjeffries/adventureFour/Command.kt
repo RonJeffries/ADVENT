@@ -1,27 +1,30 @@
 package com.ronjeffries.adventureFour
 
+typealias Verb = String
+
 interface CommandContext {
-    val magicWords: List<String>
-    val ignoredNounWords: List<String>
     val directions: List<String>
-    val operations: Map<String,(Command)->String>
+    val ignoredNounWords: List<String>
+    val magicWords: List<String>
+    val operations: Map<Verb,(Command)->String>
 }
 
 class TestCommandContext : CommandContext {
-    override val magicWords = listOf("xyzzy", "plugh", "wd40")
-    override val ignoredNounWords = listOf("inventory", "look")
     override val directions = listOf(
         "n","e","s","w","north","east","south","west",
         "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
         "up","dn","down")
-    override val operations: Map<String, (Command) -> String> = mutableMapOf(
+    override val ignoredNounWords = listOf("inventory", "look")
+    override val magicWords = listOf("xyzzy", "plugh", "wd40")
+    override val operations: Map<Verb, (Command) -> String> = mutableMapOf(
+        "commandError" to {command: Command -> "command error '${command.input}'." },
+        "countError" to {command: Command ->
+            "I understand only one- and two-word commands, not '${command.noun}'."},
         "go" to {command: Command -> "went ${command.noun}." },
+        "inventory" to {command: Command ->  "Did inventory with '${command.noun}'."},
         "say" to {command:Command -> "said ${command.noun}." },
         "take" to {command:Command -> "${command.noun} taken."},
-        "inventory" to {command: Command ->  "Did inventory with '${command.noun}'."},
         "verbError" to {command: Command -> "I don't understand ${command.noun}."},
-        "countError" to {command: Command ->  "I understand only one- and two-word commands, not '${command.noun}'."},
-        "commandError" to {command: Command -> "command error '${command.input}'." }
     )
 }
 
