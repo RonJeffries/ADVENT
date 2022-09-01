@@ -27,7 +27,7 @@ class ImperativeSpike {
 
     @Test
     fun `look up some imperatives`() {
-        val imperatives = ImperativeFactory(impTable)
+        val imperatives = ImperativeFactory(VerbTranslator(impTable))
         var imp: Imperative = imperatives.create("east")
         assertThat(imp).isEqualTo(Imperative("go","east"))
         imp = imperatives.create("e")
@@ -36,7 +36,7 @@ class ImperativeSpike {
 
     @Test
     fun `imperative can act`() {
-        val imperatives = ImperativeFactory(impTable)
+        val imperatives = ImperativeFactory(VerbTranslator(impTable))
         var imp: Imperative = imperatives.create("east")
         assertThat(imp.act()).isEqualTo("went east")
         imp = imperatives.create("e")
@@ -66,10 +66,12 @@ class VerbTranslator(val map:Map<String,Imperative>) {
     }
 }
 
-class ImperativeFactory(val verbTranslator:Map<String,Imperative>, val synonyms:Map<String,String> = synMap) {
+class ImperativeFactory(val verbTranslator:VerbTranslator, val synonyms:Map<String,String> = synMap) {
+    constructor(map: Map<String, Imperative>) : this(VerbTranslator(map))
+
     fun create(verb:String): Imperative = imperative(verb)
     fun create(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
-    private fun imperative(verb: String) = verbTranslator.getValue(synonym(verb))
+    private fun imperative(verb: String) = verbTranslator.translate(synonym(verb))
     private fun synonym(verb: String) = synonyms.getValue(verb)
 }
 
