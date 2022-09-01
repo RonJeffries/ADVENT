@@ -4,7 +4,7 @@ typealias Verb = String
 
 interface CommandContext {
     val directions: List<String>                // {e, east, w, west, up, dn, down ...}
-    val verbsTakingNoNoun: List<String>          // {inventory, look }
+    val verbsTakingNoNoun: List<String>         // {inventory, look }
     val magicWords: List<String>                // {xyzzy, plugh }
     val operations: Map<Verb,(Command)->String> // {take->(), ...}
 }
