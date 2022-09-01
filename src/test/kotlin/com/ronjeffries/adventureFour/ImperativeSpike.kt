@@ -11,6 +11,10 @@ data class Imperative(val verb: String, val noun: String) {
         }
         return action(this)
     }
+
+    fun setNoun(noun: String): Imperative {
+        return Imperative(verb,noun)
+    }
 }
 
 class ImperativeSpike {
@@ -50,16 +54,10 @@ class ImperativeSpike {
 }
 
 class ImperativeFactory(val map:Map<String,Imperative>, val synonyms:Map<String,String> = synMap) {
-    fun create(verb:String): Imperative {
-        return map.getValue(synonyms.getValue(verb))
-    }
-
-    fun create(verb:String, noun:String): Imperative {
-        val v = synonyms.getValue(verb)
-        val n = synonyms.getValue(noun)
-        val imp = map.getValue(v)
-        return Imperative(imp.verb, n)
-    }
+    fun create(verb:String): Imperative = imperative(verb)
+    fun create(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
+    private fun imperative(verb: String) = map.getValue(synonym(verb))
+    private fun synonym(verb: String) = synonyms.getValue(verb)
 }
 
 val synMap = mapOf("e" to "east", "n" to "north").withDefault { it }
