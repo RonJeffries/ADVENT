@@ -24,18 +24,18 @@ class ImperativeSpike {
     @Test
     fun `look up some imperatives`() {
         val imperatives = ImperativeMap(impTable)
-        var imp: Imperative = imperatives.getValue("east")
+        var imp: Imperative = imperatives.create("east")
         assertThat(imp).isEqualTo(Imperative("go","east"))
-        imp = imperatives.getValue("e")
+        imp = imperatives.create("e")
         assertThat(imp).isEqualTo(Imperative("go","east"))
     }
 
     @Test
     fun `imperative can act`() {
         val imperatives = ImperativeMap(impTable)
-        var imp: Imperative = imperatives.getValue("east")
+        var imp: Imperative = imperatives.create("east")
         assertThat(imp.act()).isEqualTo("went east")
-        imp = imperatives.getValue("e")
+        imp = imperatives.create("e")
         assertThat(imp.act()).isEqualTo("went east")
         imp = Imperative("forge", "sword")
         assertThat(imp.act()).isEqualTo("I can't forge a sword")
@@ -43,7 +43,7 @@ class ImperativeSpike {
 }
 
 class ImperativeMap(val map:Map<String,Imperative>, val synonyms:Map<String,String> = synMap) {
-    fun getValue(verb:String, noun:String = ""): Imperative {
+    fun create(verb:String, noun:String = ""): Imperative {
         return map.getValue(synonyms.getValue(verb))
     }
 }
