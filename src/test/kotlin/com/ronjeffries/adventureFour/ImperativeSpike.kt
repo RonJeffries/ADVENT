@@ -66,13 +66,17 @@ class VerbTranslator(val map:Map<String,Imperative>) {
     }
 }
 
-class ImperativeFactory(val verbTranslator:VerbTranslator, val synonyms:Map<String,String> = synMap) {
+class Synonyms(val map: Map<String,String>) {
+    fun synonym(word:String) = map.getValue(word)
+}
+
+class ImperativeFactory(val verbTranslator:VerbTranslator, val synonyms:Synonyms = Synonyms(synMap)) {
     constructor(map: Map<String, Imperative>) : this(VerbTranslator(map))
 
     fun create(verb:String): Imperative = imperative(verb)
     fun create(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
     private fun imperative(verb: String) = verbTranslator.translate(synonym(verb))
-    private fun synonym(verb: String) = synonyms.getValue(verb)
+    private fun synonym(verb: String) = synonyms.synonym(verb)
 }
 
 val synMap = mapOf("e" to "east", "n" to "north").withDefault { it }
