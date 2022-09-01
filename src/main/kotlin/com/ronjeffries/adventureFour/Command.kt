@@ -3,10 +3,10 @@ package com.ronjeffries.adventureFour
 typealias Verb = String
 
 interface CommandContext {
-    val directions: List<String>
-    val ignoredNounWords: List<String>
-    val magicWords: List<String>
-    val operations: Map<Verb,(Command)->String>
+    val directions: List<String>                // {e, east, w, west, up, dn, down ...}
+    val verbsTakingNoNoun: List<String>          // {inventory, look }
+    val magicWords: List<String>                // {xyzzy, plugh }
+    val operations: Map<Verb,(Command)->String> // {take->(), ...}
 }
 
 class TestCommandContext : CommandContext {
@@ -14,7 +14,7 @@ class TestCommandContext : CommandContext {
         "n","e","s","w","north","east","south","west",
         "nw","northwest", "sw","southwest", "ne", "northeast", "se", "southeast",
         "up","dn","down")
-    override val ignoredNounWords = listOf("inventory", "look")
+    override val verbsTakingNoNoun = listOf("inventory", "look")
     override val magicWords = listOf("xyzzy", "plugh", "wd40")
     override val operations: Map<Verb, (Command) -> String> = mutableMapOf(
         "commandError" to {command: Command -> "command error '${command.input}'." },
@@ -80,7 +80,7 @@ class Command(val input: String, val context: CommandContext = TestCommandContex
 
     fun singleWordCommands(): Command {
         if (words.size == 2) return this
-        if (words[0] in context.ignoredNounWords) words.add("ignored")
+        if (words[0] in context.verbsTakingNoNoun) words.add("ignored")
         return this
     }
 
