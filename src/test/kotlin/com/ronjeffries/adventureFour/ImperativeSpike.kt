@@ -73,16 +73,7 @@ data class Imperative(val verb: String, val noun: String) {
     var said: String = ""
     val actions = Actions()
     fun act():String {
-        actions.action(this)(this)
-//        val lam = actionTable.getValue(this.verb)
-//        lam(this)
-//        val action:(Imperative) -> String = when(verb) {
-//            "go" -> { _ -> "went $noun" }
-//            "say" -> { _ -> "said $noun"}
-//            "inventory" -> { _ -> "You got nothing"}
-//            else -> { _ -> "I can't $verb a $noun"}
-//        }
-//        return action(this)
+        actions.performAction(this)
         return said
     }
 
@@ -113,8 +104,8 @@ class Synonyms(private val map: Map<String,String>) {
 typealias Action = (Imperative) -> Unit
 
 class Actions(private val verbMap:Map<String, Action> = actionTable) {
-    fun action(imperative:Imperative): Action {
-        return verbMap.getValue((imperative.verb))
+    fun performAction(imperative:Imperative) {
+         verbMap.getValue((imperative.verb))(imperative)
     }
 }
 
