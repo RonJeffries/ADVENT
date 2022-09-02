@@ -35,7 +35,7 @@ class ImperativeSpike {
     @Test
     fun `two word legal command`() {
         val imperatives = ImperativeFactory(imperativeTable)
-        var imp = imperatives.create("go", "e")
+        val imp = imperatives.create("go", "e")
         assertThat(imp.act()).isEqualTo("went east")
     }
 
@@ -57,11 +57,11 @@ class ImperativeSpike {
         imp = imperatives.create("unknownWord")
         assertThat(imp.act()).isEqualTo("I can't unknownWord a none")
         imp = imperatives.create("inventory")
-        assertThat(imp.act()).isEqualTo("You got nuttin")
+        assertThat(imp.act()).isEqualTo("You got nothing")
     }
 
     @Test
-    fun `verbTranslator`() {
+    fun verbTranslator() {
         val vt = VerbTranslator(imperativeTable)
         val imp = vt.translate("east")
         assertThat(imp).isEqualTo(Imperative("go", "east"))
@@ -71,20 +71,18 @@ class ImperativeSpike {
 data class Imperative(val verb: String, val noun: String) {
     fun act():String {
         val action:(Imperative) -> String = when(verb) {
-            "go" -> { i -> "went $noun" }
-            "say" -> {i -> "said $noun"}
-            "inventory" -> {i-> "You got nuttin"}
-            else -> { i -> "I can't $verb a $noun"}
+            "go" -> { _ -> "went $noun" }
+            "say" -> { _ -> "said $noun"}
+            "inventory" -> { _ -> "You got nothing"}
+            else -> { _ -> "I can't $verb a $noun"}
         }
         return action(this)
     }
 
-    fun setNoun(noun: String): Imperative {
-        return Imperative(verb,noun)
-    }
+    fun setNoun(noun: String): Imperative = Imperative(verb,noun)
 }
 
-class ImperativeFactory(val verbTranslator:VerbTranslator, val synonyms:Synonyms = Synonyms(synonymTable)) {
+class ImperativeFactory(private val verbTranslator:VerbTranslator, private val synonyms:Synonyms = Synonyms(synonymTable)) {
     constructor(map: Map<String, Imperative>) : this(VerbTranslator(map))
 
     fun create(verb:String): Imperative = imperative(verb)
@@ -93,11 +91,11 @@ class ImperativeFactory(val verbTranslator:VerbTranslator, val synonyms:Synonyms
     private fun synonym(verb: String) = synonyms.synonym(verb)
 }
 
-class VerbTranslator(val map:Map<String,Imperative>) {
+class VerbTranslator(private val map:Map<String,Imperative>) {
     fun translate(verb:String): Imperative = map.getValue(verb)
 }
 
-class Synonyms(val map: Map<String,String>) {
+class Synonyms(private val map: Map<String,String>) {
     fun synonym(word:String) = map.getValue(word)
 }
 
