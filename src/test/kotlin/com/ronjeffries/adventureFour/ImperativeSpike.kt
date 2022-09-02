@@ -40,6 +40,27 @@ class ImperativeSpike {
     }
 
     @Test
+    fun `one and two word commands`() {
+        val imperatives = ImperativeFactory(imperativeTable)
+        var imp = imperatives.create("go", "w")
+        assertThat(imp.act()).isEqualTo("went west")
+        imp = imperatives.create("w")
+        assertThat(imp.act()).isEqualTo("went west")
+        imp = imperatives.create("xyzzy")
+        assertThat(imp.act()).isEqualTo("said xyzzy")
+        imp = imperatives.create("say", "xyzzy")
+        assertThat(imp.act()).isEqualTo("said xyzzy")
+        imp = imperatives.create("say", "unknownWord")
+        assertThat(imp.act()).isEqualTo("said unknownWord")
+        imp = imperatives.create("unknownVerb", "unknownNoun")
+        assertThat(imp.act()).isEqualTo("I can't unknownVerb a unknownNoun")
+        imp = imperatives.create("unknownWord")
+        assertThat(imp.act()).isEqualTo("I can't unknownWord a none")
+        imp = imperatives.create("inventory")
+        assertThat(imp.act()).isEqualTo("You got nuttin")
+    }
+
+    @Test
     fun `verbTranslator`() {
         val vt = VerbTranslator(imperativeTable)
         val imp = vt.translate("east")
@@ -51,6 +72,8 @@ data class Imperative(val verb: String, val noun: String) {
     fun act():String {
         val action:(Imperative) -> String = when(verb) {
             "go" -> { i -> "went $noun" }
+            "say" -> {i -> "said $noun"}
+            "inventory" -> {i-> "You got nuttin"}
             else -> { i -> "I can't $verb a $noun"}
         }
         return action(this)
@@ -80,10 +103,19 @@ class Synonyms(val map: Map<String,String>) {
 
 // language control tables. (prototypes)
 
-val synonymTable = mapOf("e" to "east", "n" to "north").withDefault { it }
+val synonymTable = mapOf(
+    "e" to "east",
+    "n" to "north",
+    "w" to "west",
+    "s" to "south").withDefault { it }
 
 val imperativeTable = mapOf(
+    "go" to Imperative("go", "irrelevant"),
     "east" to Imperative("go","east"),
-    "go" to Imperative("go", "irrelevant")
-    ).withDefault { (Imperative("none", "none"))
+    "west" to Imperative("go","west"),
+    "north" to Imperative("go","north"),
+    "south" to Imperative("go","south"),
+    "say" to Imperative("say", "irrelevant"),
+    "xyzzy" to Imperative("say", "xyzzy"),
+    ).withDefault { (Imperative(it, "none"))
 }
