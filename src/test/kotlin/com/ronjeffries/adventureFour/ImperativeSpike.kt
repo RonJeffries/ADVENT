@@ -68,15 +68,26 @@ class ImperativeSpike {
     }
 }
 
+
 data class Imperative(val verb: String, val noun: String) {
+    var said: String = ""
+    val actions = Actions()
     fun act():String {
-        val action:(Imperative) -> String = when(verb) {
-            "go" -> { _ -> "went $noun" }
-            "say" -> { _ -> "said $noun"}
-            "inventory" -> { _ -> "You got nothing"}
-            else -> { _ -> "I can't $verb a $noun"}
-        }
-        return action(this)
+        actions.action(this)(this)
+//        val lam = actionTable.getValue(this.verb)
+//        lam(this)
+//        val action:(Imperative) -> String = when(verb) {
+//            "go" -> { _ -> "went $noun" }
+//            "say" -> { _ -> "said $noun"}
+//            "inventory" -> { _ -> "You got nothing"}
+//            else -> { _ -> "I can't $verb a $noun"}
+//        }
+//        return action(this)
+        return said
+    }
+
+    fun say(s:String) {
+        said = s
     }
 
     fun setNoun(noun: String): Imperative = Imperative(verb,noun)
@@ -99,7 +110,21 @@ class Synonyms(private val map: Map<String,String>) {
     fun synonym(word:String) = map.getValue(word)
 }
 
+typealias Action = (Imperative) -> Unit
+
+class Actions(private val verbMap:Map<String, Action> = actionTable) {
+    fun action(imperative:Imperative): Action {
+        return verbMap.getValue((imperative.verb))
+    }
+}
+
 // language control tables. (prototypes)
+
+val actionTable = mapOf(
+    "go" to { imp:Imperative -> imp.say("went ${imp.noun}")},
+    "say" to { imp:Imperative -> imp.say("said ${imp.noun}")},
+    "inventory" to { imp:Imperative -> imp.say("You got nothing")}
+).withDefault {it ->{imp:Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
 
 val synonymTable = mapOf(
     "e" to "east",
