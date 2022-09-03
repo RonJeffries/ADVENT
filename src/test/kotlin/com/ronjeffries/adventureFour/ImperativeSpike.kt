@@ -74,12 +74,17 @@ class ImperativeSpike {
         val actions = Actions(actionTable)
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
+        val imp: Imperative = lexicon.translate(
+            lexicon.synonym("e")
+        )
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
     }
 }
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
-
+    fun translate(word: String): Imperative = verbs.translate((word))
 }
 
 
