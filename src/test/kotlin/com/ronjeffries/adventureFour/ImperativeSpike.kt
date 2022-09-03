@@ -79,6 +79,7 @@ class ImperativeSpike {
         )
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
+//        assertThat(imp.act(lexicon)).isEqualTo("went east")
     }
 }
 
@@ -89,13 +90,13 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
 
 
 data class Imperative(val verb: String, val noun: String) {
-    var said: String = ""
     val actions = Actions()
     fun act():String {
         actions.performAction(this)
         return said
     }
 
+    var said: String = ""
     fun say(s:String) {
         said = s
     }
