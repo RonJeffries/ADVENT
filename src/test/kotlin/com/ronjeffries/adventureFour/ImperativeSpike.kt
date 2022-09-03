@@ -25,39 +25,46 @@ class ImperativeSpike {
     fun `imperative can act`() {
         val imperatives = ImperativeFactory(Verbs(verbTable))
         var imp: Imperative = imperatives.create("east")
-        assertThat(imp.act()).isEqualTo("went east")
+        assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.create("e")
-        assertThat(imp.act()).isEqualTo("went east")
+        assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = Imperative("forge", "sword")
-        assertThat(imp.act()).isEqualTo("I can't forge a sword")
+        assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
+    }
+
+    fun testLex(): Lexicon {
+        val synonyms = Synonyms(synonymTable)
+        val verbs = Verbs(verbTable)
+        val actions = Actions(actionTable)
+        return Lexicon(synonyms, verbs, actions)
     }
 
     @Test
     fun `two word legal command`() {
         val imperatives = ImperativeFactory(verbTable)
         val imp = imperatives.create("go", "e")
-        assertThat(imp.act()).isEqualTo("went east")
+        assertThat(imp.act(testLex())).isEqualTo("went east")
     }
 
     @Test
     fun `one and two word commands`() {
         val imperatives = ImperativeFactory(verbTable)
         var imp = imperatives.create("go", "w")
-        assertThat(imp.act()).isEqualTo("went west")
+        assertThat(imp.act(testLex())).isEqualTo("went west")
         imp = imperatives.create("w")
-        assertThat(imp.act()).isEqualTo("went west")
+        assertThat(imp.act(testLex())).isEqualTo("went west")
         imp = imperatives.create("xyzzy")
-        assertThat(imp.act()).isEqualTo("said xyzzy")
+        assertThat(imp.act(testLex())).isEqualTo("said xyzzy")
         imp = imperatives.create("say", "xyzzy")
-        assertThat(imp.act()).isEqualTo("said xyzzy")
+        assertThat(imp.act(testLex())).isEqualTo("said xyzzy")
         imp = imperatives.create("say", "unknownWord")
-        assertThat(imp.act()).isEqualTo("said unknownWord")
+        assertThat(imp.act(testLex())).isEqualTo("said unknownWord")
         imp = imperatives.create("unknownVerb", "unknownNoun")
-        assertThat(imp.act()).isEqualTo("I can't unknownVerb a unknownNoun")
+        assertThat(imp.act(testLex())).isEqualTo("I can't unknownVerb a unknownNoun")
         imp = imperatives.create("unknownWord")
-        assertThat(imp.act()).isEqualTo("I can't unknownWord a none")
+        assertThat(imp.act(testLex())).isEqualTo("I can't unknownWord a none")
         imp = imperatives.create("inventory")
-        assertThat(imp.act()).isEqualTo("You got nothing")
+        assertThat(imp.act(testLex())).isEqualTo("You got nothing")
     }
 
     @Test
@@ -79,20 +86,20 @@ class ImperativeSpike {
         )
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
-//        assertThat(imp.act(lexicon)).isEqualTo("went east")
+        assertThat(imp.act(lexicon)).isEqualTo("went east")
     }
 }
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate((word))
+    fun act(imperative: Imperative) = actions.act(imperative)
 }
 
 
 data class Imperative(val verb: String, val noun: String) {
-    val actions = Actions()
-    fun act():String {
-        actions.performAction(this)
+    fun act(lexicon: Lexicon):String {
+        lexicon.act(this)
         return said
     }
 
@@ -124,7 +131,7 @@ class Synonyms(private val map: Map<String,String>) {
 typealias Action = (Imperative) -> Unit
 
 class Actions(private val verbMap:Map<String, Action> = actionTable) {
-    fun performAction(imperative:Imperative) {
+    fun act(imperative:Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
 }
