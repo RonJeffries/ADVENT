@@ -20,8 +20,7 @@ data class Imperative(val verb: String, val noun: String) {
     }
 }
 
-class ImperativeFactory(private val verbs: Verbs, private val synonyms: Synonyms = Synonyms(TestSynonymTable)) {
-    constructor(map: Map<String, Imperative>) : this(Verbs(map))
+class ImperativeFactory(private val verbs: Verbs, private val synonyms: Synonyms) {
 
     fun fromOneWord(verb:String): Imperative = imperative(verb)
     fun fromTwoWords(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
@@ -58,11 +57,7 @@ val TestActionTable = mapOf(
     "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
     "inventory" to { imp: Imperative -> imp.say("You got nothing")}
 ).withDefault {it ->{imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
-val TestSynonymTable = mapOf(
-    "e" to "east",
-    "n" to "north",
-    "w" to "west",
-    "s" to "south").withDefault { it }
+
 val TestVerbTable = mapOf(
     "go" to Imperative("go", "irrelevant"),
     "east" to Imperative("go", "east"),

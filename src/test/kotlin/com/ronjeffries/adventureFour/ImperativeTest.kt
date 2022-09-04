@@ -14,7 +14,7 @@ class ImperativeTest {
 
     @Test
     fun `look up some imperatives`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable))
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
         var imp: Imperative = imperatives.fromOneWord("east")
         assertThat(imp).isEqualTo(Imperative("go","east"))
         imp = imperatives.fromOneWord("e")
@@ -23,7 +23,7 @@ class ImperativeTest {
 
     @Test
     fun `imperative can act`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable))
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
         var imp: Imperative = imperatives.fromOneWord("east")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
@@ -41,14 +41,14 @@ class ImperativeTest {
 
     @Test
     fun `two word legal command`() {
-        val imperatives = ImperativeFactory(TestVerbTable)
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
         val imp = imperatives.fromTwoWords("go", "e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
     }
 
     @Test
     fun `one and two word commands`() {
-        val imperatives = ImperativeFactory(TestVerbTable)
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
         var imp = imperatives.fromTwoWords("go", "w")
         assertThat(imp.act(testLex())).isEqualTo("went west")
         imp = imperatives.fromOneWord("w")
@@ -91,7 +91,7 @@ class ImperativeTest {
 
     @Test
     fun `raw string input`() {
-        val factory = ImperativeFactory(TestVerbTable)
+        val factory = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
         var imp = factory.fromString("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
@@ -118,3 +118,8 @@ class ImperativeTest {
 
 // language control tables. (prototypes)
 
+val TestSynonymTable = mapOf(
+    "e" to "east",
+    "n" to "north",
+    "w" to "west",
+    "s" to "south").withDefault { it }
