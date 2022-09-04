@@ -22,7 +22,8 @@ class MainView: View() {
             go("e", "cows")
         }
         room("clearing") {
-            desc("You're in a clearing", "You're in a charming clearing. There is a fence to the east.")
+            desc("You're in a clearing",
+                "You're in a charming clearing. There is a fence to the east.")
             item("cows")
             go("n", "wellhouse")
             go("s","clearing")
@@ -41,7 +42,9 @@ class MainView: View() {
     override val root: Parent = vbox {
         minWidth = 400.0
         minHeight = 200.0
-        myText = textarea(textContents + "\n"+player.currentRoom.longDesc + ".\n" + player.currentRoom.itemString()) {
+        myText = textarea(textContents + "\n"
+                +player.currentRoom.longDesc + ".\n"
+                + player.currentRoom.itemString()) {
             isEditable = false
             vgrow = Priority.ALWAYS
         }
@@ -50,6 +53,7 @@ class MainView: View() {
             promptText = "Command"
         }
     }
+
     fun someoneTyped() {
         val cmd = myCommand.text
         player.command(cmd)
@@ -62,8 +66,7 @@ class MainView: View() {
 
 
 
-class HelloApplication : App(MainView::class) {
-}
+class HelloApplication : App(MainView::class)
 
 fun main() {
     launch<HelloApplication>()

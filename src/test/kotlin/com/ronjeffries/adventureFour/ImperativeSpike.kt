@@ -14,7 +14,7 @@ class ImperativeSpike {
 
     @Test
     fun `look up some imperatives`() {
-        val imperatives = ImperativeFactory(Verbs(verbTable))
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable))
         var imp: Imperative = imperatives.create("east")
         assertThat(imp).isEqualTo(Imperative("go","east"))
         imp = imperatives.create("e")
@@ -23,7 +23,7 @@ class ImperativeSpike {
 
     @Test
     fun `imperative can act`() {
-        val imperatives = ImperativeFactory(Verbs(verbTable))
+        val imperatives = ImperativeFactory(Verbs(TestVerbTable))
         var imp: Imperative = imperatives.create("east")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.create("e")
@@ -33,22 +33,22 @@ class ImperativeSpike {
     }
 
     fun testLex(): Lexicon {
-        val synonyms = Synonyms(synonymTable)
-        val verbs = Verbs(verbTable)
-        val actions = Actions(actionTable)
+        val synonyms = Synonyms(TestSynonymTable)
+        val verbs = Verbs(TestVerbTable)
+        val actions = Actions(TestActionTable)
         return Lexicon(synonyms, verbs, actions)
     }
 
     @Test
     fun `two word legal command`() {
-        val imperatives = ImperativeFactory(verbTable)
+        val imperatives = ImperativeFactory(TestVerbTable)
         val imp = imperatives.create("go", "e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
     }
 
     @Test
     fun `one and two word commands`() {
-        val imperatives = ImperativeFactory(verbTable)
+        val imperatives = ImperativeFactory(TestVerbTable)
         var imp = imperatives.create("go", "w")
         assertThat(imp.act(testLex())).isEqualTo("went west")
         imp = imperatives.create("w")
@@ -69,16 +69,16 @@ class ImperativeSpike {
 
     @Test
     fun verbTranslator() {
-        val vt = Verbs(verbTable)
+        val vt = Verbs(TestVerbTable)
         val imp = vt.translate("east")
         assertThat(imp).isEqualTo(Imperative("go", "east"))
     }
 
     @Test
     fun `create a lexicon`() {
-        val synonyms = Synonyms(synonymTable)
-        val verbs = Verbs(verbTable)
-        val actions = Actions(actionTable)
+        val synonyms = Synonyms(TestSynonymTable)
+        val verbs = Verbs(TestVerbTable)
+        val actions = Actions(TestActionTable)
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
         val imp: Imperative = lexicon.translate(
@@ -111,7 +111,7 @@ data class Imperative(val verb: String, val noun: String) {
     fun setNoun(noun: String): Imperative = Imperative(verb,noun)
 }
 
-class ImperativeFactory(private val verbs:Verbs, private val synonyms:Synonyms = Synonyms(synonymTable)) {
+class ImperativeFactory(private val verbs:Verbs, private val synonyms:Synonyms = Synonyms(TestSynonymTable)) {
     constructor(map: Map<String, Imperative>) : this(Verbs(map))
 
     fun create(verb:String): Imperative = imperative(verb)
@@ -130,7 +130,7 @@ class Synonyms(private val map: Map<String,String>) {
 
 typealias Action = (Imperative) -> Unit
 
-class Actions(private val verbMap:Map<String, Action> = actionTable) {
+class Actions(private val verbMap:Map<String, Action> = TestActionTable) {
     fun act(imperative:Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
@@ -138,19 +138,19 @@ class Actions(private val verbMap:Map<String, Action> = actionTable) {
 
 // language control tables. (prototypes)
 
-val actionTable = mapOf(
+val TestActionTable = mapOf(
     "go" to { imp:Imperative -> imp.say("went ${imp.noun}")},
     "say" to { imp:Imperative -> imp.say("said ${imp.noun}")},
     "inventory" to { imp:Imperative -> imp.say("You got nothing")}
 ).withDefault {it ->{imp:Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
 
-val synonymTable = mapOf(
+val TestSynonymTable = mapOf(
     "e" to "east",
     "n" to "north",
     "w" to "west",
     "s" to "south").withDefault { it }
 
-val verbTable = mapOf(
+val TestVerbTable = mapOf(
     "go" to Imperative("go", "irrelevant"),
     "east" to Imperative("go","east"),
     "west" to Imperative("go","west"),
