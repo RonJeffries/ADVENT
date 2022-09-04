@@ -46,15 +46,9 @@ class Synonyms(private val map: Map<String,String>) {
 }
 typealias Action = (Imperative) -> Unit
 
-class Actions(private val verbMap:Map<String, Action> = TestActionTable) {
+class Actions(private val verbMap:Map<String, Action>) {
     fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
 }
-
-val TestActionTable = mapOf(
-    "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
-    "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
-    "inventory" to { imp: Imperative -> imp.say("You got nothing")}
-).withDefault {it ->{imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
 
