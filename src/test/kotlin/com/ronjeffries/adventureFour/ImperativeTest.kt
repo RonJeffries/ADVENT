@@ -123,3 +123,13 @@ val TestSynonymTable = mapOf(
     "n" to "north",
     "w" to "west",
     "s" to "south").withDefault { it }
+val TestVerbTable = mapOf(
+    "go" to Imperative("go", "irrelevant"),
+    "east" to Imperative("go", "east"),
+    "west" to Imperative("go", "west"),
+    "north" to Imperative("go", "north"),
+    "south" to Imperative("go", "south"),
+    "say" to Imperative("say", "irrelevant"),
+    "xyzzy" to Imperative("say", "xyzzy"),
+    ).withDefault { (Imperative(it, "none"))
+}

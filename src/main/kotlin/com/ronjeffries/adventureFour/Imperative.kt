@@ -58,13 +58,3 @@ val TestActionTable = mapOf(
     "inventory" to { imp: Imperative -> imp.say("You got nothing")}
 ).withDefault {it ->{imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
 
-val TestVerbTable = mapOf(
-    "go" to Imperative("go", "irrelevant"),
-    "east" to Imperative("go", "east"),
-    "west" to Imperative("go", "west"),
-    "north" to Imperative("go", "north"),
-    "south" to Imperative("go", "south"),
-    "say" to Imperative("say", "irrelevant"),
-    "xyzzy" to Imperative("say", "xyzzy"),
-    ).withDefault { (Imperative(it, "none"))
-}
