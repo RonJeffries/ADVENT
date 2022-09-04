@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test
 
 
 class ImperativeTest {
-    fun getFactory() = ImperativeFactory(getVerbs(), Synonyms(TestSynonymTable))
-    fun getVerbs() = Verbs(TestVerbTable)
+    private fun getFactory() = ImperativeFactory(getVerbs(), getSynonyms())
+    private fun getVerbs() = Verbs(TestVerbTable)
+    private fun getSynonyms() = Synonyms(TestSynonymTable)
+    private fun getActions() = Actions(TestActionTable)
 
     @Test
     fun `create Imperative`() {
@@ -36,9 +38,9 @@ class ImperativeTest {
     }
 
     fun testLex(): Lexicon {
-        val synonyms = Synonyms(TestSynonymTable)
+        val synonyms = getSynonyms()
         val verbs = getVerbs()
-        val actions = Actions(TestActionTable)
+        val actions = getActions()
         return Lexicon(synonyms, verbs, actions)
     }
 
@@ -79,9 +81,9 @@ class ImperativeTest {
 
     @Test
     fun `create a lexicon`() {
-        val synonyms = Synonyms(TestSynonymTable)
+        val synonyms = getSynonyms()
         val verbs = getVerbs()
-        val actions = Actions(TestActionTable)
+        val actions = getActions()
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
         val imp: Imperative = lexicon.translate(
@@ -121,13 +123,13 @@ class ImperativeTest {
 
 // language control tables. (prototypes)
 
-val TestSynonymTable = mapOf(
+private val TestSynonymTable = mapOf(
     "e" to "east",
     "n" to "north",
     "w" to "west",
     "s" to "south").withDefault { it }
 
-val TestVerbTable = mapOf(
+private val TestVerbTable = mapOf(
     "go" to Imperative("go", "irrelevant"),
     "east" to Imperative("go", "east"),
     "west" to Imperative("go", "west"),
@@ -138,7 +140,7 @@ val TestVerbTable = mapOf(
     ).withDefault { (Imperative(it, "none"))
 }
 
-val TestActionTable = mapOf(
+private val TestActionTable = mapOf(
     "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
     "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
     "inventory" to { imp: Imperative -> imp.say("You got nothing")}
