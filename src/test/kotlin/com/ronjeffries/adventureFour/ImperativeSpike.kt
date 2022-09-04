@@ -95,6 +95,23 @@ class ImperativeSpike {
         var imp = factory.fromString("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
+        imp = factory.fromString("go west")
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("west")
+        imp = factory.fromString("Go West")
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("west")
+        val tooMany = "too many words"
+        imp = factory.fromString(tooMany)
+        assertThat(imp.verb).isEqualTo(":tooManyWords")
+        assertThat(imp.noun).isEqualTo(tooMany)
+        imp = factory.fromString("")
+        assertThat(imp.verb).isEqualTo("")
+        assertThat(imp.noun).isEqualTo("none")
+        val noWords = "234563^%$#@"
+        imp = factory.fromString(noWords)
+        assertThat(imp.verb).isEqualTo(noWords)
+        assertThat(imp.noun).isEqualTo("none")
     }
 }
 
@@ -128,7 +145,12 @@ class ImperativeFactory(private val verbs:Verbs, private val synonyms:Synonyms =
     private fun synonym(verb: String) = synonyms.synonym(verb)
 
     fun fromString(input: String): Imperative {
-        return fromOneWord(input)
+        val words = input.lowercase().split(" ")
+        return when (words.size) {
+            1-> fromOneWord(words[0])
+            2-> fromTwoWords(words[0], words[1])
+            else -> fromTwoWords(":tooManyWords", input)
+        }
     }
 }
 
