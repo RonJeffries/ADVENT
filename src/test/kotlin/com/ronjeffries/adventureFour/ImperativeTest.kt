@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test
 
 
 class ImperativeTest {
-    private fun getFactory() = ImperativeFactory(getVerbs(), getSynonyms())
+    private fun getFactory() = ImperativeFactory(getLexicon())
     private fun getVerbs() = Verbs(TestVerbTable)
     private fun getSynonyms() = Synonyms(TestSynonymTable)
     private fun getActions() = Actions(TestActionTable)
+    private fun getLexicon() = Lexicon(getSynonyms(),getVerbs(),getActions())
 
     @Test
     fun `create Imperative`() {
@@ -37,7 +38,7 @@ class ImperativeTest {
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
-    fun testLex(): Lexicon {
+    private fun testLex(): Lexicon {
         val synonyms = getSynonyms()
         val verbs = getVerbs()
         val actions = getActions()
@@ -120,7 +121,6 @@ class ImperativeTest {
     }
 }
 
-
 // language control tables. (prototypes)
 
 private val TestSynonymTable = mapOf(
@@ -144,4 +144,4 @@ private val TestActionTable = mapOf(
     "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
     "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
     "inventory" to { imp: Imperative -> imp.say("You got nothing")}
-).withDefault {it ->{imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
+).withDefault { { imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}

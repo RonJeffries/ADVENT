@@ -2,7 +2,7 @@ package com.ronjeffries.adventureFour
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
-    fun translate(word: String): Imperative = verbs.translate((word))
+    fun translate(word: String): Imperative = verbs.translate(word)
     fun act(imperative: Imperative) = actions.act(imperative)
 }
 
@@ -20,12 +20,12 @@ data class Imperative(val verb: String, val noun: String) {
     }
 }
 
-class ImperativeFactory(private val verbs: Verbs, private val synonyms: Synonyms) {
+class ImperativeFactory(val lexicon: Lexicon) {
 
     fun fromOneWord(verb:String): Imperative = imperative(verb)
     fun fromTwoWords(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
-    private fun imperative(verb: String) = verbs.translate(synonym(verb))
-    private fun synonym(verb: String) = synonyms.synonym(verb)
+    private fun imperative(verb: String) = lexicon.translate(synonym(verb))
+    private fun synonym(verb: String) = lexicon.synonym(verb)
 
     fun fromString(input: String): Imperative {
         val words = input.lowercase().split(" ")
