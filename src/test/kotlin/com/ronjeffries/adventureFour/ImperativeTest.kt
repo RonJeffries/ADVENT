@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test
 
 
 class ImperativeTest {
+    fun getFactory() = ImperativeFactory(getVerbs(), Synonyms(TestSynonymTable))
+    fun getVerbs() = Verbs(TestVerbTable)
+
     @Test
     fun `create Imperative`() {
         val imp = Imperative("go", "east")
@@ -14,7 +17,7 @@ class ImperativeTest {
 
     @Test
     fun `look up some imperatives`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
+        val imperatives = getFactory()
         var imp: Imperative = imperatives.fromOneWord("east")
         assertThat(imp).isEqualTo(Imperative("go","east"))
         imp = imperatives.fromOneWord("e")
@@ -23,7 +26,7 @@ class ImperativeTest {
 
     @Test
     fun `imperative can act`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
+        val imperatives  = getFactory()
         var imp: Imperative = imperatives.fromOneWord("east")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
@@ -34,21 +37,21 @@ class ImperativeTest {
 
     fun testLex(): Lexicon {
         val synonyms = Synonyms(TestSynonymTable)
-        val verbs = Verbs(TestVerbTable)
+        val verbs = getVerbs()
         val actions = Actions(TestActionTable)
         return Lexicon(synonyms, verbs, actions)
     }
 
     @Test
     fun `two word legal command`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
+        val imperatives  = getFactory()
         val imp = imperatives.fromTwoWords("go", "e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
     }
 
     @Test
     fun `one and two word commands`() {
-        val imperatives = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
+        val imperatives  = getFactory()
         var imp = imperatives.fromTwoWords("go", "w")
         assertThat(imp.act(testLex())).isEqualTo("went west")
         imp = imperatives.fromOneWord("w")
@@ -69,15 +72,15 @@ class ImperativeTest {
 
     @Test
     fun verbTranslator() {
-        val vt = Verbs(TestVerbTable)
-        val imp = vt.translate("east")
+        val verbs = getVerbs()
+        val imp = verbs.translate("east")
         assertThat(imp).isEqualTo(Imperative("go", "east"))
     }
 
     @Test
     fun `create a lexicon`() {
         val synonyms = Synonyms(TestSynonymTable)
-        val verbs = Verbs(TestVerbTable)
+        val verbs = getVerbs()
         val actions = Actions(TestActionTable)
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
@@ -91,7 +94,7 @@ class ImperativeTest {
 
     @Test
     fun `raw string input`() {
-        val factory = ImperativeFactory(Verbs(TestVerbTable), Synonyms(TestSynonymTable))
+        val factory  = getFactory()
         var imp = factory.fromString("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
@@ -123,6 +126,7 @@ val TestSynonymTable = mapOf(
     "n" to "north",
     "w" to "west",
     "s" to "south").withDefault { it }
+
 val TestVerbTable = mapOf(
     "go" to Imperative("go", "irrelevant"),
     "east" to Imperative("go", "east"),
@@ -133,6 +137,7 @@ val TestVerbTable = mapOf(
     "xyzzy" to Imperative("say", "xyzzy"),
     ).withDefault { (Imperative(it, "none"))
 }
+
 val TestActionTable = mapOf(
     "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
     "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
