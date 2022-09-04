@@ -88,6 +88,14 @@ class ImperativeSpike {
         assertThat(imp.noun).isEqualTo("east")
         assertThat(imp.act(lexicon)).isEqualTo("went east")
     }
+
+    @Test
+    fun `raw string input`() {
+        val factory = ImperativeFactory(TestVerbTable)
+        var imp = factory.fromString("east")
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
+    }
 }
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
@@ -118,6 +126,10 @@ class ImperativeFactory(private val verbs:Verbs, private val synonyms:Synonyms =
     fun fromTwoWords(verb:String, noun:String) = imperative(verb).setNoun(synonym(noun))
     private fun imperative(verb: String) = verbs.translate(synonym(verb))
     private fun synonym(verb: String) = synonyms.synonym(verb)
+
+    fun fromString(input: String): Imperative {
+        return fromOneWord(input)
+    }
 }
 
 class Verbs(private val map:Map<String,Imperative>) {
