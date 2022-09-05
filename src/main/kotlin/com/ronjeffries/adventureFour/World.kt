@@ -8,6 +8,41 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
+    val lexicon = makeLexicon()
+
+    private fun makeLexicon(): Lexicon {
+        return Lexicon(makeSynonyms(), makeVerbs(), makeActions())
+    }
+
+    private fun makeSynonyms(): Synonyms {
+        return Synonyms( mutableMapOf(
+            "e" to "east",
+            "n" to "north",
+            "w" to "west",
+            "s" to "south").withDefault { it }
+        )
+    }
+
+    private fun makeVerbs(): Verbs {
+        return Verbs(mutableMapOf(
+            "go" to Imperative("go", "irrelevant"),
+            "east" to Imperative("go", "east"),
+            "west" to Imperative("go", "west"),
+            "north" to Imperative("go", "north"),
+            "south" to Imperative("go", "south"),
+            "say" to Imperative("say", "irrelevant"),
+            "xyzzy" to Imperative("say", "xyzzy"),
+        ).withDefault { (Imperative(it, "none"))})
+    }
+
+    private fun makeActions(): Actions {
+        return Actions(mutableMapOf(
+            "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
+            "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
+            "inventory" to { imp: Imperative -> imp.say("You got nothing")}
+        ).withDefault { { imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }})
+    }
+
     val flags = GameStatusMap()
     val inventory = mutableSetOf<String>()
     val name = "world"

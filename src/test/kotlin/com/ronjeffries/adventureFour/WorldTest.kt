@@ -77,4 +77,10 @@ class WorldTest {
         room.command(Command("take axe"), world)
         assertThat(r2.resultString).contains("I see no axe here!\n")
     }
+
+    @Test
+    fun `world has lexicon`() {
+        val world = world {}
+        val lex = world.lexicon
+    }
 }
