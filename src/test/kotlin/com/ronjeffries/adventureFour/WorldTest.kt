@@ -82,5 +82,9 @@ class WorldTest {
     fun `world has lexicon`() {
         val world = world {}
         val lex = world.lexicon
+        assertThat(lex.synonym("e")).isEqualTo("east")
+        val imp = lex.translate("east")
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
     }
 }
