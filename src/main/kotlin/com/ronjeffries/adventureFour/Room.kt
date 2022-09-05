@@ -23,52 +23,57 @@ class Room(val roomName: String) {
 
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
-        command.validate()
-        val action: (Command, World)->Unit = when(command.verb) {
+        val factory = ImperativeFactory(world.lexicon)
+        val imperative = factory.fromString(command.input)
+        world.testVerb = imperative.verb
+        world.testNoun = imperative.noun
+        print("imperative verb = ${imperative.verb}")
+        val action: (Imperative, World)->Unit = when(imperative.verb) {
             "inventory" -> inventory
             "take" -> take
             "go" -> move
             "say" -> castSpell
             else -> unknown
         }
-        action(command, world)
+        action(imperative, world)
     }
 
     fun itemString(): String {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    val move = {command: Command, world: World ->
-        val (targetName, allowed) = moves.getValue(command.noun)
+    val move = {imperative: Imperative, world: World ->
+        val (targetName, allowed) = moves.getValue(imperative.noun)
+        println("target = $targetName")
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 
-    private val unknown = { command: Command, world: World ->
-        world.response.say("unknown command '${command.verb} ${command.noun}'")
+    private val unknown = { imperative: Imperative, world: World ->
+        world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 
-    private val inventory = { _:Command, world:World ->
+    private val inventory = { _:Imperative, world:World ->
         world.showInventory()
     }
 
-    private val take = { command: Command, world: World ->
-        val done = contents.remove(command.noun)
+    private val take = { imperative: Imperative, world: World ->
+        val done = contents.remove(imperative.noun)
         if ( done ) {
-            world.addToInventory(command.noun)
-            world.response.say("${command.noun} taken.")
+            world.addToInventory(imperative.noun)
+            world.response.say("${imperative.noun} taken.")
         } else {
-            world.response.say("I see no ${command.noun} here!")
+            world.response.say("I see no ${imperative.noun} here!")
         }
     }
 
-    private val castSpell = { command: Command, world: World ->
-        when (command.noun) {
+    private val castSpell = { imperative: Imperative, world: World ->
+        when (imperative.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
                 world.response.say("The magic wd40 works! The padlock is unlocked!")
             }
             "xyzzy" -> {
-                move(command, world)
+                move(imperative, world)
             }
             else -> {
                 world.response.say("Nothing happens here.")

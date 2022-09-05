@@ -8,6 +8,8 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
+    var testNoun: String = ""
+    var testVerb: String = ""
     val lexicon = makeLexicon()
 
     private fun makeLexicon(): Lexicon {
@@ -16,22 +18,23 @@ class World {
 
     private fun makeSynonyms(): Synonyms {
         return Synonyms( mutableMapOf(
-            "e" to "east",
-            "n" to "north",
-            "w" to "west",
-            "s" to "south").withDefault { it }
+            "east" to "e",
+            "north" to "n",
+            "west" to "w",
+            "south" to "s").withDefault { it }
         )
     }
 
     private fun makeVerbs(): Verbs {
         return Verbs(mutableMapOf(
             "go" to Imperative("go", "irrelevant"),
-            "east" to Imperative("go", "east"),
-            "west" to Imperative("go", "west"),
-            "north" to Imperative("go", "north"),
-            "south" to Imperative("go", "south"),
+            "e" to Imperative("go", "e"),
+            "w" to Imperative("go", "w"),
+            "n" to Imperative("go", "n"),
+            "s" to Imperative("go", "s"),
             "say" to Imperative("say", "irrelevant"),
             "xyzzy" to Imperative("say", "xyzzy"),
+            "wd40" to Imperative("say","wd40"),
         ).withDefault { (Imperative(it, "none"))})
     }
 
