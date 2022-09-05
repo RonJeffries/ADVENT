@@ -27,7 +27,6 @@ class Room(val roomName: String) {
         val imperative = factory.fromString(command.input)
         world.testVerb = imperative.verb
         world.testNoun = imperative.noun
-        print("imperative verb = ${imperative.verb}")
         val action: (Imperative, World)->Unit = when(imperative.verb) {
             "inventory" -> inventory
             "take" -> take
@@ -44,7 +43,6 @@ class Room(val roomName: String) {
 
     val move = {imperative: Imperative, world: World ->
         val (targetName, allowed) = moves.getValue(imperative.noun)
-        println("target = $targetName")
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 
