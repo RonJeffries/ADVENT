@@ -73,9 +73,9 @@ class Verbs(private val map:Map<String, Imperative>) {
 class Synonyms(private val map: Map<String,String>) {
     fun synonym(word:String) = map.getValue(word)
 }
-//typealias Action = (Imperative) -> Unit
+typealias Action = (Imperative) -> Unit
 
-class Actions(private val verbMap: MutableMap<String, (Imperative) -> Unit>) {
+class Actions(private val verbMap: MutableMap<String, Action>) {
     fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
