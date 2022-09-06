@@ -27,15 +27,15 @@ class World {
 
     private fun makeVerbs(): Verbs {
         return Verbs(mutableMapOf(
-            "go" to Imperative("go", "irrelevant"),
-            "e" to Imperative("go", "e"),
-            "w" to Imperative("go", "w"),
-            "n" to Imperative("go", "n"),
-            "s" to Imperative("go", "s"),
-            "say" to Imperative("say", "irrelevant"),
-            "xyzzy" to Imperative("say", "xyzzy"),
-            "wd40" to Imperative("say","wd40"),
-        ).withDefault { (Imperative(it, "none"))})
+            "go" to SimpleImperative("go", "irrelevant"),
+            "e" to SimpleImperative("go", "e"),
+            "w" to SimpleImperative("go", "w"),
+            "n" to SimpleImperative("go", "n"),
+            "s" to SimpleImperative("go", "s"),
+            "say" to SimpleImperative("say", "irrelevant"),
+            "xyzzy" to SimpleImperative("say", "xyzzy"),
+            "wd40" to SimpleImperative("say","wd40"),
+        ).withDefault { (SimpleImperative(it, "none"))})
     }
 
     private fun makeActions(): Actions {

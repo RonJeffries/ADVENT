@@ -13,7 +13,7 @@ class ImperativeTest {
 
     @Test
     fun `create Imperative`() {
-        val imp = Imperative("go", "east")
+        val imp = SimpleImperative("go", "east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
     }
@@ -22,9 +22,9 @@ class ImperativeTest {
     fun `look up some imperatives`() {
         val imperatives = getFactory()
         var imp: Imperative = imperatives.fromOneWord("east")
-        assertThat(imp).isEqualTo(Imperative("go","east"))
+        assertThat(imp).isEqualTo(SimpleImperative("go","east"))
         imp = imperatives.fromOneWord("e")
-        assertThat(imp).isEqualTo(Imperative("go","east"))
+        assertThat(imp).isEqualTo(SimpleImperative("go","east"))
     }
 
     @Test
@@ -34,7 +34,7 @@ class ImperativeTest {
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
-        imp = Imperative("forge", "sword")
+        imp = SimpleImperative("forge", "sword")
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
@@ -77,7 +77,7 @@ class ImperativeTest {
     fun verbTranslator() {
         val verbs = getVerbs()
         val imp = verbs.translate("east")
-        assertThat(imp).isEqualTo(Imperative("go", "east"))
+        assertThat(imp).isEqualTo(SimpleImperative("go", "east"))
     }
 
     @Test
@@ -123,24 +123,24 @@ class ImperativeTest {
 
 // language control tables. (prototypes)
 
-private val TestSynonymTable = mapOf(
+private val TestSynonymTable = mutableMapOf(
     "e" to "east",
     "n" to "north",
     "w" to "west",
     "s" to "south").withDefault { it }
 
-private val TestVerbTable = mapOf(
-    "go" to Imperative("go", "irrelevant"),
-    "east" to Imperative("go", "east"),
-    "west" to Imperative("go", "west"),
-    "north" to Imperative("go", "north"),
-    "south" to Imperative("go", "south"),
-    "say" to Imperative("say", "irrelevant"),
-    "xyzzy" to Imperative("say", "xyzzy"),
-    ).withDefault { (Imperative(it, "none"))
+private val TestVerbTable = mutableMapOf(
+    "go" to SimpleImperative("go", "irrelevant"),
+    "east" to SimpleImperative("go", "east"),
+    "west" to SimpleImperative("go", "west"),
+    "north" to SimpleImperative("go", "north"),
+    "south" to SimpleImperative("go", "south"),
+    "say" to SimpleImperative("say", "irrelevant"),
+    "xyzzy" to SimpleImperative("say", "xyzzy"),
+    ).withDefault { (SimpleImperative(it, "none"))
 }
 
-private val TestActionTable = mapOf(
+private val TestActionTable = mutableMapOf(
     "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
     "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
     "inventory" to { imp: Imperative -> imp.say("You got nothing")}

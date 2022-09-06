@@ -27,14 +27,15 @@ class Room(val roomName: String) {
         val imperative = factory.fromString(command.input)
         world.testVerb = imperative.verb
         world.testNoun = imperative.noun
-        imperative.act(world, this)
+        val imp = WorldImperative(imperative.verb,imperative.noun,world, this)
+        imp.act(world.lexicon)
     }
 
     fun itemString(): String {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    val move = {imperative: Imperative, world: World ->
+    val move = { imperative: Imperative, world: World ->
         val (targetName, allowed) = moves.getValue(imperative.noun)
         if (allowed(world)) world.response.nextRoomName = targetName
     }
