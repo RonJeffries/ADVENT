@@ -27,14 +27,7 @@ class Room(val roomName: String) {
         val imperative = factory.fromString(command.input)
         world.testVerb = imperative.verb
         world.testNoun = imperative.noun
-        val action: (Imperative, World)->Unit = when(imperative.verb) {
-            "inventory" -> inventory
-            "take" -> take
-            "go" -> move
-            "say" -> castSpell
-            else -> unknown
-        }
-        action(imperative, world)
+        imperative.act(world, this)
     }
 
     fun itemString(): String {
@@ -46,15 +39,15 @@ class Room(val roomName: String) {
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 
-    private val unknown = { imperative: Imperative, world: World ->
+    val unknown = { imperative: Imperative, world: World ->
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 
-    private val inventory = { _:Imperative, world:World ->
+    val inventory = { _:Imperative, world:World ->
         world.showInventory()
     }
 
-    private val take = { imperative: Imperative, world: World ->
+    val take = { imperative: Imperative, world: World ->
         val done = contents.remove(imperative.noun)
         if ( done ) {
             world.addToInventory(imperative.noun)
@@ -64,7 +57,7 @@ class Room(val roomName: String) {
         }
     }
 
-    private val castSpell = { imperative: Imperative, world: World ->
+    val castSpell = { imperative: Imperative, world: World ->
         when (imperative.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)

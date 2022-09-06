@@ -7,12 +7,21 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
 }
 
 data class Imperative(val verb: String, val noun: String) {
+    lateinit var world: World
+    lateinit var room: Room
     fun setNoun(noun: String): Imperative = Imperative(verb, noun)
 
     fun act(lexicon: Lexicon):String {
         lexicon.act(this)
         return said
     }
+
+    fun act(world: World, room: Room) {
+        this.world = world
+        this.room = room
+        act(world.lexicon)
+    }
+
     var said: String = ""
 
     fun say(s:String) {
