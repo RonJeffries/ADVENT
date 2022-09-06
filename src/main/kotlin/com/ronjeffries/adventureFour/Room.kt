@@ -40,6 +40,7 @@ class Room(val roomName: String) {
     }
 
     val unknown = { imperative: Imperative, world: World ->
+        println("unknown")
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 

@@ -89,4 +89,18 @@ class WorldTest {
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("e")
     }
+
+    @Test
+    fun `unknown command`() {
+        val world = world {
+            room("woods") {
+                desc("You are in the woods.", "You are in the dark woods.")
+            }
+        }
+        val room = world.unsafeRoomNamed("woods")
+        val response = GameResponse()
+        val badCommand = Command("abcd efgh")
+        world.command(badCommand, room, response)
+        assertThat(response.resultString).contains("unknown command 'abcd efgh'")
+    }
 }

@@ -40,11 +40,14 @@ class World {
 
     private fun makeActions(): Actions {
         return Actions(mutableMapOf(
-            "go" to { imp: Imperative -> imp.room.move(imp, imp.world)},
-            "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world)},
-            "take" to { imp: Imperative -> imp.room.take(imp, imp.world)},
-            "inventory" to { imp: Imperative -> imp.room.inventory(imp, imp.world)},
-        ).withDefault { { imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }})
+            "go" to { imp: Imperative -> imp.room.move(imp, imp.world) },
+            "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
+            "take" to { imp: Imperative -> imp.room.take(imp, imp.world) },
+            "inventory" to { imp: Imperative -> imp.room.inventory(imp, imp.world) },
+        ).withDefault {
+            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+        }
+        )
     }
 
     val flags = GameStatusMap()
