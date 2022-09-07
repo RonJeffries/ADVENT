@@ -103,4 +103,18 @@ class WorldTest {
         world.command(badCommand, room, response)
         assertThat(response.resultString).contains("unknown command 'abcd efgh'")
     }
+
+    @Test
+    fun `shouts echo`() {
+        val world = world {
+            room("woods") {
+                desc("You are in the woods.", "You are in the dark woods.")
+            }
+        }
+        val room = world.unsafeRoomNamed("woods")
+        val response = GameResponse()
+        val command = Command("shout hello")
+        world.command(command, room, response)
+        assertThat(response.resultString).contains("Your shout of HELLO echoes through the area.")
+    }
 }

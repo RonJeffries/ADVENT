@@ -35,18 +35,24 @@ class Room(val roomName: String) {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    val move = { imperative: Imperative, world: World ->
-        val (targetName, allowed) = moves.getValue(imperative.noun)
-        if (allowed(world)) world.response.nextRoomName = targetName
-    }
-
-    val unknown = { imperative: Imperative, world: World ->
-        println("unknown")
-        world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
+    val castSpell = { imperative: Imperative, world: World ->
+        when (imperative.noun) {
+            "wd40" -> {
+                world.flags.get("unlocked").set(true)
+                world.response.say("The magic wd40 works! The padlock is unlocked!")
+            }
+            "xyzzy" -> { move(imperative, world) }
+            else -> { world.response.say("Nothing happens here.") }
+        }
     }
 
     val inventory = { _:Imperative, world:World ->
         world.showInventory()
+    }
+
+    val move = { imperative: Imperative, world: World ->
+        val (targetName, allowed) = moves.getValue(imperative.noun)
+        if (allowed(world)) world.response.nextRoomName = targetName
     }
 
     val take = { imperative: Imperative, world: World ->
@@ -59,19 +65,9 @@ class Room(val roomName: String) {
         }
     }
 
-    val castSpell = { imperative: Imperative, world: World ->
-        when (imperative.noun) {
-            "wd40" -> {
-                world.flags.get("unlocked").set(true)
-                world.response.say("The magic wd40 works! The padlock is unlocked!")
-            }
-            "xyzzy" -> {
-                move(imperative, world)
-            }
-            else -> {
-                world.response.say("Nothing happens here.")
-            }
-        }
+    val unknown = { imperative: Imperative, world: World ->
+        println("unknown")
+        world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 
     fun item(thing: String) {

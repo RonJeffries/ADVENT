@@ -12,6 +12,8 @@ data class Imperative(
     val world: World,
     val room: Room )  {
 
+    fun say(s: String) = world.say(s)
+
     fun setNoun(noun: String): Imperative {
         return Imperative(verb, noun, world, room)
     }
@@ -23,7 +25,7 @@ data class Imperative(
 
     var testingSaid: String = ""
 
-    fun say(s:String) {
+    fun testingSay(s:String) {
         testingSaid = s
     }
 
