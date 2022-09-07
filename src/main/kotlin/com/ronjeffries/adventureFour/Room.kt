@@ -46,10 +46,6 @@ class Room(val roomName: String) {
         }
     }
 
-    val inventory = { _:Imperative, world:World ->
-        world.showInventory()
-    }
-
     val move = { imperative: Imperative, world: World ->
         val (targetName, allowed) = moves.getValue(imperative.noun)
         if (allowed(world)) world.response.nextRoomName = targetName

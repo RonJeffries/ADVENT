@@ -43,7 +43,7 @@ class World {
             "go" to { imp: Imperative -> imp.room.move(imp, imp.world) },
             "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
             "take" to { imp: Imperative -> imp.room.take(imp, imp.world) },
-            "inventory" to { imp: Imperative -> imp.room.inventory(imp, imp.world) },
+            "inventory" to { imp: Imperative -> imp.world.showInventory() },
             "shout" to { imp: Imperative -> imp.say(
                 "Your shout of ${imp.noun.uppercase()} echoes through the area.")},
         ).withDefault {
