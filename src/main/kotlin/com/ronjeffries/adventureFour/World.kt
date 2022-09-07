@@ -27,25 +27,25 @@ class World {
 
     private fun makeVerbs(): Verbs {
         return Verbs(mutableMapOf(
-            "go" to WorldImperative("go", "irrelevant", this, Room("fred")),
-            "e" to WorldImperative("go", "e", this, Room("fred")),
-            "w" to WorldImperative("go", "w", this, Room("fred")),
-            "n" to WorldImperative("go", "n", this, Room("fred")),
-            "s" to WorldImperative("go", "s", this, Room("fred")),
-            "say" to WorldImperative("say", "irrelevant", this, Room("fred")),
-            "xyzzy" to WorldImperative("say", "xyzzy", this, Room("fred")),
-            "wd40" to WorldImperative("say","wd40", this, Room("fred")),
-        ).withDefault { (WorldImperative(it, "none", this, Room("fred")))})
+            "go" to Imperative("go", "irrelevant", this, Room("fred")),
+            "e" to Imperative("go", "e", this, Room("fred")),
+            "w" to Imperative("go", "w", this, Room("fred")),
+            "n" to Imperative("go", "n", this, Room("fred")),
+            "s" to Imperative("go", "s", this, Room("fred")),
+            "say" to Imperative("say", "irrelevant", this, Room("fred")),
+            "xyzzy" to Imperative("say", "xyzzy", this, Room("fred")),
+            "wd40" to Imperative("say","wd40", this, Room("fred")),
+        ).withDefault { (Imperative(it, "none", this, Room("fred")))})
     }
 
     private fun makeActions(): Actions {
         return Actions(mutableMapOf(
-            "go" to { imp: WorldImperative -> imp.room.move(imp, imp.world) },
-            "say" to { imp: WorldImperative -> imp.room.castSpell(imp, imp.world) },
-            "take" to { imp: WorldImperative -> imp.room.take(imp, imp.world) },
-            "inventory" to { imp: WorldImperative -> imp.room.inventory(imp, imp.world) },
+            "go" to { imp: Imperative -> imp.room.move(imp, imp.world) },
+            "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
+            "take" to { imp: Imperative -> imp.room.take(imp, imp.world) },
+            "inventory" to { imp: Imperative -> imp.room.inventory(imp, imp.world) },
         ).withDefault {
-            { imp: WorldImperative -> imp.room.unknown(imp, imp.world) }
+            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         }
         )
     }

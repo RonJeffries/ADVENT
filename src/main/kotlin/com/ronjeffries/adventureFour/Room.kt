@@ -27,7 +27,7 @@ class Room(val roomName: String) {
         val imperative = factory.fromString(command.input)
         world.testVerb = imperative.verb
         world.testNoun = imperative.noun
-        val imp = WorldImperative(imperative.verb,imperative.noun,world, this)
+        val imp = Imperative(imperative.verb,imperative.noun,world, this)
         imp.act(world.lexicon)
     }
 
@@ -35,21 +35,21 @@ class Room(val roomName: String) {
         return contents.joinToString(separator = "") {"You find $it.\n"}
     }
 
-    val move = { imperative: WorldImperative, world: World ->
+    val move = { imperative: Imperative, world: World ->
         val (targetName, allowed) = moves.getValue(imperative.noun)
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 
-    val unknown = { imperative: WorldImperative, world: World ->
+    val unknown = { imperative: Imperative, world: World ->
         println("unknown")
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 
-    val inventory = { _:WorldImperative, world:World ->
+    val inventory = { _:Imperative, world:World ->
         world.showInventory()
     }
 
-    val take = { imperative: WorldImperative, world: World ->
+    val take = { imperative: Imperative, world: World ->
         val done = contents.remove(imperative.noun)
         if ( done ) {
             world.addToInventory(imperative.noun)
@@ -59,7 +59,7 @@ class Room(val roomName: String) {
         }
     }
 
-    val castSpell = { imperative: WorldImperative, world: World ->
+    val castSpell = { imperative: Imperative, world: World ->
         when (imperative.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)

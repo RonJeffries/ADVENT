@@ -2,18 +2,18 @@ package com.ronjeffries.adventureFour
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
-    fun translate(word: String): WorldImperative = verbs.translate(word)
-    fun act(imperative: WorldImperative) = actions.act(imperative)
+    fun translate(word: String): Imperative = verbs.translate(word)
+    fun act(imperative: Imperative) = actions.act(imperative)
 }
 
-data class WorldImperative(
+data class Imperative(
     val verb: String,
     val noun: String,
     val world: World,
     val room: Room
 )  {
-    fun setNoun(noun: String): WorldImperative {
-        return WorldImperative(verb, noun, world, room)
+    fun setNoun(noun: String): Imperative {
+        return Imperative(verb, noun, world, room)
     }
 
     fun act(lexicon: Lexicon): String {
@@ -31,12 +31,12 @@ data class WorldImperative(
 
 class ImperativeFactory(val lexicon: Lexicon) {
 
-    fun fromOneWord(verb:String): WorldImperative = imperative(verb)
-    fun fromTwoWords(verb:String, noun:String): WorldImperative = imperative(verb).setNoun(synonym(noun))
+    fun fromOneWord(verb:String): Imperative = imperative(verb)
+    fun fromTwoWords(verb:String, noun:String): Imperative = imperative(verb).setNoun(synonym(noun))
     private fun imperative(verb: String) = lexicon.translate(synonym(verb))
     private fun synonym(verb: String) = lexicon.synonym(verb)
 
-    fun fromString(input: String): WorldImperative {
+    fun fromString(input: String): Imperative {
         val words = input.lowercase().split(" ")
         return when (words.size) {
             1-> fromOneWord(words[0])
@@ -46,17 +46,17 @@ class ImperativeFactory(val lexicon: Lexicon) {
     }
 }
 
-class Verbs(private val map:Map<String, WorldImperative>) {
-    fun translate(verb:String): WorldImperative = map.getValue(verb)
+class Verbs(private val map:Map<String, Imperative>) {
+    fun translate(verb:String): Imperative = map.getValue(verb)
 }
 
 class Synonyms(private val map: Map<String,String>) {
     fun synonym(word:String) = map.getValue(word)
 }
-typealias Action = (WorldImperative) -> Unit
+typealias Action = (Imperative) -> Unit
 
 class Actions(private val verbMap: MutableMap<String, Action>) {
-    fun act(imperative: WorldImperative) {
+    fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
 }

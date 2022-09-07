@@ -19,7 +19,7 @@ class ImperativeTest {
 
     @Test
     fun `create Imperative`() {
-        val imp = WorldImperative("go", "east", world, room)
+        val imp = Imperative("go", "east", world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
     }
@@ -27,7 +27,7 @@ class ImperativeTest {
     @Test
     fun `look up some imperatives`() {
         val imperatives = getFactory()
-        var imp: WorldImperative = imperatives.fromOneWord("east")
+        var imp: Imperative = imperatives.fromOneWord("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
         imp = imperatives.fromOneWord("e")
@@ -38,12 +38,12 @@ class ImperativeTest {
     @Test
     fun `imperative can act`() {
         val imperatives  = getFactory()
-        var imp: WorldImperative = imperatives.fromOneWord("east")
+        var imp: Imperative = imperatives.fromOneWord("east")
         println("Imp = $imp")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
-        imp = WorldImperative("forge", "sword", world, room)
+        imp = Imperative("forge", "sword", world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
@@ -97,7 +97,7 @@ class ImperativeTest {
         val actions = getActions()
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
-        val imp: WorldImperative = lexicon.translate(
+        val imp: Imperative = lexicon.translate(
             lexicon.synonym("e")
         )
         assertThat(imp.verb).isEqualTo("go")
@@ -140,18 +140,18 @@ private val TestSynonymTable = mutableMapOf(
     "s" to "south").withDefault { it }
 
 private val TestVerbTable = mutableMapOf(
-    "go" to WorldImperative("go", "irrelevant", world, room),
-    "east" to WorldImperative("go", "east", world, room),
-    "west" to WorldImperative("go", "west", world, room),
-    "north" to WorldImperative("go", "north", world, room),
-    "south" to WorldImperative("go", "south", world, room),
-    "say" to WorldImperative("say", "irrelevant", world, room),
-    "xyzzy" to WorldImperative("say", "xyzzy", world, room),
-    ).withDefault { (WorldImperative(it, "none", world, room))
+    "go" to Imperative("go", "irrelevant", world, room),
+    "east" to Imperative("go", "east", world, room),
+    "west" to Imperative("go", "west", world, room),
+    "north" to Imperative("go", "north", world, room),
+    "south" to Imperative("go", "south", world, room),
+    "say" to Imperative("say", "irrelevant", world, room),
+    "xyzzy" to Imperative("say", "xyzzy", world, room),
+    ).withDefault { (Imperative(it, "none", world, room))
 }
 
 private val TestActionTable = mutableMapOf(
-    "go" to { imp: WorldImperative -> imp.say("went ${imp.noun}")},
-    "say" to { imp: WorldImperative -> imp.say("said ${imp.noun}")},
-    "inventory" to { imp: WorldImperative -> imp.say("You got nothing")}
-).withDefault { { imp: WorldImperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
+    "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
+    "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
+    "inventory" to { imp: Imperative -> imp.say("You got nothing")}
+).withDefault { { imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
