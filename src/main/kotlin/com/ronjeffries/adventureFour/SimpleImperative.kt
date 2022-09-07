@@ -62,5 +62,9 @@ class Actions(private val verbMap: MutableMap<String, Action>) {
     fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
+
+    fun put(action: Pair<String, (Imperative) -> Unit>) {
+        verbMap.put(action.first, action.second)
+    }
 }
 

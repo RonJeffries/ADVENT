@@ -2,6 +2,7 @@ package com.ronjeffries.adventureFour
 
 fun world(details: World.()->Unit): World{
     val world = World()
+    world.addShout()
     world.details()
     return world
 }
@@ -44,8 +45,8 @@ class World {
             "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
             "take" to { imp: Imperative -> imp.room.take(imp, imp.world) },
             "inventory" to { imp: Imperative -> imp.world.showInventory() },
-            "shout" to { imp: Imperative -> imp.say(
-                "Your shout of ${imp.noun.uppercase()} echoes through the area.")},
+//            "shout" to { imp: Imperative -> imp.say(
+//                "Your shout of ${imp.noun.uppercase()} echoes through the area.")},
         ).withDefault {
             { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         }
@@ -104,4 +105,10 @@ class World {
     fun showInventory() {
         say( inventory.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
     }
+
+    fun addShout() {
+        lexicon.actions.put("shout" to { imp: Imperative -> imp.say(
+            "Your shout of ${imp.noun.uppercase()} echoes through the area.")},)
+    }
 }
+
