@@ -10,21 +10,21 @@ data class Imperative(
     val verb: String,
     val noun: String,
     val world: World,
-    val room: Room
-)  {
+    val room: Room )  {
+
     fun setNoun(noun: String): Imperative {
         return Imperative(verb, noun, world, room)
     }
 
     fun act(lexicon: Lexicon): String {
         lexicon.act(this)
-        return said
+        return testingSaid
     }
 
-    var said: String = ""
+    var testingSaid: String = ""
 
     fun say(s:String) {
-        said = s
+        testingSaid = s
     }
 
 }
@@ -32,9 +32,10 @@ data class Imperative(
 class ImperativeFactory(val lexicon: Lexicon) {
 
     fun fromOneWord(verb:String): Imperative = imperative(verb)
-    fun fromTwoWords(verb:String, noun:String): Imperative = imperative(verb).setNoun(synonym(noun))
-    private fun imperative(verb: String) = lexicon.translate(synonym(verb))
-    private fun synonym(verb: String) = lexicon.synonym(verb)
+    fun fromTwoWords(verb:String, noun:String): Imperative
+        = imperative(verb).setNoun(synonym(noun))
+    fun imperative(verb: String) = lexicon.translate(synonym(verb))
+    fun synonym(verb: String) = lexicon.synonym(verb)
 
     fun fromString(input: String): Imperative {
         val words = input.lowercase().split(" ")
