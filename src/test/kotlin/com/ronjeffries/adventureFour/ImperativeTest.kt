@@ -27,7 +27,7 @@ class ImperativeTest {
     @Test
     fun `look up some imperatives`() {
         val imperatives = getFactory()
-        var imp: Imperative = imperatives.fromOneWord("east")
+        var imp: WorldImperative = imperatives.fromOneWord("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
         imp = imperatives.fromOneWord("e")
@@ -38,7 +38,7 @@ class ImperativeTest {
     @Test
     fun `imperative can act`() {
         val imperatives  = getFactory()
-        var imp: Imperative = imperatives.fromOneWord("east")
+        var imp: WorldImperative = imperatives.fromOneWord("east")
         println("Imp = $imp")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
@@ -97,7 +97,7 @@ class ImperativeTest {
         val actions = getActions()
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
-        val imp: Imperative = lexicon.translate(
+        val imp: WorldImperative = lexicon.translate(
             lexicon.synonym("e")
         )
         assertThat(imp.verb).isEqualTo("go")

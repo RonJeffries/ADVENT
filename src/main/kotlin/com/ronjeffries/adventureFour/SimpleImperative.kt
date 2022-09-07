@@ -7,7 +7,7 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
 }
 
 interface Imperative {
-    fun setNoun(noun: String): Imperative
+    fun setNoun(noun: String): WorldImperative
     fun act(lexicon: Lexicon): String
     fun say(s: String)
 
@@ -17,19 +17,24 @@ interface Imperative {
     val room: Room
 }
 
-data class WorldImperative(override val verb: String, override val noun: String, override val world: World, override val room: Room) :Imperative {
-    override fun setNoun(noun: String): Imperative {
+data class WorldImperative(
+    val verb: String,
+    val noun: String,
+    val world: World,
+    val room: Room
+)  {
+    fun setNoun(noun: String): WorldImperative {
         return WorldImperative(verb, noun, world, room)
     }
 
-    override fun act(lexicon: Lexicon): String {
+    fun act(lexicon: Lexicon): String {
         lexicon.act(this)
         return said
     }
 
     var said: String = ""
 
-    override fun say(s:String) {
+    fun say(s:String) {
         said = s
     }
 
@@ -37,12 +42,12 @@ data class WorldImperative(override val verb: String, override val noun: String,
 
 class ImperativeFactory(val lexicon: Lexicon) {
 
-    fun fromOneWord(verb:String): Imperative = imperative(verb)
-    fun fromTwoWords(verb:String, noun:String): Imperative = imperative(verb).setNoun(synonym(noun))
+    fun fromOneWord(verb:String): WorldImperative = imperative(verb)
+    fun fromTwoWords(verb:String, noun:String): WorldImperative = imperative(verb).setNoun(synonym(noun))
     private fun imperative(verb: String) = lexicon.translate(synonym(verb))
     private fun synonym(verb: String) = lexicon.synonym(verb)
 
-    fun fromString(input: String): Imperative {
+    fun fromString(input: String): WorldImperative {
         val words = input.lowercase().split(" ")
         return when (words.size) {
             1-> fromOneWord(words[0])
