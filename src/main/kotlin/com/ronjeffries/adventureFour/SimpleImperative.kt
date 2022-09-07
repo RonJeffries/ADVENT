@@ -2,8 +2,8 @@ package com.ronjeffries.adventureFour
 
 class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
-    fun translate(word: String): Imperative = verbs.translate(word)
-    fun act(imperative: Imperative) = actions.act(imperative)
+    fun translate(word: String): WorldImperative = verbs.translate(word)
+    fun act(imperative: WorldImperative) = actions.act(imperative)
 }
 
 interface Imperative {
@@ -52,17 +52,17 @@ class ImperativeFactory(val lexicon: Lexicon) {
     }
 }
 
-class Verbs(private val map:Map<String, Imperative>) {
-    fun translate(verb:String): Imperative = map.getValue(verb)
+class Verbs(private val map:Map<String, WorldImperative>) {
+    fun translate(verb:String): WorldImperative = map.getValue(verb)
 }
 
 class Synonyms(private val map: Map<String,String>) {
     fun synonym(word:String) = map.getValue(word)
 }
-typealias Action = (Imperative) -> Unit
+typealias Action = (WorldImperative) -> Unit
 
 class Actions(private val verbMap: MutableMap<String, Action>) {
-    fun act(imperative: Imperative) {
+    fun act(imperative: WorldImperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
 }

@@ -151,7 +151,7 @@ private val TestVerbTable = mutableMapOf(
 }
 
 private val TestActionTable = mutableMapOf(
-    "go" to { imp: Imperative -> imp.say("went ${imp.noun}")},
-    "say" to { imp: Imperative -> imp.say("said ${imp.noun}")},
-    "inventory" to { imp: Imperative -> imp.say("You got nothing")}
-).withDefault { { imp: Imperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}
+    "go" to { imp: WorldImperative -> imp.say("went ${imp.noun}")},
+    "say" to { imp: WorldImperative -> imp.say("said ${imp.noun}")},
+    "inventory" to { imp: WorldImperative -> imp.say("You got nothing")}
+).withDefault { { imp: WorldImperative -> imp.say("I can't ${imp.verb} a ${imp.noun}") }}

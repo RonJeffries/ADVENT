@@ -40,12 +40,12 @@ class World {
 
     private fun makeActions(): Actions {
         return Actions(mutableMapOf(
-            "go" to { imp: Imperative -> imp.room.move(imp, imp.world) },
-            "say" to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
-            "take" to { imp: Imperative -> imp.room.take(imp, imp.world) },
-            "inventory" to { imp: Imperative -> imp.room.inventory(imp, imp.world) },
+            "go" to { imp: WorldImperative -> imp.room.move(imp, imp.world) },
+            "say" to { imp: WorldImperative -> imp.room.castSpell(imp, imp.world) },
+            "take" to { imp: WorldImperative -> imp.room.take(imp, imp.world) },
+            "inventory" to { imp: WorldImperative -> imp.room.inventory(imp, imp.world) },
         ).withDefault {
-            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+            { imp: WorldImperative -> imp.room.unknown(imp, imp.world) }
         }
         )
     }
