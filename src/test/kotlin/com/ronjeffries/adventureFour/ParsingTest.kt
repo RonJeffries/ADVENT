@@ -27,8 +27,7 @@ class ParsingTest {
 
     @Test
     fun `some commands`() {
-        var result:String
-        result = command("e")
+        var result:String = command("e")
         assertThat(result).isEqualTo("move e")
         result = command("sw")
         assertThat(result).isEqualTo("move sw")
@@ -49,29 +48,16 @@ class ParsingTest {
 
 private fun command(cmd:CMD): String {
     val words = cmd.parse()
-    if (words.size == 0) return "no command found"
-    val verb = words[0]
-    var noun = ""
-    return if (words.size == 1)
-        oneWord(words[0])
-    else if (words.size == 2)
-        twoWords(words[0], words[1])
-    else
-        "Too many words!"
-}
-
-fun oneWordX(verb: String): String {
-    val action =  when(verb) {
-        "n","s","e","w" -> ::move
-        "nw","sw","ne","se" -> ::move
-        "up","dn","down" -> ::move
-        else -> { return "I don't understand $verb.\n" }
+    if (words.isEmpty()) return "no command found"
+    return when (words.size) {
+        1 -> oneWord(words[0])
+        2 -> twoWords(words[0], words[1])
+        else -> "Too many words!"
     }
-    return action(verb)
 }
 
 fun oneWord(verb: String): String {
-    val cardinal = listOf<String>("n","s","e","w")
+    val cardinal = listOf("n","s","e","w")
     val ordinal = listOf("nw", "sw", "ne", "se")
     val action =  when(verb) {
         in cardinal -> ::move
@@ -84,7 +70,7 @@ fun oneWord(verb: String): String {
 
 fun inVertical(verb:String): String {
     val isIn = verb in listOf("up", "dn", "down")
-    if (isIn) return verb else return ""
+    return if (isIn) verb else ""
 }
 
 fun twoWords(verb: String, noun: String): String {
