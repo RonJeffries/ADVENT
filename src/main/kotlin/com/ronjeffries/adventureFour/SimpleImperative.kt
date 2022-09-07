@@ -6,17 +6,6 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun act(imperative: WorldImperative) = actions.act(imperative)
 }
 
-interface Imperative {
-    fun setNoun(noun: String): WorldImperative
-    fun act(lexicon: Lexicon): String
-    fun say(s: String)
-
-    val verb: String
-    val noun: String
-    val world: World
-    val room: Room
-}
-
 data class WorldImperative(
     val verb: String,
     val noun: String,
