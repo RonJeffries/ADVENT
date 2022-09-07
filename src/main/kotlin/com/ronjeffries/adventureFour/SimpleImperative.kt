@@ -36,7 +36,7 @@ data class SimpleImperative(override val verb: String, override val noun: String
 
 data class WorldImperative(override val verb: String, override val noun: String, override val world: World, override val room: Room) :Imperative {
     override fun setNoun(noun: String): Imperative {
-        return this
+        return WorldImperative(verb, noun, world, room)
     }
 
     override fun act(lexicon: Lexicon): String {
