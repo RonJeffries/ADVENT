@@ -4,6 +4,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 
+val world = world {
+    room("name") {}
+}
+
+var room = world.unsafeRoomNamed("name")
+
 class ImperativeTest {
     private fun getFactory() = ImperativeFactory(getLexicon())
     private fun getVerbs() = Verbs(TestVerbTable)
@@ -13,7 +19,7 @@ class ImperativeTest {
 
     @Test
     fun `create Imperative`() {
-        val imp = SimpleImperative("go", "east")
+        val imp = WorldImperative("go", "east", world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
     }
@@ -22,19 +28,22 @@ class ImperativeTest {
     fun `look up some imperatives`() {
         val imperatives = getFactory()
         var imp: Imperative = imperatives.fromOneWord("east")
-        assertThat(imp).isEqualTo(SimpleImperative("go","east"))
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
         imp = imperatives.fromOneWord("e")
-        assertThat(imp).isEqualTo(SimpleImperative("go","east"))
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
     }
 
     @Test
     fun `imperative can act`() {
         val imperatives  = getFactory()
         var imp: Imperative = imperatives.fromOneWord("east")
+        println("Imp = $imp")
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
-        imp = SimpleImperative("forge", "sword")
+        imp = WorldImperative("forge", "sword", world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
@@ -77,7 +86,8 @@ class ImperativeTest {
     fun verbTranslator() {
         val verbs = getVerbs()
         val imp = verbs.translate("east")
-        assertThat(imp).isEqualTo(SimpleImperative("go", "east"))
+        assertThat(imp.verb).isEqualTo("go")
+        assertThat(imp.noun).isEqualTo("east")
     }
 
     @Test
@@ -130,14 +140,14 @@ private val TestSynonymTable = mutableMapOf(
     "s" to "south").withDefault { it }
 
 private val TestVerbTable = mutableMapOf(
-    "go" to SimpleImperative("go", "irrelevant"),
-    "east" to SimpleImperative("go", "east"),
-    "west" to SimpleImperative("go", "west"),
-    "north" to SimpleImperative("go", "north"),
-    "south" to SimpleImperative("go", "south"),
-    "say" to SimpleImperative("say", "irrelevant"),
-    "xyzzy" to SimpleImperative("say", "xyzzy"),
-    ).withDefault { (SimpleImperative(it, "none"))
+    "go" to WorldImperative("go", "irrelevant", world, room),
+    "east" to WorldImperative("go", "east", world, room),
+    "west" to WorldImperative("go", "west", world, room),
+    "north" to WorldImperative("go", "north", world, room),
+    "south" to WorldImperative("go", "south", world, room),
+    "say" to WorldImperative("say", "irrelevant", world, room),
+    "xyzzy" to WorldImperative("say", "xyzzy", world, room),
+    ).withDefault { (WorldImperative(it, "none", world, room))
 }
 
 private val TestActionTable = mutableMapOf(
