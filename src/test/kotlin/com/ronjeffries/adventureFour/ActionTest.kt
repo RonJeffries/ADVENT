@@ -4,8 +4,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SmartMap<K,V>(val global: MutableMap<K,V>, val local: MutableMap<K,V>) {
-    fun getValue(k:K): V = local.getValue(k)
-    fun getGlobalValue(k: K): V = global.getValue(k)
+    private val safeLocal = local.withDefault { key: K -> getGlobalValue(key) }
+    fun getValue(key: K): V = safeLocal.getValue(key)
+    fun getGlobalValue(key: K): V = global.getValue(key)
 }
 
 class ActionTest {
@@ -30,7 +31,7 @@ class ActionTest {
         ).withDefault { key -> "I have no idea what $key is" }
         val l = mutableMapOf(
             "say" to "said"
-        ).withDefault { key: String -> g.getValue(key) }
+        )
         val sm: SmartMap<String, String> = SmartMap(g,l)
         assertThat(sm.getValue("say")).isEqualTo("said")
         assertThat(sm.getValue("go")).isEqualTo("went")
