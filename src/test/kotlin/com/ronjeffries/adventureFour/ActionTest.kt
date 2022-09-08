@@ -3,7 +3,7 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SmartMap<K,V>(val global: MutableMap<K,V>, val local: MutableMap<K,V>) {
+class SmartMap<K,V>(private val global: MutableMap<K,V>, private val local: MutableMap<K,V>) {
     private val safeLocal = local.withDefault { key: K -> getGlobalValue(key) }
     fun getValue(key: K): V = safeLocal.getValue(key)
     fun getGlobalValue(key: K): V = global.getValue(key)
