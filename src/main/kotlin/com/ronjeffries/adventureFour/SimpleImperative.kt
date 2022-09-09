@@ -4,6 +4,9 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate(word)
     fun act(imperative: Imperative) = actions.act(imperative)
+    fun defineLocalActions(newActions: MutableMap<String, (Imperative) -> Unit>) {
+        actions.defineLocalActions(newActions)
+    }
 }
 
 data class Imperative(
@@ -71,6 +74,11 @@ class Actions(map: MutableMap<String, Action>) {
 
     fun clear() {
         verbMap.clearLocal()
+    }
+
+    fun defineLocalActions(actions: MutableMap<String, (Imperative) -> Unit>) {
+        clear()
+        putAllLocal(actions)
     }
 
     fun putAllLocal(actions: MutableMap<String, (Imperative) -> Unit>) {

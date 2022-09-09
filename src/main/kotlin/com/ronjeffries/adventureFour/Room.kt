@@ -28,8 +28,7 @@ class Room(val roomName: String) {
 
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
-        world.lexicon.actions.clear()
-        world.lexicon.actions.putAllLocal(actions)
+        world.defineLocalActions(actions)
         val factory = ImperativeFactory(world.lexicon)
         val imperative = factory.fromString(command.input)
         world.testVerb = imperative.verb
