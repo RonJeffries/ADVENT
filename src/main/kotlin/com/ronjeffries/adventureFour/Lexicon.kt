@@ -28,6 +28,8 @@ class Actions(map: ActionMap) {
         verbMap.putAllLocal(actions)
     }
 
+    fun nothing() {}
+
     fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(action.first, action.second)
 
 }
