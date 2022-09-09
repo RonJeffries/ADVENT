@@ -54,7 +54,7 @@ class World {
     }
 
     val flags = GameStatusMap()
-    val inventory = mutableSetOf<String>()
+    private val inventory = mutableSetOf<String>()
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
@@ -102,7 +102,7 @@ class World {
         response.say(s)
     }
 
-    fun showInventory() {
+    private fun showInventory() {
         say( inventory.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
     }
 

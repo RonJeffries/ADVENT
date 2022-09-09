@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
+class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate(word)
     fun act(imperative: Imperative) = actions.act(imperative)
@@ -24,7 +24,7 @@ data class Imperative(
         return testingSaid
     }
 
-    var testingSaid: String = ""
+    private var testingSaid: String = ""
 
     fun testingSay(s:String)  {
         testingSaid = s
@@ -32,13 +32,13 @@ data class Imperative(
 
 }
 
-class ImperativeFactory(val lexicon: Lexicon) {
+class ImperativeFactory(private val lexicon: Lexicon) {
 
     fun fromOneWord(verb:String): Imperative = imperative(verb)
     fun fromTwoWords(verb:String, noun:String): Imperative
         = imperative(verb).setNoun(synonym(noun))
-    fun imperative(verb: String) = lexicon.translate(synonym(verb))
-    fun synonym(verb: String) = lexicon.synonym(verb)
+    private fun imperative(verb: String) = lexicon.translate(synonym(verb))
+    private fun synonym(verb: String) = lexicon.synonym(verb)
 
     fun fromString(input: String): Imperative {
         val words = input.lowercase().split(" ")
@@ -66,14 +66,14 @@ class Actions(map: ActionMap) {
 
     fun act(imperative: Imperative) = verbMap.getValue((imperative.verb))(imperative)
 
-    fun clear() = verbMap.clearLocal()
+    private fun clear() = verbMap.clearLocal()
 
     fun defineLocalActions(actions: ActionMap) {
         clear()
         putAllLocal(actions)
     }
 
-    fun putAllLocal(actions: ActionMap)  = verbMap.putAllLocal(actions)
+    private fun putAllLocal(actions: ActionMap)  = verbMap.putAllLocal(actions)
 
     fun putGlobal(action: Pair<String, Action>)  = verbMap.putGlobal(action.first, action.second)
 

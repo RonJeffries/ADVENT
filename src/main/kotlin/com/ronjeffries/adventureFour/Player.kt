@@ -2,8 +2,8 @@ package com.ronjeffries.adventureFour
 
 data class Command(val input: String)
 
-class Player(val world: World, startingName: String) {
-    var response: GameResponse = GameResponse()
+class Player(private val world: World, startingName: String) {
+    private var response: GameResponse = GameResponse()
     var currentRoom = world.unsafeRoomNamed(startingName)
     val roomReferences: Set<String> get() = world.roomReferences
 

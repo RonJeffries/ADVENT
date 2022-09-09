@@ -11,7 +11,7 @@ var myCommand: TextField by singleAssign()
 var textContents = "Welcome to Tiny Adventure!"
 
 class MainView: View() {
-    val world = world {
+    private val world = world {
         room("wellhouse") {
             desc("You're at wellhouse", "You're in a charming wellhouse")
             item("keys")
@@ -38,7 +38,7 @@ class MainView: View() {
             action("cows") { imp -> say("Leave those cows alone") }
         }
     }
-    val player = Player(world, "wellhouse")
+    private val player = Player(world, "wellhouse")
 
     override val root: Parent = vbox {
         minWidth = 400.0
@@ -55,10 +55,10 @@ class MainView: View() {
         }
     }
 
-    fun someoneTyped() {
+    private fun someoneTyped() {
         val cmd = myCommand.text
         player.command(cmd)
-        myText.appendText("\n> " + cmd)
+        myText.appendText("\n> $cmd")
         myText.appendText("\n"+player.resultString)
         myCommand.text = ""
         myCommand.appendText("")

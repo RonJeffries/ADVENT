@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
 class GameStatusMap {
-    val map = mutableMapOf<String, GameStatus>()
+    private val map = mutableMapOf<String, GameStatus>()
 
     fun get(name:String): GameStatus {
         return map.getOrPut(name) { GameStatus() }
