@@ -31,5 +31,7 @@ class ActionTest {
         assertThat(sm.getValue("go")).isEqualTo("went")
         assertThat(sm.getValue("whazzup")).isEqualTo("I have no idea what whazzup is")
         assertThat(sm.getGlobalValue("say")).isEqualTo("global said")
+        sm.clearLocal()
+        assertThat(sm.getValue("say")).isEqualTo("global said")
     }
 }
