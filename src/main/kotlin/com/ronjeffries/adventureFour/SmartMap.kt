@@ -19,4 +19,8 @@ class SmartMap<K,V>(
     fun putGlobal(key: K, value: V) {
         global[key] = value
     }
+
+    fun putAllLocal(actions: MutableMap<K, V>) {
+        local.putAll(actions)
+    }
 }

@@ -68,5 +68,14 @@ class Actions(map: MutableMap<String, Action>) {
     fun putGlobal(action: Pair<String, (Imperative) -> Unit>) {
         verbMap.putGlobal(action.first, action.second)
     }
+
+    fun clear() {
+        verbMap.clearLocal()
+    }
+
+    fun putAllLocal(actions: MutableMap<String, (Imperative) -> Unit>) {
+        verbMap.putAllLocal(actions)
+    }
+
 }
 
