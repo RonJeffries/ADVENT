@@ -1,14 +1,18 @@
 package com.ronjeffries.adventureFour
 
-class SmartMap<K,V>(private val global: MutableMap<K,V>, local: MutableMap<K,V>) {
+class SmartMap<K,V>(
+    private val global: MutableMap<K,V>,
+    local: MutableMap<K,V> = mutableMapOf<K,V>()) {
+
     private val local = local.withDefault { key: K -> getGlobalValue(key) }
     fun getValue(key: K): V = local.getValue(key)
     fun getGlobalValue(key: K): V = global.getValue(key)
+
     fun clearLocal() {
         local.clear()
     }
 
-    fun put(key: K, value: V) {
+    fun putLocal(key: K, value: V) {
         local.put(key, value)
     }
 }

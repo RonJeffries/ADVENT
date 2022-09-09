@@ -45,7 +45,21 @@ class ActionTest {
         )
         val sm: SmartMap<String, String> = SmartMap(g,l)
         assertThat(sm.getValue("say")).isEqualTo("global said")
-        sm.put("say", "said")
+        sm.putLocal("say", "said")
+        assertThat(sm.getValue("say")).isEqualTo("said")
+        sm.clearLocal()
+        assertThat(sm.getValue("say")).isEqualTo("global said")
+    }
+
+    @Test
+    fun `secondary constructor`() {
+        val g = mutableMapOf<String,String>(
+            "go" to "went",
+            "say" to "global said"
+        ).withDefault { key -> "I have no idea what $key is" }
+        val sm: SmartMap<String, String> = SmartMap(g)
+        assertThat(sm.getValue("say")).isEqualTo("global said")
+        sm.putLocal("say", "said")
         assertThat(sm.getValue("say")).isEqualTo("said")
         sm.clearLocal()
         assertThat(sm.getValue("say")).isEqualTo("global said")
