@@ -26,7 +26,7 @@ data class Imperative(
 
     var testingSaid: String = ""
 
-    fun testingSay(s:String) {
+    fun testingSay(s:String)  {
         testingSaid = s
     }
 
@@ -64,13 +64,9 @@ typealias ActionMap = MutableMap<String, Action>
 class Actions(map: ActionMap) {
     private val verbMap = SmartMap(map)
 
-    fun act(imperative: Imperative) {
-         verbMap.getValue((imperative.verb))(imperative)
-    }
+    fun act(imperative: Imperative) = verbMap.getValue((imperative.verb))(imperative)
 
-    fun clear() {
-        verbMap.clearLocal()
-    }
+    fun clear() = verbMap.clearLocal()
 
     fun defineLocalActions(actions: ActionMap) {
         clear()
@@ -79,7 +75,7 @@ class Actions(map: ActionMap) {
 
     fun putAllLocal(actions: ActionMap)  = verbMap.putAllLocal(actions)
 
-    fun putGlobal(action: Pair<String, (Imperative) -> Unit>)  = verbMap.putGlobal(action.first, action.second)
+    fun putGlobal(action: Pair<String, Action>)  = verbMap.putGlobal(action.first, action.second)
 
 }
 
