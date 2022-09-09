@@ -2,7 +2,7 @@ package com.ronjeffries.adventureFour
 
 import tornadofx.singleAssign
 
-data class GameResponse(val name:String="GameResponse") {
+class GameResponse() {
     var sayings = ""
     lateinit var nextRoomName: String
     var nextRoom: Room by singleAssign<Room>()

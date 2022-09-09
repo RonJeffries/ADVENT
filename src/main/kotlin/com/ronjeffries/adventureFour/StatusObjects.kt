@@ -14,5 +14,4 @@ class GameStatus(var value: Int = 0) {
     fun increment() { value++ }
     fun not() { value = if (isTrue) 0 else 1 }
     fun set(truth: Boolean) { value = if (truth) 1 else 0 }
-    fun set(number: Int) { value = number }
 }
