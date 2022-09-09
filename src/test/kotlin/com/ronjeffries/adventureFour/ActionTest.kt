@@ -34,4 +34,20 @@ class ActionTest {
         sm.clearLocal()
         assertThat(sm.getValue("say")).isEqualTo("global said")
     }
+
+    @Test
+    fun `can add to the local map`() {
+        val g = mutableMapOf<String,String>(
+            "go" to "went",
+            "say" to "global said"
+        ).withDefault { key -> "I have no idea what $key is" }
+        val l = mutableMapOf<String,String>(
+        )
+        val sm: SmartMap<String, String> = SmartMap(g,l)
+        assertThat(sm.getValue("say")).isEqualTo("global said")
+        sm.put("say", "said")
+        assertThat(sm.getValue("say")).isEqualTo("said")
+        sm.clearLocal()
+        assertThat(sm.getValue("say")).isEqualTo("global said")
+    }
 }

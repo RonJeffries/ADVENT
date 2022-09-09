@@ -7,4 +7,8 @@ class SmartMap<K,V>(private val global: MutableMap<K,V>, local: MutableMap<K,V>)
     fun clearLocal() {
         local.clear()
     }
+
+    fun put(key: K, value: V) {
+        local.put(key, value)
+    }
 }
