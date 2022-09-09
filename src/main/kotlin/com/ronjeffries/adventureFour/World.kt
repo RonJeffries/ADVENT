@@ -111,8 +111,6 @@ class World {
             "Your shout of ${imp.noun.uppercase()} echoes through the area.")},)
     }
 
-    fun defineLocalActions(actions: MutableMap<String, (Imperative) -> Unit>) {
-        lexicon.defineLocalActions(actions)
-    }
+    fun defineLocalActions(actions: ActionMap) = lexicon.defineLocalActions(actions)
 }
 

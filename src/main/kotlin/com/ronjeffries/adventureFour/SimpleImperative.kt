@@ -4,9 +4,7 @@ class Lexicon(val synonyms: Synonyms, val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate(word)
     fun act(imperative: Imperative) = actions.act(imperative)
-    fun defineLocalActions(newActions: MutableMap<String, (Imperative) -> Unit>) {
-        actions.defineLocalActions(newActions)
-    }
+    fun defineLocalActions(newActions: ActionMap) = actions.defineLocalActions(newActions)
 }
 
 data class Imperative(
@@ -61,29 +59,27 @@ class Synonyms(private val map: Map<String,String>) {
 }
 
 typealias Action = (Imperative) -> Unit
+typealias ActionMap = MutableMap<String, Action>
 
-class Actions(map: MutableMap<String, Action>) {
+class Actions(map: ActionMap) {
     private val verbMap = SmartMap(map)
+
     fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
-    }
-
-    fun putGlobal(action: Pair<String, (Imperative) -> Unit>) {
-        verbMap.putGlobal(action.first, action.second)
     }
 
     fun clear() {
         verbMap.clearLocal()
     }
 
-    fun defineLocalActions(actions: MutableMap<String, (Imperative) -> Unit>) {
+    fun defineLocalActions(actions: ActionMap) {
         clear()
         putAllLocal(actions)
     }
 
-    fun putAllLocal(actions: MutableMap<String, (Imperative) -> Unit>) {
-        verbMap.putAllLocal(actions)
-    }
+    fun putAllLocal(actions: ActionMap)  = verbMap.putAllLocal(actions)
+
+    fun putGlobal(action: Pair<String, (Imperative) -> Unit>)  = verbMap.putGlobal(action.first, action.second)
 
 }
 
