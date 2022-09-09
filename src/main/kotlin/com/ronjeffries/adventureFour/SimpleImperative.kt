@@ -59,14 +59,14 @@ class Synonyms(private val map: Map<String,String>) {
 
 typealias Action = (Imperative) -> Unit
 
-class Actions(private val map: MutableMap<String, Action>) {
+class Actions(map: MutableMap<String, Action>) {
     private val verbMap = SmartMap(map)
     fun act(imperative: Imperative) {
          verbMap.getValue((imperative.verb))(imperative)
     }
 
-    fun put(action: Pair<String, (Imperative) -> Unit>) {
-        verbMap.putLocal(action.first, action.second)
+    fun putGlobal(action: Pair<String, (Imperative) -> Unit>) {
+        verbMap.putGlobal(action.first, action.second)
     }
 }
 

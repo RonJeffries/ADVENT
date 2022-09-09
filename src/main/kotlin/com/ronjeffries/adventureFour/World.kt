@@ -107,7 +107,7 @@ class World {
     }
 
     fun addShout() {
-        lexicon.actions.put("shout" to { imp: Imperative -> imp.say(
+        lexicon.actions.putGlobal("shout" to { imp: Imperative -> imp.say(
             "Your shout of ${imp.noun.uppercase()} echoes through the area.")},)
     }
 }
