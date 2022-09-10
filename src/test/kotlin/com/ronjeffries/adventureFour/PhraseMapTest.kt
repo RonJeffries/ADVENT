@@ -16,20 +16,19 @@ class PhraseMapTest {
     @Test
     fun `phrase map`() {
         val imp = makeImperative()
-        val map = PhraseMap()
+//        val map = PhraseMap()
+        val map = mutableMapOf<Phrase,Action>()
         var p1 = Phrase("take", "cows")
         val p2 = Phrase("take")
         val p3 = Phrase(noun = "bananas")
-        val i1 = {i:Imperative->"take the cows"}
+        val i1: Action = {i:Imperative->"take the cows"}
+        val i2: Action = {i-> "take anything"}
+        val i3: Action =  {i-> "deal with bananas"}
         assertThat(i1).isEqualTo(i1)
         map.put(p1, i1)
-//        map.put(p2) {i-> "take anything"}
-//        map.put(p3) {i-> "deal with bananas"}
-        println("i1(imp) ${i1(imp)}")
-        val result1 = map.get(p1)
-        println("result $result1 ${result1.hashCode()}")
-        println("result1(imp) ${result1(imp)}")
-//        assertThat(result1).isEqualTo(i1)
+        map.put(p2, i2)
+        map.put(p3, i3)
+        assertThat(map.get(p1)).isEqualTo(i1)
     }
 }
 

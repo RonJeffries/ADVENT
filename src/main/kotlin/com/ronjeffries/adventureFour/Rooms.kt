@@ -3,6 +3,7 @@ package com.ronjeffries.adventureFour
 class Rooms {
     private val rooms = mutableMapOf<String,Room>()
     val size get() = rooms.size
+    fun names() = rooms.keys
 
     val roomReferences: Set<String> get() {
         return (rooms.flatMap { it.value.roomReferences }).toSet()
