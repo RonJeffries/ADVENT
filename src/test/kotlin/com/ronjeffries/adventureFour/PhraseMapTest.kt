@@ -30,6 +30,54 @@ class PhraseMapTest {
         map.put(p3, i3)
         assertThat(map.get(p1)).isEqualTo(i1)
     }
+
+    @Test
+    fun `priority match`() {
+        val map: Map<Phrase,String> = makeMap()
+        var result:String
+        result = find(Phrase("take","cows"), map)
+        assertThat(result).isEqualTo("takecows")
+    }
+
+    @Test
+    fun `take non-cows`() {
+        val map = makeMap()
+        var result = find(Phrase("take", "bird"), map)
+        assertThat(result).isEqualTo("take")
+    }
+
+    @Test
+    fun `something with cows`() {
+        val map = makeMap()
+        var result = find(Phrase( noun="cows"), map)
+        assertThat(result).isEqualTo("cows")
+    }
+
+    @Test
+    fun `something different`() {
+        val map = makeMap()
+        var result = find(Phrase("something", "different"), map)
+        assertThat(result).isEqualTo("any")
+    }
+
+    private fun makeMap() = mapOf(
+        Phrase("take", "cows") to "takecows",
+        Phrase("take") to "take",
+        Phrase(noun = "cows") to "cows",
+        Phrase() to "any"
+    )
+
+    fun find(p:Phrase, m:Map<Phrase,String>): String {
+        val p2 = Phrase(p.verb)
+        val p3 = Phrase(noun=p.noun)
+        val p4 = Phrase()
+        var results = listOf(p,p2,p3,p4).map {m.getOrDefault(it,"nope")}
+        print("$p->")
+        print("$results->")
+        results = results.filter { it != "nope" }
+        println("$results")
+        return results.first()
+    }
 }
 
 data class Phrase(val verb: String?=null, val noun: String?=null)
