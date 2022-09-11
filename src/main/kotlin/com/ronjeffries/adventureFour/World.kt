@@ -2,7 +2,6 @@ package com.ronjeffries.adventureFour
 
 fun world(details: World.()->Unit): World{
     val world = World()
-    world.addShout()
     world.details()
     return world
 }
@@ -104,11 +103,6 @@ class World {
 
     private fun showInventory() {
         say( inventory.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
-    }
-
-    fun addShout() {
-        lexicon.actions.putGlobal("shout" to { imp: Imperative -> imp.say(
-            "Your shout of ${imp.noun.uppercase()} echoes through the area.")},)
     }
 }
 
