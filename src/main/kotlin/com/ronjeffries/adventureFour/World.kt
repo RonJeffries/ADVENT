@@ -110,7 +110,5 @@ class World {
         lexicon.actions.putGlobal("shout" to { imp: Imperative -> imp.say(
             "Your shout of ${imp.noun.uppercase()} echoes through the area.")},)
     }
-
-    fun defineLocalActions(actions: ActionMap) = lexicon.defineLocalActions(actions)
 }
 

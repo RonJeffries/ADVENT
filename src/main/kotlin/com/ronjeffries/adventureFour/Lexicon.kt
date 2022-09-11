@@ -10,7 +10,6 @@ class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs, val acti
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate(word)
     fun act(imperative: Imperative) = actions.act(imperative)
-    fun defineLocalActions(newActions: ActionMap) = actions.defineLocalActions(newActions)
 }
 
 class Synonyms(private val map: Map<String,String>) {
@@ -25,11 +24,6 @@ class Actions(map: ActionMap) {
     private val verbMap = SmartMap(map)
 
     fun act(imperative: Imperative) = verbMap.getValue(Phrase(imperative.verb))(imperative)
-
-    fun defineLocalActions(actions: ActionMap) {
-        verbMap.clearLocal()
-        verbMap.putAllLocal(actions)
-    }
 
     fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(Phrase(action.first), action.second)
 }
