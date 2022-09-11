@@ -4,7 +4,7 @@ package com.ronjeffries.adventureFour
 
 data class Phrase(val verb: String?=null, val noun: String?=null)
 typealias Action = (Imperative) -> Unit
-typealias ActionMap = MutableMap<String, Action>
+typealias ActionMap = MutableMap<Phrase, Action>
 
 class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
@@ -24,13 +24,13 @@ class Verbs(private val map:Map<String, Imperative>) {
 class Actions(map: ActionMap) {
     private val verbMap = SmartMap(map)
 
-    fun act(imperative: Imperative) = verbMap.getValue((imperative.verb))(imperative)
+    fun act(imperative: Imperative) = verbMap.getValue(Phrase(imperative.verb))(imperative)
 
     fun defineLocalActions(actions: ActionMap) {
         verbMap.clearLocal()
         verbMap.putAllLocal(actions)
     }
 
-    fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(action.first, action.second)
+    fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(Phrase(action.first), action.second)
 }
 
