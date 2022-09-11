@@ -57,7 +57,17 @@ class PhraseMapTest {
         Phrase() to "any"
     )
 
-    private fun find(p:Phrase, m:Map<Phrase,String>): String {
+    private fun find(p:Phrase, m: Map<Phrase, String>): String {
+        return m.getOrElse(p) {
+            m.getOrElse(Phrase(p.verb)) {
+                m.getOrElse(Phrase(noun=p.noun)) {
+                    m.getOrElse(Phrase()) {"nothing"}
+                }
+            }
+        }
+    }
+
+    private fun oldFind(p:Phrase, m:Map<Phrase,String>): String {
         val p2 = Phrase(p.verb)
         val p3 = Phrase(noun=p.noun)
         val p4 = Phrase()
