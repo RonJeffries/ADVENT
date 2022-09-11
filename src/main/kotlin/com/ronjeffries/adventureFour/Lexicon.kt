@@ -2,7 +2,12 @@ package com.ronjeffries.adventureFour
 
 
 
-data class Phrase(val verb: String?=null, val noun: String?=null)
+data class Phrase(val verb: String?=null, val noun: String?=null) {
+    fun asVerb() = Phrase(this.verb)
+    fun asNoun() = Phrase(noun=this.noun)
+    fun asEmpty() = Phrase()
+}
+
 typealias Action = (Imperative) -> Unit
 typealias ActionMap = MutableMap<Phrase, Action>
 

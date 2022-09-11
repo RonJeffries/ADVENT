@@ -59,9 +59,9 @@ class PhraseMapTest {
 
     private fun find(p:Phrase, m: Map<Phrase, String>): String {
         return m.getOrElse(p) {
-            m.getOrElse(Phrase(p.verb)) {
-                m.getOrElse(Phrase(noun=p.noun)) {
-                    m.getOrElse(Phrase()) {"nothing"}
+            m.getOrElse(p.asVerb()) {
+                m.getOrElse(p.asNoun()) {
+                    m.getOrElse(p.asEmpty()) {"nothing"}
                 }
             }
         }
