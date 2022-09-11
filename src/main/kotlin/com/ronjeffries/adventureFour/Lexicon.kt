@@ -29,6 +29,5 @@ class Actions(map: ActionMap) {
     }
 
     fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(action.first, action.second)
-
 }
 
