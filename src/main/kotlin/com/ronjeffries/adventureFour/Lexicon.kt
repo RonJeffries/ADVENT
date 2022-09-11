@@ -1,5 +1,8 @@
 package com.ronjeffries.adventureFour
 
+
+
+data class Phrase(val verb: String?=null, val noun: String?=null)
 typealias Action = (Imperative) -> Unit
 typealias ActionMap = MutableMap<String, Action>
 

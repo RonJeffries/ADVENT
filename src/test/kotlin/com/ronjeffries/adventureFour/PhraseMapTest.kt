@@ -70,5 +70,4 @@ class PhraseMapTest {
     }
 }
 
-data class Phrase(val verb: String?=null, val noun: String?=null)
 
