@@ -20,11 +20,7 @@ class Verbs(private val map:Map<String, Imperative>) {
     fun translate(verb:String): Imperative = map.getValue(verb)
 }
 
-class Actions(map: ActionMap) {
-    private val verbMap = SmartMap(map)
-
-    fun act(imperative: Imperative) = verbMap.getValue(Phrase(imperative.verb))(imperative)
-
-    fun putGlobal(action: Pair<String, Action>) = verbMap.putGlobal(Phrase(action.first), action.second)
+class Actions(val map: ActionMap) {
+    fun act(imperative: Imperative) = map.getValue(Phrase(imperative.verb))(imperative)
 }
 
