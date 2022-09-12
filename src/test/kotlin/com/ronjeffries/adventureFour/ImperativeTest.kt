@@ -48,8 +48,22 @@ class ImperativeTest {
     }
 
     @Test
-    fun `one failing lookup`() {
+    fun `new phrase finding handles all cases`() {
         val imperatives  = getFactory()
+        var imp: Imperative = imperatives.fromTwoWords("take", "cows")
+        assertThat(imp.act(testLex())).isEqualTo("no cows for you")
+        imp = imperatives.fromTwoWords("hassle","cows")
+        assertThat(imp.act(testLex())).isEqualTo("please do not bug the cows")
+        imp = imperatives.fromTwoWords("pet","cows")
+        assertThat(imp.act(testLex())).isEqualTo("what is it with you and cows?")
+        imp = imperatives.fromTwoWords("hassle","bats")
+        assertThat(imp.act(testLex())).isEqualTo("please do not bug the bats")
+        imp = Imperative("forge", "sword", world, room)
+        assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
+    }
+
+    @Test
+    fun `one failing lookup`() {
         val imp = Imperative("forge", "sword", world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
@@ -158,8 +172,11 @@ private val TestVerbTable = mutableMapOf(
 }
 
 private val TestActionTable = mutableMapOf(
+    Phrase("take", "cows") to {imp: Imperative -> imp.testingSay("no cows for you")},
+    Phrase("hassle") to { imp: Imperative -> imp.testingSay("please do not bug the ${imp.noun}")},
+    Phrase(noun="cows") to {imp:Imperative -> imp.testingSay("what is it with you and cows?")},
     Phrase("go") to { imp: Imperative -> imp.testingSay("went ${imp.noun}")},
     Phrase("say") to { imp: Imperative -> imp.testingSay("said ${imp.noun}")},
     Phrase("inventory") to { imp: Imperative -> imp.testingSay("You got nothing")},
     Phrase() to { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }
-)//.withDefault { { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }}
+)

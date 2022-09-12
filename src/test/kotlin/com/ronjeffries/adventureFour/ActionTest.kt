@@ -16,10 +16,4 @@ class ActionTest {
         assertThat(l.getValue("go")).isEqualTo("went")
         assertThat(l.getValue("whazzup")).isEqualTo("I have no idea what whazzup is")
     }
-
-    @Test
-    fun `match search in Actions`() {
-
-    }
-
 }
