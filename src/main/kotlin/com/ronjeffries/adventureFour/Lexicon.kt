@@ -35,7 +35,8 @@ class Actions(val map: ActionMap) {
         val p = Phrase(imperative.verb, imperative.noun)
         return map.getOrElse(p) {
             map.getOrElse(p.asVerb()) {
-                map.getValue(Phrase())
+                map.getOrElse(p.asNoun()) {
+                    map.getValue(Phrase()) }
             }
         }
     }
