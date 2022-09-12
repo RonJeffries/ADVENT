@@ -33,7 +33,11 @@ class Actions(val map: ActionMap) {
 
     private fun find(imperative: Imperative): Action {
         val p = Phrase(imperative.verb, imperative.noun)
-        return map.getOrElse(p.asVerb()) { map.getValue(Phrase())}
+        return map.getOrElse(p) {
+            map.getOrElse(p.asVerb()) {
+                map.getValue(Phrase())
+            }
+        }
     }
 }
 
