@@ -44,9 +44,10 @@ class World {
             Phrase("say") to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
             Phrase("take") to { imp: Imperative -> imp.room.take(imp, imp.world) },
             Phrase("inventory") to { imp: Imperative -> imp.world.showInventory() },
-        ).withDefault {
-            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
-        }
+            Phrase() to { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+        )//.withDefault {
+//            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+//        }
         )
     }
 

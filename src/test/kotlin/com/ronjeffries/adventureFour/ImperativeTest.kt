@@ -47,6 +47,13 @@ class ImperativeTest {
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
+    @Test
+    fun `one failing lookup`() {
+        val imperatives  = getFactory()
+        val imp = Imperative("forge", "sword", world, room)
+        assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
+    }
+
     private fun testLex(): Lexicon {
         val synonyms = getSynonyms()
         val verbs = getVerbs()
@@ -153,5 +160,6 @@ private val TestVerbTable = mutableMapOf(
 private val TestActionTable = mutableMapOf(
     Phrase("go") to { imp: Imperative -> imp.testingSay("went ${imp.noun}")},
     Phrase("say") to { imp: Imperative -> imp.testingSay("said ${imp.noun}")},
-    Phrase("inventory") to { imp: Imperative -> imp.testingSay("You got nothing")}
-).withDefault { { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }}
+    Phrase("inventory") to { imp: Imperative -> imp.testingSay("You got nothing")},
+    Phrase() to { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }
+)//.withDefault { { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }}
