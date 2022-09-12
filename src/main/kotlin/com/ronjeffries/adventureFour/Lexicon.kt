@@ -26,6 +26,11 @@ class Verbs(private val map:Map<String, Imperative>) {
 }
 
 class Actions(val map: ActionMap) {
-    fun act(imperative: Imperative) = map.getValue(Phrase(imperative.verb))(imperative)
+    fun act(imperative: Imperative) {
+        val imp: (Imperative) -> Unit = find(imperative)
+        imp(imperative)
+    }
+
+    private fun find(imperative: Imperative) = map.getValue(Phrase(imperative.verb))
 }
 
