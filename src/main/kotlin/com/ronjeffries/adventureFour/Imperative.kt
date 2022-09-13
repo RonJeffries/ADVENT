@@ -1,16 +1,17 @@
 package com.ronjeffries.adventureFour
 
 data class Imperative(
-    val verb: String,
-    val noun: String,
+    val phrase: Phrase,
     val world: World,
     val room: Room
 )  {
+    val verb = phrase.verb!!
+    val noun = phrase.noun!!
 
     fun say(s: String) = world.say(s)
 
     fun setNoun(noun: String): Imperative {
-        return Imperative(verb, noun, world, room)
+        return Imperative(Phrase(phrase.verb, noun), world, room)
     }
 
     fun act(lexicon: Lexicon): String {

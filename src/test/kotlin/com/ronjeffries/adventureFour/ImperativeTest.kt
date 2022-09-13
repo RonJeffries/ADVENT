@@ -19,7 +19,7 @@ class ImperativeTest {
 
     @Test
     fun `create Imperative`() {
-        val imp = Imperative("go", "east", world, room)
+        val imp = Imperative(Phrase("go", "east"), world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
     }
@@ -43,7 +43,7 @@ class ImperativeTest {
         assertThat(imp.act(testLex())).isEqualTo("went east")
         imp = imperatives.fromOneWord("e")
         assertThat(imp.act(testLex())).isEqualTo("went east")
-        imp = Imperative("forge", "sword", world, room)
+        imp = Imperative(Phrase("forge", "sword"), world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
@@ -58,13 +58,13 @@ class ImperativeTest {
         assertThat(imp.act(testLex())).isEqualTo("what is it with you and cows?")
         imp = imperatives.fromTwoWords("hassle","bats")
         assertThat(imp.act(testLex())).isEqualTo("please do not bug the bats")
-        imp = Imperative("forge", "sword", world, room)
+        imp = Imperative(Phrase("forge", "sword"), world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
     @Test
     fun `one failing lookup`() {
-        val imp = Imperative("forge", "sword", world, room)
+        val imp = Imperative(Phrase("forge", "sword"), world, room)
         assertThat(imp.act(testLex())).isEqualTo("I can't forge a sword")
     }
 
@@ -161,14 +161,14 @@ private val TestSynonymTable = mutableMapOf(
     "s" to "south").withDefault { it }
 
 private val TestVerbTable = mutableMapOf(
-    "go" to Imperative("go", "irrelevant", world, room),
-    "east" to Imperative("go", "east", world, room),
-    "west" to Imperative("go", "west", world, room),
-    "north" to Imperative("go", "north", world, room),
-    "south" to Imperative("go", "south", world, room),
-    "say" to Imperative("say", "irrelevant", world, room),
-    "xyzzy" to Imperative("say", "xyzzy", world, room),
-    ).withDefault { (Imperative(it, "none", world, room))
+    "go" to Imperative(Phrase("go", "irrelevant"), world, room),
+    "east" to Imperative(Phrase("go", "east"), world, room),
+    "west" to Imperative(Phrase("go", "west"), world, room),
+    "north" to Imperative(Phrase("go", "north"), world, room),
+    "south" to Imperative(Phrase("go", "south"), world, room),
+    "say" to Imperative(Phrase("say", "irrelevant"), world, room),
+    "xyzzy" to Imperative(Phrase("say", "xyzzy"), world, room),
+    ).withDefault { (Imperative(Phrase(it, "none"), world, room))
 }
 
 private val TestActionTable = mutableMapOf(
