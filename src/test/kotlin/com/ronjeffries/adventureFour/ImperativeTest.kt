@@ -11,7 +11,7 @@ val world = world {
 var room = world.unsafeRoomNamed("name")
 
 class ImperativeTest {
-    private fun getFactory() = ImperativeFactory(getLexicon())
+    private fun getFactory() = PhraseFactory(getLexicon())
     private fun getVerbs() = Verbs(TestVerbTable)
     private fun getSynonyms() = Synonyms(TestSynonymTable)
     private fun getActions() = Actions(TestActionTable)

@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-class ImperativeFactory(private val lexicon: Lexicon) {
+class PhraseFactory(private val lexicon: Lexicon) {
 
     fun fromOneWord(verb:String): Phrase = getVerbPhrase(verb)
     fun fromTwoWords(verb:String, noun:String): Phrase
