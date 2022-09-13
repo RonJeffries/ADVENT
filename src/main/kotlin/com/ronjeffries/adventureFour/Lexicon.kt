@@ -6,6 +6,10 @@ data class Phrase(val verb: String?=null, val noun: String?=null) {
     fun asVerb() = Phrase(this.verb)
     fun asNoun() = Phrase(noun=this.noun)
     fun asEmpty() = Phrase()
+    fun asImperative() = Imperative(this)
+    fun setNoun(noun: String): Phrase {
+        return Phrase(this.verb,noun)
+    }
 }
 
 typealias Action = (Imperative) -> Unit
