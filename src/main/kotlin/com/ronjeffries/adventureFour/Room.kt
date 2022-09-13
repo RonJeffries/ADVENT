@@ -35,8 +35,7 @@ class Room(val roomName: String) {
 
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase {
         val factory = ImperativeFactory(lexicon)
-        val imp = factory.fromString(command.input)
-        return imp.phrase
+        return factory.fromString(command.input)
     }
 
     fun itemString(): String {

@@ -8,12 +8,13 @@ class ImperativeFactory(private val lexicon: Lexicon) {
     private fun imperative(verb: String) = lexicon.translate(synonym(verb))
     private fun synonym(verb: String) = lexicon.synonym(verb)
 
-    fun fromString(input: String): Imperative {
+    fun fromString(input: String): Phrase {
         val words = input.lowercase().split(" ")
-        return when (words.size) {
+        val imp = when (words.size) {
             1-> fromOneWord(words[0])
             2-> fromTwoWords(words[0], words[1])
             else -> fromTwoWords(":tooManyWords", input)
         }
+        return imp.phrase
     }
 }

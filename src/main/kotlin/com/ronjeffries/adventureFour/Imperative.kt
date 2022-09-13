@@ -2,8 +2,8 @@ package com.ronjeffries.adventureFour
 
 data class Imperative(
     val phrase: Phrase,
-    val world: World,
-    val room: Room
+    val world: World = world(){},
+    val room: Room = Room("fakeroom")
 )  {
     val verb = phrase.verb!!
     val noun = phrase.noun!!
