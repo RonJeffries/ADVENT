@@ -8,8 +8,6 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
-    var testNoun: String = ""
-    var testVerb: String = ""
     val lexicon = makeLexicon()
 
     private fun makeLexicon(): Lexicon {

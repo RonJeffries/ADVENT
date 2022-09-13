@@ -33,8 +33,6 @@ class WorldTest {
         assert(world.hasRoomNamed("clearing"))
         val player = Player(world, "clearing")
         player.command("go n")
-        assertThat(world.testVerb).isEqualTo("go")
-        assertThat(world.testNoun).isEqualTo("n")
         assertThat(world.response.nextRoomName).isEqualTo("woods")
     }
 

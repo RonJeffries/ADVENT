@@ -30,8 +30,6 @@ class Room(val roomName: String) {
         world.response.nextRoomName = roomName
         val factory = ImperativeFactory(world.lexicon)
         val imperative = factory.fromString(command.input)
-        world.testVerb = imperative.verb
-        world.testNoun = imperative.noun
         val imp = Imperative(imperative.verb,imperative.noun,world, this)
         imp.act(world.lexicon)
     }
