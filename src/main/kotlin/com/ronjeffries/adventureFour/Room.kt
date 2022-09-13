@@ -28,10 +28,14 @@ class Room(val roomName: String) {
 
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
-        val factory = ImperativeFactory(world.lexicon)
-        val imperative = factory.fromString(command.input)
+        val imperative = makeImperative(command, world.lexicon)
         val imp = Imperative(imperative.verb,imperative.noun,world, this)
         imp.act(world.lexicon)
+    }
+
+    private fun makeImperative(command: Command, lexicon: Lexicon): Imperative {
+        val factory = ImperativeFactory(lexicon)
+        return factory.fromString(command.input)
     }
 
     fun itemString(): String {
