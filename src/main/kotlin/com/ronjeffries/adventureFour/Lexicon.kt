@@ -31,8 +31,8 @@ class Verbs(private val map:Map<String, Imperative>) {
 
 class Actions(val map: ActionMap) {
     fun act(imperative: Imperative) {
-        val imp: (Imperative) -> Unit = find(imperative)
-        imp(imperative)
+        val action: (Imperative) -> Unit = find(imperative)
+        action(imperative)
     }
 
     private fun find(imperative: Imperative): Action {
