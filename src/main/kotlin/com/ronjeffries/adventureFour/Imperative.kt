@@ -10,10 +10,6 @@ data class Imperative(
 
     fun say(s: String) = world.say(s)
 
-    fun setNoun(noun: String): Imperative {
-        return Imperative(Phrase(phrase.verb, noun), world, room)
-    }
-
     fun act(lexicon: Lexicon): String {
         act(lexicon.actions)
         return testingSaid
