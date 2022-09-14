@@ -18,7 +18,6 @@ typealias ActionMap = MutableMap<Phrase, Action>
 class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs, val actions: Actions) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Imperative = verbs.translate(word)
-    fun act(imperative: Imperative) = actions.act(imperative)
 }
 
 class Synonyms(private val map: Map<String,String>) {

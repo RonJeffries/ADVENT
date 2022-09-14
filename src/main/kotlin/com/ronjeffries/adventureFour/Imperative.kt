@@ -15,7 +15,7 @@ data class Imperative(
     }
 
     fun act(lexicon: Lexicon): String {
-        lexicon.act(this)
+        lexicon.actions.act(this)
         return testingSaid
     }
 
