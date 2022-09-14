@@ -7,7 +7,7 @@ class Room(val roomName: String) {
     val contents = mutableSetOf<String>()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
-        Phrase() to {}
+        Phrase() to {imp -> imp.notHandled()}
     )
     private val actions = Actions(actionMap)
     var shortDesc = ""
@@ -33,8 +33,9 @@ class Room(val roomName: String) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)
         val imp = Imperative(phrase,world, this)
-        imp.act(actions)
-        imp.act(world.lexicon.actions)
+        imp.act(actions, world.lexicon.actions)
+//        imp.act(actions)
+//        imp.act(world.lexicon.actions)
     }
 
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase {
