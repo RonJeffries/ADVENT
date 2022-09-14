@@ -43,10 +43,7 @@ class World {
             Phrase("take") to { imp: Imperative -> imp.room.take(imp, imp.world) },
             Phrase("inventory") to { imp: Imperative -> imp.world.showInventory() },
             Phrase() to { imp: Imperative -> imp.room.unknown(imp, imp.world) }
-        )//.withDefault {
-//            { imp: Imperative -> imp.room.unknown(imp, imp.world) }
-//        }
-        )
+        ))
     }
 
     val flags = GameStatusMap()

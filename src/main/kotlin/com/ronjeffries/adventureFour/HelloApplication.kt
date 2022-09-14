@@ -35,7 +35,7 @@ class MainView: View() {
         room("cows") {
             desc("You're in with the cows.", "You're in a pasture with some cows.")
             go("w", "wellhouse")
-            action("cows") { imp -> say("Leave those cows alone") }
+//            action("cows") { imp -> say("Leave those cows alone") }
         }
     }
     private val player = Player(world, "wellhouse")

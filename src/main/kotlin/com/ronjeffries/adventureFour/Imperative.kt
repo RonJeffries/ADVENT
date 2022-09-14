@@ -10,7 +10,7 @@ data class Imperative(
 
     fun say(s: String) = world.say(s)
 
-    fun act(lexicon: Lexicon): String {
+    fun actForTesting(lexicon: Lexicon): String {
         act(lexicon.actions)
         return testingSaid
     }

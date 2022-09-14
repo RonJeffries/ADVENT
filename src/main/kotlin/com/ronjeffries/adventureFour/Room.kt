@@ -6,14 +6,17 @@ typealias GoTarget = Pair<String, (World)->Boolean>
 class Room(val roomName: String) {
     val contents = mutableSetOf<String>()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
-    private val actions = mutableMapOf<String,Action>()
+    private val actionMap = mutableMapOf<Phrase,Action>(
+        Phrase() to {}
+    )
+    private val actions = Actions(actionMap)
     var shortDesc = ""
     var longDesc = ""
 
     // DSL Builders
 
-    fun action(verb: String, action: Action) {
-        actions[verb] = action
+    fun action(phrase: Phrase, action: Action) {
+        actionMap[phrase] = action
     }
 
     fun desc(short: String, long: String) {
@@ -30,6 +33,7 @@ class Room(val roomName: String) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)
         val imp = Imperative(phrase,world, this)
+        imp.act(actions)
         imp.act(world.lexicon.actions)
     }
 
