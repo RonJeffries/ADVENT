@@ -19,6 +19,10 @@ data class Imperative(
         return testingSaid
     }
 
+    fun act(actions: Actions) {
+        actions.act(this)
+    }
+
     private var testingSaid: String = ""
 
     fun testingSay(s:String)  {
