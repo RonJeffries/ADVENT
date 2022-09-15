@@ -162,15 +162,14 @@ private val TestSynonymTable = mutableMapOf(
     "s" to "south").withDefault { it }
 
 private val TestVerbTable = mutableMapOf(
-    "go" to Imperative(Phrase("go", "irrelevant"), world, room),
-    "east" to Imperative(Phrase("go", "east"), world, room),
-    "west" to Imperative(Phrase("go", "west"), world, room),
-    "north" to Imperative(Phrase("go", "north"), world, room),
-    "south" to Imperative(Phrase("go", "south"), world, room),
-    "say" to Imperative(Phrase("say", "irrelevant"), world, room),
-    "xyzzy" to Imperative(Phrase("say", "xyzzy"), world, room),
-    ).withDefault { (Imperative(Phrase(it, "none"), world, room))
-}
+    "go" to Phrase("go", "irrelevant"),
+    "east" to Phrase("go", "east"),
+    "west" to Phrase("go", "west"),
+    "north" to Phrase("go", "north"),
+    "south" to Phrase("go", "south"),
+    "say" to Phrase("say", "irrelevant"),
+    "xyzzy" to Phrase("say", "xyzzy"),
+    ).withDefault { Phrase(it, "none") }
 
 private val TestActionTable = mutableMapOf(
     Phrase("take", "cows") to {imp: Imperative -> imp.testingSay("no cows for you")},

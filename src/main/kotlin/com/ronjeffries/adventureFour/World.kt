@@ -25,15 +25,15 @@ class World {
 
     private fun makeVerbs(): Verbs {
         return Verbs(mutableMapOf(
-            "go" to Imperative(Phrase("go", "irrelevant"), this, Room("fred")),
-            "e" to Imperative(Phrase("go", "e"), this, Room("fred")),
-            "w" to Imperative(Phrase("go", "w"), this, Room("fred")),
-            "n" to Imperative(Phrase("go", "n"), this, Room("fred")),
-            "s" to Imperative(Phrase("go", "s"), this, Room("fred")),
-            "say" to Imperative(Phrase("say", "irrelevant"), this, Room("fred")),
-            "xyzzy" to Imperative(Phrase("say", "xyzzy"), this, Room("fred")),
-            "wd40" to Imperative(Phrase("say","wd40"), this, Room("fred")),
-        ).withDefault { (Imperative(Phrase(it, "none"), this, Room("fred")))})
+            "go" to Phrase("go", "irrelevant"),
+            "e" to Phrase("go", "e"),
+            "w" to Phrase("go", "w"),
+            "n" to Phrase("go", "n"),
+            "s" to Phrase("go", "s"),
+            "say" to Phrase("say", "irrelevant"),
+            "xyzzy" to Phrase("say", "xyzzy"),
+            "wd40" to Phrase("say","wd40"),
+        ).withDefault { Phrase(it, "none")})
     }
 
     private fun makeActions(): Actions {
