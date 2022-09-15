@@ -52,7 +52,7 @@ class World {
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
-    lateinit var response: GameResponse
+    var response: GameResponse = GameResponse()
 
     val roomCount get() = rooms.size
     val roomReferences: Set<String> get() = rooms.roomReferences

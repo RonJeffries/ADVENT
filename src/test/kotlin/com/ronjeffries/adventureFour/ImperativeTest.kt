@@ -2,6 +2,7 @@ package com.ronjeffries.adventureFour
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeEach
 
 
 val world = world {
@@ -16,6 +17,11 @@ class ImperativeTest {
     private fun getSynonyms() = Synonyms(TestSynonymTable)
     private fun getActions() = Actions(TestActionTable)
     private fun getLexicon() = Lexicon(getSynonyms(),getVerbs(),getActions())
+
+    @BeforeEach
+    fun `before each`() {
+        testLex()
+    }
 
     @Test
     fun `create Imperative`() {
@@ -41,69 +47,70 @@ class ImperativeTest {
         var imp = factory.fromOneWord("east").asImperative()
         assertThat(imp.actForTesting(testActions())).isEqualTo("went east")
         imp = factory.fromOneWord("e").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("went east")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("went east")
         imp = Imperative(Phrase("forge", "sword"), world, room)
-        assertThat(imp.actForTesting(testLex())).isEqualTo("I can't forge a sword")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("I can't forge a sword")
     }
 
     @Test
     fun `new phrase finding handles all cases`() {
         val imperatives  = getFactory()
         var imp: Imperative = imperatives.fromTwoWords("take", "cows").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("no cows for you")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("no cows for you")
         imp = imperatives.fromTwoWords("hassle","cows").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("please do not bug the cows")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("please do not bug the cows")
         imp = imperatives.fromTwoWords("pet","cows").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("what is it with you and cows?")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("what is it with you and cows?")
         imp = imperatives.fromTwoWords("hassle","bats").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("please do not bug the bats")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("please do not bug the bats")
         imp = Imperative(Phrase("forge", "sword"), world, room)
-        assertThat(imp.actForTesting(testLex())).isEqualTo("I can't forge a sword")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("I can't forge a sword")
     }
 
     @Test
     fun `one failing lookup`() {
         val imp = Imperative(Phrase("forge", "sword"), world, room)
-        assertThat(imp.actForTesting(testLex())).isEqualTo("I can't forge a sword")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("I can't forge a sword")
     }
 
     private fun testLex(): Lexicon {
         val synonyms = getSynonyms()
         val verbs = getVerbs()
         val actions = getActions()
+        world.actions = actions
         return Lexicon(synonyms, verbs, actions)
     }
 
     private fun testActions(): Actions {
-        return testLex().actions
+        return world.actions
     }
 
     @Test
     fun `two word legal command`() {
         val imperatives  = getFactory()
         val imp = imperatives.fromTwoWords("go", "e").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("went east")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("went east")
     }
 
     @Test
     fun `one and two word commands`() {
         val factory  = getFactory()
         var imp = factory.fromTwoWords("go", "w").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("went west")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("went west")
         imp = factory.fromOneWord("w").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("went west")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("went west")
         imp = factory.fromOneWord("xyzzy").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("said xyzzy")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("said xyzzy")
         imp = factory.fromTwoWords("say", "xyzzy").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("said xyzzy")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("said xyzzy")
         imp = factory.fromTwoWords("say", "unknownWord").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("said unknownWord")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("said unknownWord")
         imp = factory.fromTwoWords("unknownVerb", "unknownNoun").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("I can't unknownVerb a unknownNoun")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("I can't unknownVerb a unknownNoun")
         imp = factory.fromOneWord("unknownWord").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("I can't unknownWord a none")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("I can't unknownWord a none")
         imp = factory.fromOneWord("inventory").asImperative()
-        assertThat(imp.actForTesting(testLex())).isEqualTo("You got nothing")
+        assertThat(imp.actForTesting(testActions())).isEqualTo("You got nothing")
     }
 
     @Test
