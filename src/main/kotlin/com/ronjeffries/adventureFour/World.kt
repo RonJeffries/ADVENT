@@ -12,7 +12,7 @@ class World {
     val lexicon = makeLexicon()
 
     private fun makeLexicon(): Lexicon {
-        return Lexicon(makeSynonyms(), makeVerbs(), makeActions())
+        return Lexicon(makeSynonyms(), makeVerbs())
     }
 
     private fun makeSynonyms(): Synonyms {

@@ -33,9 +33,7 @@ class Room(val roomName: String) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)
         val imp = Imperative(phrase,world, this)
-        imp.act(actions, world.lexicon.actions)
-//        imp.act(actions)
-//        imp.act(world.lexicon.actions)
+        imp.act(actions, world.actions)
     }
 
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase {

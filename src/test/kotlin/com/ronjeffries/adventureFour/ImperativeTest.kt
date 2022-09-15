@@ -16,7 +16,7 @@ class ImperativeTest {
     private fun getVerbs() = Verbs(TestVerbTable)
     private fun getSynonyms() = Synonyms(TestSynonymTable)
     private fun getActions() = Actions(TestActionTable)
-    private fun getLexicon() = Lexicon(getSynonyms(),getVerbs(),getActions())
+    private fun getLexicon() = Lexicon(getSynonyms(), getVerbs())
 
     @BeforeEach
     fun `before each`() {
@@ -78,7 +78,7 @@ class ImperativeTest {
         val verbs = getVerbs()
         val actions = getActions()
         world.actions = actions
-        return Lexicon(synonyms, verbs, actions)
+        return Lexicon(synonyms, verbs)
     }
 
     private fun testActions(): Actions {
@@ -125,8 +125,7 @@ class ImperativeTest {
     fun `create a lexicon`() {
         val synonyms = getSynonyms()
         val verbs = getVerbs()
-        val actions = getActions()
-        val lexicon = Lexicon(synonyms, verbs, actions)
+        val lexicon = Lexicon(synonyms, verbs)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
         val phrase: Phrase = lexicon.translate(
             lexicon.synonym("e")
@@ -134,7 +133,7 @@ class ImperativeTest {
         val imp = Imperative(phrase, world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
-        assertThat(imp.actForTesting(lexicon)).isEqualTo("went east")
+        assertThat(imp.actForTesting(world.actions)).isEqualTo("went east")
     }
 
     @Test

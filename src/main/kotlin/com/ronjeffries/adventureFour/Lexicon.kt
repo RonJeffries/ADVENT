@@ -15,7 +15,7 @@ data class Phrase(val verb: String?=null, val noun: String?=null) {
 typealias Action = (Imperative) -> Unit
 typealias ActionMap = MutableMap<Phrase, Action>
 
-class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs, val actions: Actions) {
+class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs) {
     fun synonym(word:String):String = synonyms.synonym(word)
     fun translate(word: String): Phrase = verbs.translate(word)
 }

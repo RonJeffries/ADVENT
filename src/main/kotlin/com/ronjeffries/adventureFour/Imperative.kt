@@ -21,10 +21,6 @@ data class Imperative(
         worldNeeded = true
     }
 
-    fun actForTesting(lexicon: Lexicon): String {
-        return actForTesting(lexicon.actions)
-    }
-
     fun actForTesting(actions: Actions): String {
         act(actions)
         return testingSaid
