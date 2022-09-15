@@ -105,9 +105,9 @@ class ImperativeTest {
     @Test
     fun verbTranslator() {
         val verbs = getVerbs()
-        val imp = verbs.translate("east")
-        assertThat(imp.verb).isEqualTo("go")
-        assertThat(imp.noun).isEqualTo("east")
+        val phrase = verbs.translate("east").phrase
+        assertThat(phrase.verb).isEqualTo("go")
+        assertThat(phrase.noun).isEqualTo("east")
     }
 
     @Test
