@@ -26,7 +26,7 @@ class Synonyms(private val map: Map<String,String>) {
 }
 
 class Verbs(private val map:Map<String, Imperative>) {
-    fun translate(verb:String): Imperative = map.getValue(verb)
+    fun translate(verb:String): Phrase = map.getValue(verb).phrase
 }
 
 class Actions(val map: ActionMap) {
