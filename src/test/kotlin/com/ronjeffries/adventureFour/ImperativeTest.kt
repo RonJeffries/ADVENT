@@ -105,7 +105,7 @@ class ImperativeTest {
     @Test
     fun verbTranslator() {
         val verbs = getVerbs()
-        val phrase = verbs.translate("east").phrase
+        val phrase = verbs.translate("east")
         assertThat(phrase.verb).isEqualTo("go")
         assertThat(phrase.noun).isEqualTo("east")
     }
@@ -119,8 +119,7 @@ class ImperativeTest {
         assertThat(lexicon.synonym("e")).isEqualTo("east")
         val phrase: Phrase = lexicon.translate(
             lexicon.synonym("e")
-        ).phrase
-        assertThat(phrase.phrase).isEqualTo(phrase)
+        )
         val imp = Imperative(phrase, world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
