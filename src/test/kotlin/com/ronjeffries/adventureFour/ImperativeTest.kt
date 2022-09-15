@@ -117,9 +117,11 @@ class ImperativeTest {
         val actions = getActions()
         val lexicon = Lexicon(synonyms, verbs, actions)
         assertThat(lexicon.synonym("e")).isEqualTo("east")
-        val imp: Imperative = lexicon.translate(
+        val phrase: Phrase = lexicon.translate(
             lexicon.synonym("e")
-        )
+        ).phrase
+        assertThat(phrase.phrase).isEqualTo(phrase)
+        val imp = Imperative(phrase, world, room)
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
         assertThat(imp.actForTesting(lexicon)).isEqualTo("went east")

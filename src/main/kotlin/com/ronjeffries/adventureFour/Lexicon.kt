@@ -3,6 +3,7 @@ package com.ronjeffries.adventureFour
 
 
 data class Phrase(val verb: String?=null, val noun: String?=null) {
+    val phrase = this
     fun asVerb() = Phrase(this.verb)
     fun asNoun() = Phrase(noun=this.noun)
     fun asEmpty() = Phrase()
