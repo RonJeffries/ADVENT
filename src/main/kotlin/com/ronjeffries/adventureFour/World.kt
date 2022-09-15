@@ -8,6 +8,7 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
+    var actions: Actions = makeActions()
     val lexicon = makeLexicon()
 
     private fun makeLexicon(): Lexicon {

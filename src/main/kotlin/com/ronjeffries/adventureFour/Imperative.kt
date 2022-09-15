@@ -22,7 +22,11 @@ data class Imperative(
     }
 
     fun actForTesting(lexicon: Lexicon): String {
-        act(lexicon.actions)
+        return actForTesting(lexicon.actions)
+    }
+
+    fun actForTesting(actions: Actions): String {
+        act(actions)
         return testingSaid
     }
 
