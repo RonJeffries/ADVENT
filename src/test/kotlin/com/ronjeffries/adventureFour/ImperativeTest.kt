@@ -20,7 +20,7 @@ class ImperativeTest {
 
     @BeforeEach
     fun `before each`() {
-        testLex()
+        testSetUpLexAndActions()
     }
 
     @Test
@@ -73,7 +73,7 @@ class ImperativeTest {
         assertThat(imp.actForTesting(testActions())).isEqualTo("I can't forge a sword")
     }
 
-    private fun testLex(): Lexicon {
+    private fun testSetUpLexAndActions(): Lexicon {
         val synonyms = getSynonyms()
         val verbs = getVerbs()
         val actions = getActions()
