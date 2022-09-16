@@ -87,7 +87,7 @@ class World {
     }
 
     fun command(cmd: Command, currentRoom: Room, newResponse: GameResponse): GameResponse {
-        response = newResponse
+        response = GameResponse()
         currentRoom.command(cmd, this)
         response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)
         return response
