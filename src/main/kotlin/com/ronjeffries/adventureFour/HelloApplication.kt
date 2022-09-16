@@ -10,35 +10,41 @@ var myText: TextArea by singleAssign()
 var myCommand: TextField by singleAssign()
 var textContents = "Welcome to Tiny Adventure!"
 
-class MainView: View() {
-    private val world = world {
-        room("wellhouse") {
-            desc("You're at wellhouse", "You're in a charming wellhouse")
-            item("keys")
-            item("bottle")
+fun makeGameWorld(): World {
+    val theWorld = world {
+        room("spring") {
+            desc("spring", "You are at a clear water spring. There is a well house to the east, and a wooded area to the west and south.")
             item("water")
-            go("n", "wellhouse")
-            go("s", "clearing")
-            go("e", "cows")
-        }
-        room("clearing") {
-            desc("You're in a clearing",
-                "You're in a charming clearing. There is a fence to the east.")
-            item("cows")
-            go("n", "wellhouse")
-            go("s","clearing")
-            go("e", "cows") {
-                it.say("You can't climb the fence!")
-                false
+            item("bottle")
+            go("e", "well house")
+            go("w", "woods")
+            go("s", "woods toward cave")
+            action(Phrase("take", "water")) { imp
+                ->  if (inventoryHas("bottle")) {
+//                    addToInventory("bottle of water")
+//                    removeInventory("empty bottle")
+                    contents.add("water")
+                    say("You have filled your bottle with water.")
+            } else {
+                imp.say("What would you keep it in?") }
             }
         }
-        room("cows") {
-            desc("You're in with the cows.", "You're in a pasture with some cows.")
-            go("w", "wellhouse")
-//            action("cows") { imp -> say("Leave those cows alone") }
+        room("woods") {
+            desc("woods", "You are in a dark and forbidding wooded area. It's not clear which way to go.")
+            go("e", "spring")
+            go("n", "woods")
+            go("2", "woods")
+            go("w", "woods")
+            go("nw", "woods")
+            go("se", "woods")
         }
     }
-    private val player = Player(world, "wellhouse")
+    return theWorld
+}
+
+class MainView: View() {
+    private val world = makeGameWorld()
+    private val player = Player(world, "spring")
 
     override val root: Parent = vbox {
         minWidth = 400.0
@@ -47,6 +53,7 @@ class MainView: View() {
                 +player.currentRoom.longDesc + ".\n"
                 + player.currentRoom.itemString()) {
             isEditable = false
+            isWrapText = true
             vgrow = Priority.ALWAYS
         }
         myCommand = textfield ("") {
