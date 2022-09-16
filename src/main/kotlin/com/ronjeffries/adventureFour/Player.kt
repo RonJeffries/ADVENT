@@ -11,7 +11,6 @@ class Player(private val world: World, startingName: String) {
     val resultString: String get() = response.resultString
 
     fun command(commandString: String) {
-        response = GameResponse()
         response = world.command(Command(commandString), currentRoom)
         currentRoom = response.nextRoom
     }
