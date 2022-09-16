@@ -112,9 +112,9 @@ class WorldTest {
             }
         }
         val room = world.unsafeRoomNamed("busy")
-        val response = GameResponse()
+        val unused = GameResponse()
         val command = Command("look around")
-        world.command(command,room, response)
+        val response = world.command(command,room, unused)
         assertThat(response.resultString).contains("Lots happening")
     }
 }
