@@ -27,6 +27,7 @@ class RoomTest {
         val myRoom = myWorld.unsafeRoomNamed("first")
         val secondRoom = myWorld.unsafeRoomNamed("second")
         val unused = GameResponse()
+        //TODO remove unused
         val cmd = Command("s")
         val resp1 = myWorld.command(cmd, myRoom, unused)
         assertThat(resp1.nextRoomName).isEqualTo("first")
