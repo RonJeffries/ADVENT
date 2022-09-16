@@ -54,6 +54,7 @@ class MainView: View() {
                 + player.currentRoom.itemString()) {
             isEditable = false
             isWrapText = true
+            style { fontSize = 20.px}
             vgrow = Priority.ALWAYS
         }
         myCommand = textfield ("") {
