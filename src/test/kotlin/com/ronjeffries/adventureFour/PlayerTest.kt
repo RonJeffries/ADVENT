@@ -67,10 +67,10 @@ class PlayerTest {
             }
         }
         val player = Player(world, "first")
-        player.command("s")
-        assertThat(player.resultString).isEqualTo("long second\n")
-        player.command("s")
-        assertThat(player.resultString).isEqualTo("long second\n")
+        var resultString = player.command("s")
+        assertThat(resultString).isEqualTo("long second\n")
+        resultString = player.command("s")
+        assertThat(resultString).isEqualTo("long second\n")
     }
 
     @Test
@@ -89,8 +89,8 @@ class PlayerTest {
             }
         }
         val player = Player(myWorld, "first")
-        player.command("s")
-        assertThat(player.resultString).isEqualTo("The grate is closed!\n" +
+        val resultString = player.command("s")
+        assertThat(resultString).isEqualTo("The grate is closed!\n" +
                 "You find yourself in the fascinating first room.\n")
     }
 
@@ -117,12 +117,12 @@ class PlayerTest {
             }
         }
         val player = Player(world,"palace")
-        player.command("e")
-        assertThat(player.resultString).isEqualTo("The room is locked by a glowing lock!\n" +
+        var resultString = player.command("e")
+        assertThat(resultString).isEqualTo("The room is locked by a glowing lock!\n" +
                 "You are in an empty room in the palace. There is a padlocked door to the east.\n")
-        player.command("wd40")
-        assertThat(player.resultString).contains("unlocked")
-        player.command("e")
-        assertThat(player.resultString).contains("rich with gold")
+        resultString = player.command("wd40")
+        assertThat(resultString).contains("unlocked")
+        resultString = player.command("e")
+        assertThat(resultString).contains("rich with gold")
     }
 }

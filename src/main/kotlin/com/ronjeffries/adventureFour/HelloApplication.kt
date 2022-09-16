@@ -57,9 +57,9 @@ class MainView: View() {
 
     private fun someoneTyped() {
         val cmd = myCommand.text
-        player.command(cmd)
+        val resultString = player.command(cmd)
         myText.appendText("\n> $cmd")
-        myText.appendText("\n"+player.resultString)
+        myText.appendText("\n"+resultString)
         myCommand.text = ""
         myCommand.appendText("")
     }

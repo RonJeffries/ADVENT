@@ -47,11 +47,10 @@ class WorldTest {
         world.addToInventory("bottle")
         assertThat(world.inventoryHas("axe"))
         val player = Player(world,"woods")
-        player.command("inventory")
-        val s: String = player.resultString
-        assertThat(s).contains("axe")
-        assertThat(s).contains("bottle")
-        assertThat(s).isEqualTo("You have axe, bottle.\n\n\n")
+        val resultString = player.command("inventory")
+        assertThat(resultString).contains("axe")
+        assertThat(resultString).contains("bottle")
+        assertThat(resultString).isEqualTo("You have axe, bottle.\n\n\n")
     }
 
     @Test
