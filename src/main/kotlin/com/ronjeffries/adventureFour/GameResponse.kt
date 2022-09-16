@@ -2,9 +2,8 @@ package com.ronjeffries.adventureFour
 
 import tornadofx.singleAssign
 
-class GameResponse {
+class GameResponse(var nextRoomName:String = "") {
     var sayings = ""
-    lateinit var nextRoomName: String //TODO init in constructor?
     var nextRoom: Room by singleAssign()
     val resultString: String get() = sayings + nextRoom.longDesc +"\n"+ nextRoom.itemString()
 
