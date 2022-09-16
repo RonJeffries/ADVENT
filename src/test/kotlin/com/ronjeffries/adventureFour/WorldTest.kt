@@ -62,18 +62,12 @@ class WorldTest {
             }
         }
         val room = world.unsafeRoomNamed("woods")
-        val response = GameResponse()
-        response.nextRoom = room // hackery
-        world.response = response
-        room.command(Command("take axe"), world)
+        val response = world.command(Command("take axe"), room)
         assertThat(world.resultString).contains("You are in the dark woods.\n")
         assertThat(world.resultString).doesNotContain("take axe taken")
         assertThat(world.resultString).contains("axe taken")
         assertThat(world.resultString).doesNotContain("You find axe.")
-        val r2 = GameResponse()
-        world.response = r2
-        r2.nextRoom = room
-        room.command(Command("take axe"), world)
+        val r2 =world.command(Command("take axe"), room)
         assertThat(r2.resultString).contains("I see no axe here!\n")
     }
 
