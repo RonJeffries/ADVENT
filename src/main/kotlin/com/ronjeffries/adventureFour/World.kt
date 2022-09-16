@@ -86,7 +86,7 @@ class World {
         return rooms.unsafeRoomNamed(name)
     }
 
-    fun command(cmd: Command, currentRoom: Room, newResponse: GameResponse): GameResponse {
+    fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse()
         currentRoom.command(cmd, this)
         response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)

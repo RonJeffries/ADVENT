@@ -96,10 +96,8 @@ class WorldTest {
             }
         }
         val room = world.unsafeRoomNamed("woods")
-        val unused = GameResponse()
-        // TODO remove unused when possible
         val badCommand = Command("abcd efgh")
-        val response = world.command(badCommand, room, unused)
+        val response = world.command(badCommand, room)
         assertThat(response.resultString).contains("unknown command 'abcd efgh'")
     }
 
@@ -113,10 +111,8 @@ class WorldTest {
             }
         }
         val room = world.unsafeRoomNamed("busy")
-        val unused = GameResponse()
-        //tODO remove unused when possible
         val command = Command("look around")
-        val response = world.command(command,room, unused)
+        val response = world.command(command, room)
         assertThat(response.resultString).contains("Lots happening")
     }
 }

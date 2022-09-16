@@ -12,7 +12,7 @@ class Player(private val world: World, startingName: String) {
 
     fun command(commandString: String) {
         response = GameResponse()
-        response = world.command(Command(commandString), currentRoom, response)
+        response = world.command(Command(commandString), currentRoom)
         currentRoom = response.nextRoom
     }
 }
