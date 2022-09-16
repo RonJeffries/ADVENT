@@ -67,8 +67,8 @@ class MainView: View() {
 
 
 
-class ADVENTapplication : App(MainView::class)
+class HelloApplication : App(MainView::class)
 
 fun main() {
-    launch<ADVENTapplication>()
+    launch<HelloApplication>()
 }
