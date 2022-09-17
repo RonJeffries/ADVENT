@@ -9,10 +9,13 @@ class ItemTest {
         var myRoom = Room("y")
         val world = world {
             myRoom = room("x") {
-                item("axe") {}
+                item("axe") {
+                    desc("an axe", "an ornate axe belonging to the dwarf Bridget Ingridsdotter")
+                }
             }
         }
         val item: Item = myRoom.contents["axe"]!!
-        assertThat(item.name).isEqualTo("axe")
+        assertThat(item.shortDesc).isEqualTo("an axe")
+        assertThat(item.longDesc).contains("Bridget Ingridsdotter")
     }
 }
