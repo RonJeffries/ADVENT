@@ -43,8 +43,8 @@ class WorldTest {
                 go("s","clearing")
             }
         }
-        world.addToInventory("axe")
-        world.addToInventory("bottle")
+        world.addToInventory(Item("axe"))
+        world.addToInventory(Item("bottle"))
         assertThat(world.inventoryHas("axe"))
         val player = Player(world,"woods")
         val resultString = player.command("inventory")
