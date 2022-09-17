@@ -98,7 +98,8 @@ class World {
     }
 
     private fun showInventory() {
-        say( inventory.keys.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
+        val values = inventory.values.map { it.shortDesc}
+        say( values.joinToString(prefix="You have ", separator=", ", postfix=".\n") )
     }
 }
 

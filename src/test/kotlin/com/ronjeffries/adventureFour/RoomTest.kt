@@ -67,13 +67,15 @@ class RoomTest {
         val world = world {
             room("storage") {
                 desc("storage room", "large storage room")
-                item("broom") {}
+                item("broom") {
+                    desc("a broom")
+                }
             }
         }
         val player = Player(world, "storage")
         var resultString = player.command("take broom")
         assertThat(resultString).isEqualTo("broom taken.\nlarge storage room\n")
         resultString = player.command("inventory")
-        assertThat(resultString).isEqualTo("You have broom.\n\nlarge storage room\n")
+        assertThat(resultString).isEqualTo("You have a broom.\n\nlarge storage room\n")
     }
 }
