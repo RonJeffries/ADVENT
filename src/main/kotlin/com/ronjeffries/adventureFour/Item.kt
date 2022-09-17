@@ -5,7 +5,7 @@ typealias Items = MutableMap<String, Item>
 class Item(val name: String) {
     var shortDesc = name
     var longDesc = name
-    fun desc(short: String, long: String) {
+    fun desc(short: String, long: String = short) {
         shortDesc = short
         longDesc = long
     }

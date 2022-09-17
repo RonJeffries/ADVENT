@@ -39,19 +39,27 @@ class RoomTest {
         val world = world {
             room("storage") {
                 desc("storage room", "large storage room")
-                item("broom") {}
-                item("broom") {}
-                item("water") {}
-                item("axe") {}
+                item("broom") {
+                    desc("a broom")
+                }
+                item("broom") {
+                    desc("a broom")
+                }
+                item("water") {
+                    desc("some water")
+                }
+                item("axe") {
+                    desc("an axe")
+                }
             }
         }
         val room = world.unsafeRoomNamed("storage")
         assertThat(room.contents).containsKey("broom")
         assertThat(room.contents.size).isEqualTo(3)
         val itemString = room.itemString()
-        assertThat(itemString).contains("axe")
-        assertThat(itemString).contains("broom")
-        assertThat(itemString).contains("water")
+        assertThat(itemString).contains("an axe")
+        assertThat(itemString).contains("a broom")
+        assertThat(itemString).contains("some water")
     }
 
     @Test
