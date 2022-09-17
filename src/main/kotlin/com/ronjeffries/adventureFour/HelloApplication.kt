@@ -14,8 +14,8 @@ fun makeGameWorld(): World {
     val theWorld = world {
         room("spring") {
             desc("spring", "You are at a clear water spring. There is a well house to the east, and a wooded area to the west and south.")
-            item("water")
-            item("bottle")
+            item("water") {}
+            item("bottle") {}
             go("e", "well house")
             go("w", "woods")
             go("s", "woods toward cave")

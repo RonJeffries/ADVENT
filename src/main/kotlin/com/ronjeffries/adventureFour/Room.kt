@@ -76,8 +76,11 @@ class Room(val roomName: String) {
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
 
-    fun item(thing: String) {
-        contents[thing] = Item(thing)
+    fun item(thing: String, details: Item.()->Unit): Item {
+        val item = Item(thing)
+        contents[thing] = item
+        item.details()
+        return item
     }
 
     // Utilities and Other

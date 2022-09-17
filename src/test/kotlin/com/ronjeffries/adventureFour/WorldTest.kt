@@ -58,7 +58,7 @@ class WorldTest {
         val world = world {
             room("woods") {
                 desc("You are in the woods.", "You are in the dark woods.")
-                item("axe")
+                item("axe") {}
             }
         }
         val room = world.unsafeRoomNamed("woods")

@@ -39,10 +39,10 @@ class RoomTest {
         val world = world {
             room("storage") {
                 desc("storage room", "large storage room")
-                item("broom")
-                item("broom")
-                item("water")
-                item("axe")
+                item("broom") {}
+                item("broom") {}
+                item("water") {}
+                item("axe") {}
             }
         }
         val room = world.unsafeRoomNamed("storage")
@@ -59,7 +59,7 @@ class RoomTest {
         val world = world {
             room("storage") {
                 desc("storage room", "large storage room")
-                item("broom")
+                item("broom") {}
             }
         }
         val player = Player(world, "storage")

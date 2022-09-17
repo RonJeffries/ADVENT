@@ -9,7 +9,7 @@ class ItemTest {
         var myRoom = Room("y")
         val world = world {
             myRoom = room("x") {
-                item("axe")
+                item("axe") {}
             }
         }
         val item: Item = myRoom.contents["axe"]!!
