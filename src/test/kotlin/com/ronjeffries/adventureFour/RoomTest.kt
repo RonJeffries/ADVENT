@@ -46,7 +46,7 @@ class RoomTest {
             }
         }
         val room = world.unsafeRoomNamed("storage")
-        assertThat(room.contents).contains("broom")
+        assertThat(room.contents).containsKey("broom")
         assertThat(room.contents.size).isEqualTo(3)
         val itemString = room.itemString()
         assertThat(itemString).contains("axe")

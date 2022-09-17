@@ -4,7 +4,7 @@ package com.ronjeffries.adventureFour
 typealias GoTarget = Pair<String, (World)->Boolean>
 
 class Room(val roomName: String) {
-    val contents = mutableSetOf<String>()
+    val contents = mutableMapOf<String, Item>()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
         Phrase() to {imp -> imp.notHandled()}
@@ -42,7 +42,7 @@ class Room(val roomName: String) {
     }
 
     fun itemString(): String {
-        return contents.joinToString(separator = "") {"You find $it.\n"}
+        return contents.keys.joinToString(separator = "") {"You find $it.\n"}
     }
 
     val castSpell = { imperative: Imperative, world: World ->
@@ -62,8 +62,8 @@ class Room(val roomName: String) {
     }
 
     val take = { imperative: Imperative, world: World ->
-        val done = contents.remove(imperative.noun)
-        if ( done ) {
+        val item = contents.remove(imperative.noun)
+        if ( item!=null ) {
             world.addToInventory(imperative.noun)
             world.response.say("${imperative.noun} taken.")
         } else {
@@ -77,7 +77,7 @@ class Room(val roomName: String) {
     }
 
     fun item(thing: String) {
-        contents+=thing
+        contents[thing] = Item(thing)
     }
 
     // Utilities and Other

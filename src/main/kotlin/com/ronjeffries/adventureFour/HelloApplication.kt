@@ -23,7 +23,6 @@ fun makeGameWorld(): World {
                 ->  if (inventoryHas("bottle")) {
 //                    addToInventory("bottle of water")
 //                    removeInventory("empty bottle")
-                    contents.add("water")
                     say("You have filled your bottle with water.")
             } else {
                 imp.say("What would you keep it in?") }
