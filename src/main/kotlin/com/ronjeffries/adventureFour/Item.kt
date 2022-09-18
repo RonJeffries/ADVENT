@@ -5,14 +5,18 @@ typealias ItemMap = MutableMap<String, Item>
 
 class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
     fun size() = map.keys.size
-    val values = map.values
 
     fun add(item: Item) {
         map[item.name] = item
     }
 
     fun asCarried(): String {
-        return map.values.joinToString(prefix="You have ", transform={it.shortDesc}, separator=", ", postfix=".\n")
+        return map.values.joinToString(
+            prefix = "You have ",
+            transform = { it.shortDesc },
+            separator = ", ",
+            postfix = ".\n"
+        )
     }
 
     fun asFound(): String {
