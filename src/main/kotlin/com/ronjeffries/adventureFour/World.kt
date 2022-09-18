@@ -48,7 +48,7 @@ class World {
     }
 
     val flags = GameStatusMap()
-    private val inventory: Items = mutableMapOf<String,Item>()
+    private val inventory: Items = Items()
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()
@@ -67,7 +67,7 @@ class World {
     }
 
     fun addToInventory(item:Item) {
-        inventory[item.name] = item
+        inventory.add(item)
     }
 
     fun inventoryHas(item: String): Boolean {

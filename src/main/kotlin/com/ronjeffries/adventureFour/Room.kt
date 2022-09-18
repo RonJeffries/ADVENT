@@ -4,7 +4,7 @@ package com.ronjeffries.adventureFour
 typealias GoTarget = Pair<String, (World)->Boolean>
 
 class Room(val roomName: String) {
-    val contents: Items = mutableMapOf<String, Item>()
+    val contents: Items = Items()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
         Phrase() to {imp -> imp.notHandled()}
@@ -78,7 +78,7 @@ class Room(val roomName: String) {
 
     fun item(thing: String, details: Item.()->Unit): Item {
         val item = Item(thing)
-        contents[thing] = item
+        contents.add(item)
         item.details()
         return item
     }
