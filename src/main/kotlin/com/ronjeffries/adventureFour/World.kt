@@ -98,7 +98,7 @@ class World {
     }
 
     private fun showInventory() {
-        say( inventory.values.joinToString(prefix="You have ", transform={it.shortDesc}, separator=", ", postfix=".\n") )
+        say( inventory.asCarried() )
     }
 }
 

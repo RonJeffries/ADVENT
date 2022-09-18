@@ -11,6 +11,10 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         map[item.name] = item
     }
 
+    fun asCarried(): String {
+        return map.values.joinToString(prefix="You have ", transform={it.shortDesc}, separator=", ", postfix=".\n")
+    }
+
     fun asFound(): String {
         return map.values.joinToString(separator = "") { it.asFound() }
     }
