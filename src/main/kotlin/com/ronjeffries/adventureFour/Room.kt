@@ -4,7 +4,7 @@ package com.ronjeffries.adventureFour
 typealias GoTarget = Pair<String, (World)->Boolean>
 
 class Room(val roomName: String) {
-    val contents = mutableMapOf<String, Item>()
+    val contents: Items = mutableMapOf<String, Item>()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
         Phrase() to {imp -> imp.notHandled()}
