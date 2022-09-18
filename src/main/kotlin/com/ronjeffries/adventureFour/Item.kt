@@ -11,6 +11,10 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         map[item.name] = item
     }
 
+    fun asFound(): String {
+        return map.values.joinToString(separator = "") { it.asFound() }
+    }
+
     fun contains(item: String): Boolean {
         return map.containsKey(item)
     }

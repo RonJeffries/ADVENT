@@ -42,7 +42,7 @@ class Room(val roomName: String) {
     }
 
     fun itemString(): String {
-        return contents.values.joinToString(separator = "") {it.asFound()}
+        return contents.asFound()
     }
 
     val castSpell = { imperative: Imperative, world: World ->
