@@ -18,14 +18,4 @@ class ItemTest {
         assertThat(item.shortDesc).isEqualTo("an axe")
         assertThat(item.longDesc).contains("Bridget Ingridsdotter")
     }
-
-    @Test
-    fun `items size and values`() {
-        val items = Items()
-        assertThat(items.values.size).isEqualTo(0)
-        assertThat(items.values.size).isEqualTo(items.size())
-        items.add(Item("new"))
-        assertThat(items.values.size).isEqualTo(1)
-        assertThat(items.values.size).isEqualTo(items.size())
-    }
 }

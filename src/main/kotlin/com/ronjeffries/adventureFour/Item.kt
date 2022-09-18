@@ -27,6 +27,7 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
 class Item(val name: String) {
     var shortDesc = name
     var longDesc = name
+    fun asFound() = "You find $shortDesc.\n"
     fun desc(short: String, long: String = short) {
         shortDesc = short
         longDesc = long
