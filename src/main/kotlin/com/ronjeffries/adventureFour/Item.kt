@@ -4,7 +4,7 @@ package com.ronjeffries.adventureFour
 typealias ItemMap = MutableMap<String, Item>
 
 class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
-    fun size() = map.keys.size
+    val size get() = map.keys.size
 
     fun add(item: Item) {
         map[item.name] = item
@@ -23,24 +23,13 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         return map.values.joinToString(separator = "") { it.asFound() }
     }
 
-    fun contains(item: String): Boolean {
-        return map.containsKey(item)
-    }
+    fun contains(item: String): Boolean = map.containsKey(item)
 
-    fun moveItemTo(name: String, target: Items): Boolean {
-        val maybeItem: Item? = remove(name)
-        return when (maybeItem) {
-            null -> false
-            else -> {
-                target.add(maybeItem)
-                return true
-            }
-        }
-    }
+    fun moveItemTo(name: String, target: Items): Boolean
+        = remove(name)?.also {target.add(it)} != null
 
-    private fun remove(key:String): Item? {
-        return map.remove(key)
-    }
+    private fun remove(key:String): Item? = map.remove(key)
+
 }
 
 class Item(val name: String) {
