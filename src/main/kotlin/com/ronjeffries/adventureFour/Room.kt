@@ -45,7 +45,7 @@ class Room(val roomName: String) {
         return contents.asFound()
     }
 
-    val castSpell = { imperative: Imperative, world: World ->
+    fun castSpell(imperative: Imperative, world: World) {
         when (imperative.noun) {
             "wd40" -> {
                 world.flags.get("unlocked").set(true)
@@ -56,12 +56,12 @@ class Room(val roomName: String) {
         }
     }
 
-    val move = { imperative: Imperative, world: World ->
+    fun move(imperative: Imperative, world: World) {
         val (targetName, allowed) = moves.getValue(imperative.noun)
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 
-    val take = { imp: Imperative, world: World ->
+    fun take(imp: Imperative, world: World) {
         with(world) {
             response.say(imp.noun.let {
                 when (contents.moveItemTo(it, inventory)) {
@@ -72,7 +72,7 @@ class Room(val roomName: String) {
         }
     }
 
-    val unknown = { imperative: Imperative, world: World ->
+    fun unknown(imperative: Imperative, world: World ) {
         println("unknown")
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
     }
