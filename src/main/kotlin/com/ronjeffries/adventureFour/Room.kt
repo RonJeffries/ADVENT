@@ -29,6 +29,17 @@ class Room(val roomName: String) {
 
     // Game Play
 
+    fun castSpell(imperative: Imperative, world: World) {
+        when (imperative.noun) {
+            "wd40" -> {
+                world.flags.get("unlocked").set(true)
+                world.response.say("The magic wd40 works! The padlock is unlocked!")
+            }
+            "xyzzy" -> { move(imperative, world) }
+            else -> { world.response.say("Nothing happens here.") }
+        }
+    }
+
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)
@@ -41,20 +52,14 @@ class Room(val roomName: String) {
         return factory.fromString(command.input)
     }
 
-    fun itemString(): String {
-        return contents.asFound()
+    fun item(thing: String, details: Item.()->Unit): Item {
+        val item = Item(thing)
+        contents.add(item)
+        item.details()
+        return item
     }
 
-    fun castSpell(imperative: Imperative, world: World) {
-        when (imperative.noun) {
-            "wd40" -> {
-                world.flags.get("unlocked").set(true)
-                world.response.say("The magic wd40 works! The padlock is unlocked!")
-            }
-            "xyzzy" -> { move(imperative, world) }
-            else -> { world.response.say("Nothing happens here.") }
-        }
-    }
+    fun itemString(): String = contents.asFound()
 
     fun move(imperative: Imperative, world: World) {
         val (targetName, allowed) = moves.getValue(imperative.noun)
@@ -72,13 +77,6 @@ class Room(val roomName: String) {
     fun unknown(imperative: Imperative, world: World ) {
         println("unknown")
         world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
-    }
-
-    fun item(thing: String, details: Item.()->Unit): Item {
-        val item = Item(thing)
-        contents.add(item)
-        item.details()
-        return item
     }
 
     // Utilities and Other
