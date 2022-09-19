@@ -62,15 +62,11 @@ class Room(val roomName: String) {
     }
 
     fun take(imp: Imperative, world: World) {
-        with(world) {
-            val message = imp.noun.let {
-                when (contents.moveItemTo(it, inventory)) {
-                    true -> "$it taken."
-                    false -> "I see no $it here!"
-                }
-            }
-            response.say(message)
-        }
+        with (world) { imp.noun.let {
+        response.say(
+            when (contents.moveItemTo(it, inventory)) {
+                true -> "$it taken."
+                false -> "I see no $it here!" }) }}
     }
 
     fun unknown(imperative: Imperative, world: World ) {
