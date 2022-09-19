@@ -62,10 +62,13 @@ class Room(val roomName: String) {
     }
 
     val take = { imperative: Imperative, world: World ->
-        if ( contents.moveItemTo(imperative.noun, world.inventory) ) {
-            world.response.say("${imperative.noun} taken.")
-        } else {
-            world.response.say("I see no ${imperative.noun} here!")
+        when {
+            contents.moveItemTo(imperative.noun, world.inventory) -> {
+                world.response.say("${imperative.noun} taken.")
+            }
+            else -> {
+                world.response.say("I see no ${imperative.noun} here!")
+            }
         }
     }
 
