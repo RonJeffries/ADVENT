@@ -75,13 +75,10 @@ class Room(val roomName: String) {
     }
 
     fun unknown(imperative: Imperative, world: World ) {
-        println("unknown")
-        world.response.say("unknown command '${imperative.verb} ${imperative.noun}'")
+        world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'")
     }
 
     // Utilities and Other
 
-    val roomReferences: Set<String> get () {
-        return moves.values.map {it.first}.toSet()
-    }
+    val roomReferences: Set<String> get () = moves.values.map {it.first}.toSet()
 }
