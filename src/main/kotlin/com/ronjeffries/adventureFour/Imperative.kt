@@ -3,13 +3,10 @@ package com.ronjeffries.adventureFour
 data class Imperative(
     val phrase: Phrase,
     val world: World = world(){},
-    val room: Room = Room("fakeroom")
-)  {
+    val room: Room = Room("fakeroom")) {
     var worldNeeded: Boolean = true
     val verb = phrase.verb!!
     val noun = phrase.noun!!
-
-    fun say(s: String) = world.say(s)
 
     fun act(roomActions: Actions, worldActions: Actions) {
         worldNeeded = false
@@ -17,8 +14,8 @@ data class Imperative(
         if (worldNeeded) act(worldActions)
     }
 
-    fun notHandled() {
-        worldNeeded = true
+    fun act(actions: Actions) {
+        actions.act(this)
     }
 
     fun actForTesting(actions: Actions): String {
@@ -26,9 +23,11 @@ data class Imperative(
         return testingSaid
     }
 
-    fun act(actions: Actions) {
-        actions.act(this)
+    fun notHandled() {
+        worldNeeded = true
     }
+
+    fun say(s: String) = world.say(s)
 
     private var testingSaid: String = ""
 
