@@ -27,10 +27,6 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         return map.containsKey(item)
     }
 
-    fun getItem(name: String): Item? {
-        return map[name]
-    }
-
     fun moveItemTo(name: String, target: Items): Boolean {
         val maybeItem: Item? = remove(name)
         return when (maybeItem) {
@@ -42,7 +38,7 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         }
     }
 
-    fun remove(key:String): Item? {
+    private fun remove(key:String): Item? {
         return map.remove(key)
     }
 }

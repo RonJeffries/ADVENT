@@ -6,17 +6,16 @@ import org.junit.jupiter.api.Test
 class ItemTest {
     @Test
     fun `initial item`() {
-        var myRoom = Room("y")
+        var myItem = Item("nothing")
         world {
-            myRoom = room("x") {
-                item("axe") {
+            room("x") {
+                myItem = item("axe") {
                     desc("an axe", "an ornate axe belonging to the dwarf Bridget Ingridsdotter")
                 }
             }
         }
-        val item: Item = myRoom.contents.getItem("axe")!!
-        assertThat(item.shortDesc).isEqualTo("an axe")
-        assertThat(item.longDesc).contains("Bridget Ingridsdotter")
+        assertThat(myItem.shortDesc).isEqualTo("an axe")
+        assertThat(myItem.longDesc).contains("Bridget Ingridsdotter")
     }
 
     @Test
