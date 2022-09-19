@@ -91,7 +91,7 @@ class WorldTest {
         val room = world.unsafeRoomNamed("woods")
         val badCommand = Command("abcd efgh")
         val response = world.command(badCommand, room)
-        assertThat(response.resultString).contains("I do not understand 'abcd efgh'")
+        assertThat(response.resultString).contains("I do not understand 'abcd efgh'.")
     }
 
     @Test

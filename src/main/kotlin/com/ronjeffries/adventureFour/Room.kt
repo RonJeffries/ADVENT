@@ -75,7 +75,7 @@ class Room(val roomName: String) {
     }
 
     fun unknown(imperative: Imperative, world: World ) {
-        world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'")
+        world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
     }
 
     // Utilities and Other
