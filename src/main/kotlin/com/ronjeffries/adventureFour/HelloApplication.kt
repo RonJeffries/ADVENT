@@ -60,6 +60,7 @@ class MainView: View() {
         myCommand = textfield ("") {
             action { someoneTyped() }
             promptText = "Command"
+            style { fontSize = 20.px}
         }
     }
 
