@@ -48,7 +48,7 @@ class World {
     }
 
     val flags = GameStatusMap()
-    private val inventory: Items = Items()
+    val inventory: Items = Items()
     val name = "world"
     val resultString: String get() = response.resultString
     private val rooms = Rooms()

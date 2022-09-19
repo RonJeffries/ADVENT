@@ -31,6 +31,17 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         return map[name]
     }
 
+    fun moveItemTo(name: String, target: Items): Boolean {
+        val maybeItem: Item? = remove(name)
+        return when (maybeItem) {
+            null -> false
+            else -> {
+                target.add(maybeItem)
+                return true
+            }
+        }
+    }
+
     fun remove(key:String): Item? {
         return map.remove(key)
     }
