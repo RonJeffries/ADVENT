@@ -63,12 +63,13 @@ class Room(val roomName: String) {
 
     fun take(imp: Imperative, world: World) {
         with(world) {
-            response.say(imp.noun.let {
+            val message = imp.noun.let {
                 when (contents.moveItemTo(it, inventory)) {
                     true -> "$it taken."
                     false -> "I see no $it here!"
                 }
-            } )
+            }
+            response.say(message)
         }
     }
 
