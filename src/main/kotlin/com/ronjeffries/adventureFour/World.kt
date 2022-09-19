@@ -11,6 +11,8 @@ class World {
     var actions: Actions = makeActions()
     val lexicon = makeLexicon()
 
+// creation utilities
+
     private fun makeLexicon(): Lexicon {
         return Lexicon(makeSynonyms(), makeVerbs())
     }
@@ -56,7 +58,7 @@ class World {
     val roomCount get() = rooms.size
     val roomReferences: Set<String> get() = rooms.roomReferences
 
-    fun flag(name: String) = flags.get(name)
+// DSL
 
     fun room(name: String, details: Room.()->Unit) : Room {
         val room = Room(name)
@@ -65,16 +67,27 @@ class World {
         return room
     }
 
+// Game Play
+
     fun addToInventory(item:Item) {
         inventory.add(item)
     }
 
-    fun inventoryHas(item: String): Boolean {
-        return inventory.contains(item)
+    fun command(cmd: Command, currentRoom: Room): GameResponse {
+        response = GameResponse(currentRoom.roomName)
+        currentRoom.command(cmd, this)
+        response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)
+        return response
     }
+
+    fun flag(name: String) = flags.get(name)
 
     fun hasRoomNamed(name: String): Boolean {
         return rooms.containsKey(name)
+    }
+
+    fun inventoryHas(item: String): Boolean {
+        return inventory.contains(item)
     }
 
     fun roomNamedOrDefault(name: String, default: Room) :Room {
@@ -83,13 +96,6 @@ class World {
 
     fun unsafeRoomNamed(name: String): Room {
         return rooms.unsafeRoomNamed(name)
-    }
-
-    fun command(cmd: Command, currentRoom: Room): GameResponse {
-        response = GameResponse(currentRoom.roomName)
-        currentRoom.command(cmd, this)
-        response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)
-        return response
     }
 
     fun say(s: String) {
