@@ -100,7 +100,9 @@ class RoomTest {
             }
         }
         val player = Player(world, "spring")
-        var resultString = player.command("take bottle")
+        var resultString = player.command("take water")
+        assertThat(resultString).contains("What would you keep it in?")
+        resultString = player.command("take bottle")
         assertThat(resultString).contains("bottle taken")
         assertThat(resultString).contains("You find water.")
         resultString = player.command("take water")
