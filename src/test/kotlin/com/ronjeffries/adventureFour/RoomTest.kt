@@ -78,4 +78,35 @@ class RoomTest {
         resultString = player.command("inventory")
         assertThat(resultString).isEqualTo("You have a broom.\n\nlarge storage room\n")
     }
+
+    @Test
+    fun `taking water`() {
+        val world = world {
+            room("spring") {
+                desc("spring", "fresh water spring")
+                item("bottle") {
+                    desc("a bottle")
+                }
+                item("water") {
+                    desc("water", "cool, fresh water")
+                }
+                action(Phrase("take", "water")) { imp->
+                    if (inventoryHas("bottle")) {
+                        inventorySetInformation("bottle", " of water")
+                        say("You fill your bottle with water.")
+                    } else {
+                        imp.say("What would you keep it in?") }
+                }
+            }
+        }
+        val player = Player(world, "spring")
+        var resultString = player.command("take bottle")
+        assertThat(resultString).contains("bottle taken")
+        assertThat(resultString).contains("You find water.")
+        resultString = player.command("take water")
+        assertThat(resultString).contains("You fill your bottle with water.")
+        assertThat(resultString).contains("You find water")
+        resultString = player.command("inventory")
+        assertThat(resultString).contains("bottle of water")
+    }
 }

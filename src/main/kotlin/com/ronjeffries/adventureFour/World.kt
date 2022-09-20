@@ -90,6 +90,10 @@ class World {
         return inventory.contains(item)
     }
 
+    fun inventorySetInformation(item: String, property: String) {
+        inventory.setInformation(item,property)
+    }
+
     fun roomNamedOrDefault(name: String, default: Room) :Room {
         return rooms.getOrDefault(name, default)
     }

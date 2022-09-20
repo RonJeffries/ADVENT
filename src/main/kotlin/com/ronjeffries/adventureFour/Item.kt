@@ -13,7 +13,7 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
     fun asCarried(): String {
         return map.values.joinToString(
             prefix = "You have ",
-            transform = { it.shortDesc },
+            transform = { it.carriedDescription },
             separator = ", ",
             postfix = ".\n"
         )
@@ -29,14 +29,25 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
 
     private fun remove(key:String): Item? = map.remove(key)
 
+    fun setInformation(item: String, property: String) {
+        map[item]?.setInformation(property)
+    }
+
 }
 
 class Item(val name: String) {
     var shortDesc = name
     var longDesc = name
+    var info: String = ""
     fun asFound() = "You find $shortDesc.\n"
     fun desc(short: String, long: String = short) {
         shortDesc = short
         longDesc = long
+    }
+
+    val carriedDescription: String get() = "$shortDesc$info"
+
+    fun setInformation(infoString: String) {
+        info = infoString
     }
 }
