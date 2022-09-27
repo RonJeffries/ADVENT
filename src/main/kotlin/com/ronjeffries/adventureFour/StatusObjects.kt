@@ -3,9 +3,7 @@ package com.ronjeffries.adventureFour
 class GameStatusMap {
     private val map = mutableMapOf<String, GameStatus>()
 
-    fun get(name:String): GameStatus {
-        return map.getOrPut(name) { GameStatus() }
-    }
+    fun get(name:String): GameStatus = map.getOrPut(name) { GameStatus() }
 }
 
 class GameStatus(var value: Int = 0) {
