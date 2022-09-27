@@ -47,10 +47,8 @@ class Room(val roomName: String) {
         imp.act(actions, world.actions)
     }
 
-    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase {
-        val factory = PhraseFactory(lexicon)
-        return factory.fromString(command.input)
-    }
+    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase
+        = PhraseFactory(lexicon).fromString(command.input)
 
     fun item(thing: String, details: Item.()->Unit): Item {
         val item = Item(thing)
