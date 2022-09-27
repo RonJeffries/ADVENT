@@ -13,9 +13,7 @@ class World {
 
 // creation utilities
 
-    private fun makeLexicon(): Lexicon {
-        return Lexicon(makeSynonyms(), makeVerbs())
-    }
+    private fun makeLexicon(): Lexicon = Lexicon(makeSynonyms(), makeVerbs())
 
     private fun makeSynonyms(): Synonyms {
         return Synonyms( mutableMapOf(
@@ -82,25 +80,15 @@ class World {
 
     fun flag(name: String) = flags.get(name)
 
-    fun hasRoomNamed(name: String): Boolean {
-        return rooms.containsKey(name)
-    }
+    fun hasRoomNamed(name: String): Boolean = rooms.containsKey(name)
 
-    fun inventoryHas(item: String): Boolean {
-        return inventory.contains(item)
-    }
+    fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
     fun inventorySetInformation(item: String, property: String) {
         inventory.setInformation(item,property)
     }
 
-    fun roomNamedOrDefault(name: String, default: Room) :Room {
-        return rooms.getOrDefault(name, default)
-    }
-
-    fun unsafeRoomNamed(name: String): Room {
-        return rooms.unsafeRoomNamed(name)
-    }
+    fun roomNamedOrDefault(name: String, default: Room) :Room = rooms.getOrDefault(name, default)
 
     fun say(s: String) {
         response.say(s)
@@ -109,5 +97,7 @@ class World {
     private fun showInventory() {
         say( inventory.asCarried() )
     }
+
+    fun unsafeRoomNamed(name: String): Room = rooms.unsafeRoomNamed(name)
 }
 
