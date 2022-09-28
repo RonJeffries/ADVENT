@@ -90,7 +90,7 @@ class RoomTest {
                 item("water") {
                     desc("water", "cool, fresh water")
                 }
-                action(Phrase("take", "water")) { imp->
+                action("take", "water") { imp->
                     if (inventoryHas("bottle")) {
                         inventorySetInformation("bottle", " of water")
                         say("You fill your bottle with water.")

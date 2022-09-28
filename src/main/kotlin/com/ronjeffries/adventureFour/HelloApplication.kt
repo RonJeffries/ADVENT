@@ -23,7 +23,7 @@ fun makeGameWorld(): World {
             go("e", "well house")
             go("w", "woods")
             go("s", "woods toward cave")
-            action(Phrase("take", "water")) { imp->
+            action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
                     inventorySetInformation("bottle", " of water")
                     say("You fill your bottle with water.")

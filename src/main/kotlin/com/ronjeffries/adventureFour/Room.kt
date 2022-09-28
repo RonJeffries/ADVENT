@@ -16,6 +16,10 @@ class Room(val roomName: String) {
 
     // DSL Builders
 
+    fun action(verb: String, noun: String, action: Action) {
+        action(Phrase(verb,noun), action)
+    }
+
     fun action(phrase: Phrase, action: Action) {
         actionMap[phrase] = action
     }

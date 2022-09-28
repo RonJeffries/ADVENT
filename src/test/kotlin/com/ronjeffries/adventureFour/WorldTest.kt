@@ -99,7 +99,7 @@ class WorldTest {
         val world = world {
             room("busy") {
                 desc("you are in a busy room", "you are in a very busy room")
-                action(Phrase("look","around"),
+                action("look","around",
                     {imp-> imp.world.say("Lots happening")})
             }
         }
