@@ -76,7 +76,7 @@ class RoomTest {
         var resultString = player.command("take broom")
         assertThat(resultString).isEqualTo("broom taken.\nlarge storage room\n")
         resultString = player.command("inventory")
-        assertThat(resultString).isEqualTo("You have a broom.\n\nlarge storage room\n")
+        assertThat(resultString).isEqualTo("You have a broom.\n\nstorage room\n")
     }
 
     @Test

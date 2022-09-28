@@ -70,7 +70,7 @@ class PlayerTest {
         var resultString = player.command("s")
         assertThat(resultString).isEqualTo("long second\n")
         resultString = player.command("s")
-        assertThat(resultString).isEqualTo("long second\n")
+        assertThat(resultString).isEqualTo("short second\n")
     }
 
     @Test

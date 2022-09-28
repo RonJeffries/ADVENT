@@ -12,6 +12,7 @@ class Room(val roomName: String) {
     private val actions = Actions(actionMap)
     var shortDesc = ""
     var longDesc = ""
+    var theDesc = ""
 
     // DSL Builders
 
@@ -22,6 +23,7 @@ class Room(val roomName: String) {
     fun desc(short: String, long: String) {
         shortDesc = short
         longDesc = long
+        theDesc = long
     }
     fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
         moves += direction to Pair(roomName, allowed)
@@ -57,7 +59,23 @@ class Room(val roomName: String) {
         return item
     }
 
+    fun description(): String {
+        return theDesc.also {setShortDesc()}
+    }
+
+    fun setLongDesc() {
+        theDesc = longDesc
+    }
+
+    fun setShortDesc() {
+        theDesc = shortDesc
+    }
+
     fun itemString(): String = contents.asFound()
+
+    fun look() {
+        setLongDesc()
+    }
 
     fun move(imperative: Imperative, world: World) {
         val (targetName, allowed) = moves.getValue(imperative.noun)

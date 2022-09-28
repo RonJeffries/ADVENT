@@ -15,8 +15,6 @@ fun makeGameWorld(): World {
         room("spring") {
             desc("spring", "You are at a clear water spring. There is a well house to the east, and a wooded area to the west and south.")
             item("water") {}
-            item("bottle") {}
-            item("keys") {}
             go("e", "well house")
             go("w", "woods")
             go("s", "woods toward cave")
@@ -36,6 +34,22 @@ fun makeGameWorld(): World {
             go("w", "woods")
             go("nw", "woods")
             go("se", "woods")
+        }
+        room("well house" ) {
+            desc("well house", "You are in a small house near a spring.")
+            item("bottle") {}
+            item("keys") {}
+            go("w", "spring")
+        }
+        room("woods toward cave") {
+            desc("breezy woods", "You are in the woods. There is a cool breeze coming from the west.")
+            go("w","cave entrance")
+            go("n", "spring")
+        }
+        room("cave entrance") {
+            desc("cave entrance",
+                "You are at an entrance to a cave. There is a locked gate blocking your way west.")
+            go("e","woods toward cave")
         }
     }
     return theWorld

@@ -32,6 +32,7 @@ class World {
             "n" to Phrase("go", "n"),
             "s" to Phrase("go", "s"),
             "say" to Phrase("say", "irrelevant"),
+            "look" to Phrase("look", "around"),
             "xyzzy" to Phrase("say", "xyzzy"),
             "wd40" to Phrase("say","wd40"),
         ).withDefault { Phrase(it, "none")})
@@ -43,6 +44,7 @@ class World {
             Phrase("say") to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
             Phrase("take") to { imp: Imperative -> imp.room.take(imp, imp.world) },
             Phrase("inventory") to { imp: Imperative -> imp.world.showInventory() },
+            Phrase("look") to { imp: Imperative-> imp.room.look()},
             Phrase() to { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         ))
     }
