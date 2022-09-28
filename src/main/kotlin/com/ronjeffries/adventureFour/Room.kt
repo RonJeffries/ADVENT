@@ -25,6 +25,7 @@ class Room(val roomName: String) {
         longDesc = long
         theDesc = long
     }
+
     fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
         moves += direction to Pair(roomName, allowed)
     }
@@ -49,18 +50,18 @@ class Room(val roomName: String) {
         imp.act(actions, world.actions)
     }
 
+    fun description(): String {
+        return theDesc.also {setShortDesc()}
+    }
+
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase
         = PhraseFactory(lexicon).fromString(command.input)
 
-    fun item(thing: String, details: Item.()->Unit): Item {
+    fun item(thing: String, details: Item.()->Unit = {}): Item {
         val item = Item(thing)
         contents.add(item)
         item.details()
         return item
-    }
-
-    fun description(): String {
-        return theDesc.also {setShortDesc()}
     }
 
     fun setLongDesc() {

@@ -13,8 +13,13 @@ var textContents = "Welcome to Tiny Adventure!"
 fun makeGameWorld(): World {
     val theWorld = world {
         room("spring") {
-            desc("spring", "You are at a clear water spring. There is a well house to the east, and a wooded area to the west and south.")
-            item("water") {}
+            desc("spring", "You are at a clear water spring. " +
+                    "There is a well house to the east, and a wooded area to the west and south.")
+            item("water") {
+                desc("water", "Perfectly ordinary sparkling spring water, " +
+                        "with a tinge or iron that has leached from the surrounding rocks, " +
+                        "and a minor tang of fluoride, which is good for your teeth.)")
+            }
             go("e", "well house")
             go("w", "woods")
             go("s", "woods toward cave")
@@ -27,7 +32,8 @@ fun makeGameWorld(): World {
             }
         }
         room("woods") {
-            desc("woods", "You are in a dark and forbidding wooded area. It's not clear which way to go.")
+            desc("woods", "You are in a dark and forbidding wooded area. " +
+                    "It's not clear which way to go.")
             go("e", "spring")
             go("n", "woods")
             go("2", "woods")
@@ -36,19 +42,23 @@ fun makeGameWorld(): World {
             go("se", "woods")
         }
         room("well house" ) {
-            desc("well house", "You are in a small house near a spring.")
-            item("bottle") {}
-            item("keys") {}
+            desc("well house", "You are in a small house near a spring. " +
+                    "The house is sparsely decorated, in a rustic style. " +
+                    "It appears to be well kept.")
+            item("bottle")
+            item("keys")
             go("w", "spring")
         }
         room("woods toward cave") {
-            desc("breezy woods", "You are in the woods. There is a cool breeze coming from the west.")
+            desc("breezy woods", "You are in the woods. " +
+                    "There is a cool breeze coming from the west.")
             go("w","cave entrance")
             go("n", "spring")
         }
         room("cave entrance") {
             desc("cave entrance",
-                "You are at an entrance to a cave. There is a locked gate blocking your way west.")
+                "You are at an entrance to a cave. " +
+                        "There is a locked gate blocking your way west.")
             go("e","woods toward cave")
         }
     }
@@ -63,7 +73,7 @@ class MainView: View() {
         minWidth = 400.0
         minHeight = 200.0
         myText = textarea(textContents + "\n"
-                +player.currentRoom.longDesc + ".\n"
+                +player.currentRoom.description() + ".\n"
                 + player.currentRoom.itemString()) {
             isEditable = false
             isWrapText = true
