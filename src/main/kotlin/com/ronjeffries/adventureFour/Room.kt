@@ -3,6 +3,10 @@ package com.ronjeffries.adventureFour
 
 typealias GoTarget = Pair<String, (World)->Boolean>
 
+enum class R {
+    spring, wellhouse, woods, `woods toward cave`, `cave entrance`
+}
+
 class Room(val roomName: String) {
     val contents: Items = Items()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
@@ -28,6 +32,10 @@ class Room(val roomName: String) {
         shortDesc = short
         longDesc = long
         theDesc = long
+    }
+
+    fun go(direction: String, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
+        go(direction, roomName.name, allowed)
     }
 
     fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
