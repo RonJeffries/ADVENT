@@ -8,12 +8,14 @@ enum class R {
 }
 
 enum class D {
-    north, south, east, west, northwest, southwest,northeast,southeast, up, down
+    north, south, east, west,
+    northwest, southwest,northeast,southeast,
+    up, down, xyzzy
 }
 
 class Room(val roomName: String) {
     val contents: Items = Items()
-    private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
+    private val moves = mutableMapOf<D,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
         Phrase() to {imp -> imp.notHandled()}
     )
@@ -47,7 +49,7 @@ class Room(val roomName: String) {
     }
 
     fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
-        moves += direction to Pair(roomName, allowed)
+        moves += D.valueOf(direction) to Pair(roomName, allowed)
     }
 
     // Game Play
@@ -99,7 +101,7 @@ class Room(val roomName: String) {
     }
 
     fun move(imperative: Imperative, world: World) {
-        val (targetName, allowed) = moves.getValue(imperative.noun)
+        val (targetName, allowed) = moves.getValue(D.valueOf(imperative.noun))
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 

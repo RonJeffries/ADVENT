@@ -40,7 +40,7 @@ class WorldTest {
     fun `world has inventory`() {
         val world = world {
             room("woods") {
-                go("s","clearing")
+                go("south","clearing")
             }
         }
         world.addToInventory(Item("axe"))

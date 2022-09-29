@@ -113,7 +113,7 @@ class PlayerTest {
             room("treasure") {
                 desc("You're in the treasure room",
                     "You are in a treasure room, rich with gold and jewels")
-                go("w", "palace")
+                go("west", "palace")
             }
         }
         val player = Player(world,"palace")
