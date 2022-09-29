@@ -20,9 +20,9 @@ fun makeGameWorld(): World {
                         "with a tinge or iron that has leached from the surrounding rocks, " +
                         "and a minor tang of fluoride, which is good for your teeth.)")
             }
-            go("e", R.wellhouse)
-            go("w", R.woods)
-            go("s", R.`woods toward cave`)
+            go(D.east, R.wellhouse)
+            go(D.west, R.woods)
+            go(D.south, R.`woods toward cave`)
             action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
                     inventorySetInformation("bottle", " of water")
@@ -34,12 +34,11 @@ fun makeGameWorld(): World {
         room("woods") {
             desc("woods", "You are in a dark and forbidding wooded area. " +
                     "It's not clear which way to go.")
-            go("e", "spring")
-            go("n", "woods")
-            go("2", "woods")
-            go("w", "woods")
-            go("nw", "woods")
-            go("se", "woods")
+            go(D.east, R.spring)
+            go(D.north, R.woods)
+            go(D.west, R.woods)
+            go(D.northwest, R.woods)
+            go(D.southwest, R.woods)
         }
         room("wellhouse" ) {
             desc("well house", "You are in a small house near a spring. " +
@@ -47,7 +46,7 @@ fun makeGameWorld(): World {
                     "It appears to be well kept.")
             item("bottle")
             item("keys")
-            go("w", "spring")
+            go(D.west, R.spring)
         }
         room("woods toward cave") {
             desc("breezy woods", "You are in the woods. " +

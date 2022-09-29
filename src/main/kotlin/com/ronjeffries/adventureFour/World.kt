@@ -17,20 +17,28 @@ class World {
 
     private fun makeSynonyms(): Synonyms {
         return Synonyms( mutableMapOf(
-            "east" to "e",
-            "north" to "n",
-            "west" to "w",
-            "south" to "s").withDefault { it }
+            "e" to "east",
+            "n" to "north",
+            "w" to "west",
+            "s" to "south").withDefault { it }
         )
     }
 
     private fun makeVerbs(): Verbs {
         return Verbs(mutableMapOf(
             "go" to Phrase("go", "irrelevant"),
-            "e" to Phrase("go", "e"),
-            "w" to Phrase("go", "w"),
-            "n" to Phrase("go", "n"),
-            "s" to Phrase("go", "s"),
+            "east" to Phrase("go", "east"),
+            "west" to Phrase("go", "west"),
+            "north" to Phrase("go", "north"),
+            "south" to Phrase("go", "south"),
+            "e" to Phrase("go", "east"),
+            "w" to Phrase("go", "west"),
+            "n" to Phrase("go", "north"),
+            "s" to Phrase("go", "south"),
+            "nw" to Phrase("go", "northwest"),
+            "ne" to Phrase("go", "northeast"),
+            "sw" to Phrase("go", "southwest"),
+            "se" to Phrase("go", "southeast"),
             "say" to Phrase("say", "irrelevant"),
             "look" to Phrase("look", "around"),
             "xyzzy" to Phrase("say", "xyzzy"),

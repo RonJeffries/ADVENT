@@ -23,10 +23,10 @@ class WorldTest {
     fun roomsWithGo() {
         val world = world {
             room("woods") {
-                go("s","clearing")
+                go("south","clearing")
             }
             room("clearing") {
-                go("n", "woods")
+                go("north", "woods")
             }
         }
         assertThat(world.roomCount).isEqualTo(2)
@@ -75,10 +75,10 @@ class WorldTest {
     fun `world has lexicon`() {
         val world = world {}
         val lex = world.lexicon
-        assertThat(lex.synonym("east")).isEqualTo("e")
+        assertThat(lex.synonym("e")).isEqualTo("east")
         val imp = lex.translate("e")
         assertThat(imp.verb).isEqualTo("go")
-        assertThat(imp.noun).isEqualTo("e")
+        assertThat(imp.noun).isEqualTo("east")
     }
 
     @Test

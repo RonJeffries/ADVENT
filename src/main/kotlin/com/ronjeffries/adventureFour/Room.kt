@@ -7,6 +7,10 @@ enum class R {
     spring, wellhouse, woods, `woods toward cave`, `cave entrance`
 }
 
+enum class D {
+    north, south, east, west, northwest, southwest,northeast,southeast, up, down
+}
+
 class Room(val roomName: String) {
     val contents: Items = Items()
     private val moves = mutableMapOf<String,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
@@ -32,6 +36,10 @@ class Room(val roomName: String) {
         shortDesc = short
         longDesc = long
         theDesc = long
+    }
+
+    fun go(direction: D, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
+        go(direction.name, roomName, allowed)
     }
 
     fun go(direction: String, roomName: R, allowed: (World)->Boolean = { _:World -> true}){

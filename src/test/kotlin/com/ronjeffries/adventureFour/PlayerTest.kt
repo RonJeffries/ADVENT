@@ -8,15 +8,15 @@ class PlayerTest {
     fun gameCheck() {
         val world = world {
             room("woods") {
-                go("s","clearing")
+                go("south","clearing")
                 go("xyzzy","Y2")
             }
             room("clearing") {
-                go("n", "woods")
+                go("north", "woods")
             }
             room("Y2") {
                 go("xyzzy","woods")
-                go("s", "Y3")
+                go("south", "Y3")
             }
         }
         val player = Player(world, "woods")
@@ -59,11 +59,11 @@ class PlayerTest {
         val world = world {
             room("first"){
                 desc("short first", "long first")
-                go("s","second")
+                go("south","second")
             }
             room("second") {
                 desc("short second", "long second")
-                go("n", "first")
+                go("north", "first")
             }
         }
         val player = Player(world, "first")
@@ -78,8 +78,8 @@ class PlayerTest {
         val myWorld = world {
             room("first") {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
-                go("n", "second") { true }
-                go("s","second") {
+                go("north", "second") { true }
+                go("south","second") {
                     it.say("The grate is closed!")
                     false
                 }
@@ -101,7 +101,7 @@ class PlayerTest {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
-                go("e","treasure") {
+                go("east","treasure") {
                     if (flag("unlocked").isTrue)
                         true
                     else {
