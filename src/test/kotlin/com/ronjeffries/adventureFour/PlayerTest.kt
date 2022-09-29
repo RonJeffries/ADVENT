@@ -8,15 +8,15 @@ class PlayerTest {
     fun gameCheck() {
         val world = world {
             room("woods") {
-                go("south","clearing")
-                go("xyzzy","Y2")
+                go(D.south, R.clearing)
+                go(D.xyzzy, R.Y2)
             }
             room("clearing") {
-                go("north", "woods")
+                go(D.north,R.woods)
             }
             room("Y2") {
-                go("xyzzy","woods")
-                go("south", "Y3")
+                go(D.xyzzy,R.woods)
+                go(D.south,R.Y2)
             }
         }
         val player = Player(world, "woods")
@@ -31,14 +31,16 @@ class PlayerTest {
         assertThat(player.currentRoomName).isEqualTo("woods")
         player.command("xyzzy")
         assertThat(player.currentRoomName).isEqualTo("Y2")
-        player.command("s") // points to Y3 erroneously
-        assertThat(player.currentRoomName).isEqualTo("Y2")
-        // mp such room as Y3, defaults to stay in Y2
+        // cannot happen with new go command
+//        player.command("s") // points to Y3 erroneously
+//        assertThat(player.currentRoomName).isEqualTo("Y2")
+        // no such room as Y3, defaults to stay in Y2
         player.command("xyzzy")
         assertThat(player.currentRoomName).isEqualTo("woods")
         val refs = player.roomReferences
-        assertThat(refs).contains("Y3")
-        val expected = setOf("Y3", "Y2", "clearing", "woods")
+        // refs no longer valid with R enum in play
+//        assertThat(refs).contains("Y3")
+        val expected = setOf(/*"Y3",*/ "Y2", "clearing", "woods")
         assertThat(refs).isEqualTo(expected)
     }
 
@@ -59,11 +61,11 @@ class PlayerTest {
         val world = world {
             room("first"){
                 desc("short first", "long first")
-                go("south","second")
+                go(D.south,R.second)
             }
             room("second") {
                 desc("short second", "long second")
-                go("north", "first")
+                go(D.north,R.first)
             }
         }
         val player = Player(world, "first")
@@ -78,8 +80,8 @@ class PlayerTest {
         val myWorld = world {
             room("first") {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
-                go("north", "second") { true }
-                go("south","second") {
+                go(D.north,R.second) { true }
+                go(D.south,R.second) {
                     it.say("The grate is closed!")
                     false
                 }
@@ -101,7 +103,7 @@ class PlayerTest {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
-                go("east","treasure") {
+                go(D.east,R.treasure) {
                     if (flag("unlocked").isTrue)
                         true
                     else {
@@ -113,7 +115,7 @@ class PlayerTest {
             room("treasure") {
                 desc("You're in the treasure room",
                     "You are in a treasure room, rich with gold and jewels")
-                go("west", "palace")
+                go(D.west,R.palace)
             }
         }
         val player = Player(world,"palace")

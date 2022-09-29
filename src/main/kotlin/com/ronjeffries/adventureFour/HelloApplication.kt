@@ -51,14 +51,14 @@ fun makeGameWorld(): World {
         room("woods toward cave") {
             desc("breezy woods", "You are in the woods. " +
                     "There is a cool breeze coming from the west.")
-            go("w","cave entrance")
-            go("n", "spring")
+            go(D.west,R.`cave entrance`)
+            go(D.north, R.spring)
         }
         room("cave entrance") {
             desc("cave entrance",
                 "You are at an entrance to a cave. " +
                         "There is a locked gate blocking your way west.")
-            go("e","woods toward cave")
+            go(D.east,R.`woods toward cave`)
         }
     }
     return theWorld

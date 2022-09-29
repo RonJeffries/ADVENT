@@ -23,10 +23,10 @@ class WorldTest {
     fun roomsWithGo() {
         val world = world {
             room("woods") {
-                go("south","clearing")
+                go(D.south,R.clearing)
             }
             room("clearing") {
-                go("north", "woods")
+                go(D.north, R.woods)
             }
         }
         assertThat(world.roomCount).isEqualTo(2)
@@ -40,7 +40,7 @@ class WorldTest {
     fun `world has inventory`() {
         val world = world {
             room("woods") {
-                go("south","clearing")
+                go(D.south,R.clearing)
             }
         }
         world.addToInventory(Item("axe"))

@@ -1,18 +1,5 @@
 package com.ronjeffries.adventureFour
 
-
-typealias GoTarget = Pair<String, (World)->Boolean>
-
-enum class R {
-    spring, wellhouse, woods, `woods toward cave`, `cave entrance`
-}
-
-enum class D {
-    north, south, east, west,
-    northwest, southwest,northeast,southeast,
-    up, down, xyzzy
-}
-
 class Room(val roomName: String) {
     val contents: Items = Items()
     private val moves = mutableMapOf<D,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
@@ -41,15 +28,7 @@ class Room(val roomName: String) {
     }
 
     fun go(direction: D, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
-        go(direction.name, roomName, allowed)
-    }
-
-    fun go(direction: String, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
-        go(direction, roomName.name, allowed)
-    }
-
-    fun go(direction: String, roomName: String, allowed: (World)->Boolean = { _:World -> true}) {
-        moves += D.valueOf(direction) to Pair(roomName, allowed)
+        moves += direction to Pair(roomName.name, allowed)
     }
 
     // Game Play

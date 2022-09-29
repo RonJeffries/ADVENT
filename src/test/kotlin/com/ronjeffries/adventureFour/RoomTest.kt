@@ -16,8 +16,8 @@ class RoomTest {
         val myWorld = world {
             room("first") {
                 desc("first room", "the long first room")
-                go("north", "second") { true }
-                go("south","second") {
+                go(D.north, R.second) { true }
+                go(D.south,R.second) {
                     it.say("The grate is closed!")
                     false
                 }

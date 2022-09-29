@@ -1,5 +1,18 @@
 package com.ronjeffries.adventureFour
 
+
+typealias GoTarget = Pair<String, (World)->Boolean>
+
+enum class R {
+    spring, wellhouse, woods, `woods toward cave`, `cave entrance`, first, second, palace, treasure
+, clearing, Y2}
+
+enum class D {
+    north, south, east, west,
+    northwest, southwest,northeast,southeast,
+    up, down, xyzzy
+}
+
 fun world(details: World.()->Unit): World{
     val world = World()
     world.details()
