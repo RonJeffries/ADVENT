@@ -14,14 +14,12 @@ enum class D {
     Up, Down, XYZZY;
 
     companion object {
-
         fun executeIfDirectionExists(desired: String, function: (D) -> Unit) {
-            val list = valuesMatching(desired)
-            if (list.isNotEmpty()) { function(list[0]) }
+            valuesMatching(desired)?.let { function(it) }
         }
 
-        private fun valuesMatching(desired: String): List<D> {
-            return values().filter {it.name.equals(desired, ignoreCase = true)}
+        private fun valuesMatching(desired: String): D? {
+            return values().find {it.name.equals(desired, ignoreCase = true)}
         }
     }
 }
