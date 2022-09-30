@@ -80,8 +80,8 @@ class Room(val roomName:R) {
     }
 
     fun move(imperative: Imperative, world: World) {
-        D.valueMatching(imperative.noun)?.let {
-            val (targetName, allowed) = moves.getValue(it)
+        D.executeIfDirectionExists(imperative.noun) { direction:D ->
+            val (targetName, allowed) = moves.getValue(direction)
             if (allowed(world)) world.response.nextRoomName = targetName
         }
     }
