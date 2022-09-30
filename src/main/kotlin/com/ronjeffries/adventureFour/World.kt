@@ -15,7 +15,7 @@ enum class D {
 
     companion object {
         fun valueMatching(desired: String): D {
-            return values().filter {it.name.lowercase() == desired}[0]
+            return values().filter {it.name.equals(desired, ignoreCase = true)}[0]
         }
     }
 }
