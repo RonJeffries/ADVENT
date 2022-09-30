@@ -17,7 +17,7 @@ class RoomTest {
             room(R.First) {
                 desc("first room", "the long first room")
                 go(D.north, R.Second) { true }
-                go(D.south,R.Second) {
+                go(D.South,R.Second) {
                     it.say("The grate is closed!")
                     false
                 }

@@ -8,7 +8,7 @@ class PlayerTest {
     fun gameCheck() {
         val world = world {
             room(R.Woods) {
-                go(D.south, R.Clearing)
+                go(D.South, R.Clearing)
                 go(D.xyzzy, R.Y2)
             }
             room(R.Clearing) {
@@ -16,7 +16,7 @@ class PlayerTest {
             }
             room(R.Y2) {
                 go(D.xyzzy,R.Woods)
-                go(D.south,R.Y2)
+                go(D.South,R.Y2)
             }
         }
         val player = Player(world, R.Woods)
@@ -61,7 +61,7 @@ class PlayerTest {
         val world = world {
             room(R.First){
                 desc("short first", "long first")
-                go(D.south,R.Second)
+                go(D.South,R.Second)
             }
             room(R.Second) {
                 desc("short second", "long second")
@@ -81,7 +81,7 @@ class PlayerTest {
             room(R.First) {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
                 go(D.north,R.Second) { true }
-                go(D.south,R.Second) {
+                go(D.South,R.Second) {
                     it.say("The grate is closed!")
                     false
                 }

@@ -22,7 +22,7 @@ fun makeGameWorld(): World {
             }
             go(D.east, R.Wellhouse)
             go(D.west, R.Woods)
-            go(D.south, R.WoodsNearCave)
+            go(D.South, R.WoodsNearCave)
             action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
                     inventorySetInformation("bottle", " of water")

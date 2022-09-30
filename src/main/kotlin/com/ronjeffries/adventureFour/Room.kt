@@ -80,7 +80,7 @@ class Room(val roomName:R) {
     }
 
     fun move(imperative: Imperative, world: World) {
-        val (targetName, allowed) = moves.getValue(D.valueOf(imperative.noun))
+        val (targetName, allowed) = moves.getValue(D.valueMatching(imperative.noun))
         if (allowed(world)) world.response.nextRoomName = targetName
     }
 

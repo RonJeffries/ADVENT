@@ -9,9 +9,15 @@ enum class R {
 }
 
 enum class D {
-    north, south, east, west,
+    north, South, east, west,
     northwest, southwest,northeast,southeast,
-    up, down, xyzzy
+    up, down, xyzzy;
+
+    companion object {
+        fun valueMatching(desired: String): D {
+            return values().filter {it.name.lowercase() == desired}[0]
+        }
+    }
 }
 
 fun world(details: World.()->Unit): World{

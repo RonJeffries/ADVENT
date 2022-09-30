@@ -23,7 +23,7 @@ class WorldTest {
     fun roomsWithGo() {
         val world = world {
             room(R.Woods) {
-                go(D.south,R.Clearing)
+                go(D.South,R.Clearing)
             }
             room(R.Clearing) {
                 go(D.north, R.Woods)
@@ -40,7 +40,7 @@ class WorldTest {
     fun `world has inventory`() {
         val world = world {
             room(R.Woods) {
-                go(D.south,R.Clearing)
+                go(D.South,R.Clearing)
             }
         }
         world.addToInventory(Item("axe"))
