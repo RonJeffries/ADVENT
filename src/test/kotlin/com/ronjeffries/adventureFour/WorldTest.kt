@@ -37,6 +37,18 @@ class WorldTest {
     }
 
     @Test
+    fun `go blue`() {
+        val world = world {
+            room(R.Woods) {
+                go(D.South,R.Clearing)
+            }
+        }
+        val player = Player(world, R.Woods)
+        player.command("go blue")
+        assertThat(world.response.nextRoomName).isEqualTo(R.Woods)
+    }
+
+    @Test
     fun `world has inventory`() {
         val world = world {
             room(R.Woods) {
