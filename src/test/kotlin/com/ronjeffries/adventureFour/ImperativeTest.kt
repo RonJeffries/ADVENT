@@ -6,10 +6,10 @@ import org.junit.jupiter.api.BeforeEach
 
 
 val world = world {
-    room("name") {}
+    room(R.First) {}
 }
 
-var room = world.unsafeRoomNamed("name")
+var room = world.unsafeRoomNamed(R.First)
 
 class ImperativeTest {
     private fun getFactory() = PhraseFactory(getLexicon())

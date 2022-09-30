@@ -3,7 +3,7 @@ package com.ronjeffries.adventureFour
 data class Imperative(
     val phrase: Phrase,
     val world: World = world(){},
-    val room: Room = Room("fakeroom")) {
+    val room: Room = Room(R.First)) {
     var worldNeeded: Boolean = true
     val verb = phrase.verb!!
     val noun = phrase.noun!!

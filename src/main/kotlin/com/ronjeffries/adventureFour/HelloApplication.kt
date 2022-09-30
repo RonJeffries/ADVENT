@@ -12,7 +12,7 @@ var textContents = "Welcome to Tiny Adventure!"
 
 fun makeGameWorld(): World {
     val theWorld = world {
-        room("spring") {
+        room(R.Spring) {
             desc("spring", "You are at a clear water spring. " +
                     "There is a well house to the east, and a wooded area to the west and south.")
             item("water") {
@@ -20,9 +20,9 @@ fun makeGameWorld(): World {
                         "with a tinge or iron that has leached from the surrounding rocks, " +
                         "and a minor tang of fluoride, which is good for your teeth.)")
             }
-            go(D.east, R.wellhouse)
-            go(D.west, R.woods)
-            go(D.south, R.`woods toward cave`)
+            go(D.east, R.Wellhouse)
+            go(D.west, R.Woods)
+            go(D.south, R.WoodsNearCave)
             action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
                     inventorySetInformation("bottle", " of water")
@@ -31,34 +31,34 @@ fun makeGameWorld(): World {
                     imp.say("What would you keep it in?") }
             }
         }
-        room("woods") {
+        room(R.Woods) {
             desc("woods", "You are in a dark and forbidding wooded area. " +
                     "It's not clear which way to go.")
-            go(D.east, R.spring)
-            go(D.north, R.woods)
-            go(D.west, R.woods)
-            go(D.northwest, R.woods)
-            go(D.southwest, R.woods)
+            go(D.east, R.Spring)
+            go(D.north, R.Woods)
+            go(D.west, R.Woods)
+            go(D.northwest, R.Woods)
+            go(D.southwest, R.Woods)
         }
-        room("wellhouse" ) {
+        room(R.Wellhouse ) {
             desc("well house", "You are in a small house near a spring. " +
                     "The house is sparsely decorated, in a rustic style. " +
                     "It appears to be well kept.")
             item("bottle")
             item("keys")
-            go(D.west, R.spring)
+            go(D.west, R.Spring)
         }
-        room("woods toward cave") {
+        room(R.WoodsNearCave) {
             desc("breezy woods", "You are in the woods. " +
                     "There is a cool breeze coming from the west.")
-            go(D.west,R.`cave entrance`)
-            go(D.north, R.spring)
+            go(D.west,R.CaveEntrance)
+            go(D.north, R.Spring)
         }
-        room("cave entrance") {
+        room(R.CaveEntrance) {
             desc("cave entrance",
                 "You are at an entrance to a cave. " +
                         "There is a locked gate blocking your way west.")
-            go(D.east,R.`woods toward cave`)
+            go(D.east,R.WoodsNearCave)
         }
     }
     return theWorld
@@ -66,7 +66,7 @@ fun makeGameWorld(): World {
 
 class MainView: View() {
     private val world = makeGameWorld()
-    private val player = Player(world, "spring")
+    private val player = Player(world, R.Spring)
 
     override val root: Parent = vbox {
         minWidth = 400.0

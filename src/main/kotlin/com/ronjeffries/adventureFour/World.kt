@@ -1,11 +1,12 @@
 package com.ronjeffries.adventureFour
 
 
-typealias GoTarget = Pair<String, (World)->Boolean>
+typealias GoTarget = Pair<R, (World)->Boolean>
 
 enum class R {
-    spring, wellhouse, woods, `woods toward cave`, `cave entrance`, first, second, palace, treasure
-, clearing, Y2}
+    Spring, Wellhouse, Woods, WoodsNearCave, CaveEntrance,
+    First, Second, Palace, Treasure, Clearing, Y2
+}
 
 enum class D {
     north, south, east, west,
@@ -77,11 +78,11 @@ class World {
     var response: GameResponse = GameResponse()
 
     val roomCount get() = rooms.size
-    val roomReferences: Set<String> get() = rooms.roomReferences
+    val roomReferences: Set<R> get() = rooms.roomReferences
 
 // DSL
 
-    fun room(name: String, details: Room.()->Unit) : Room {
+    fun room(name: R, details: Room.()->Unit) : Room {
         val room = Room(name)
         rooms.add(room)
         room.details()
@@ -103,7 +104,7 @@ class World {
 
     fun flag(name: String) = flags.get(name)
 
-    fun hasRoomNamed(name: String): Boolean = rooms.containsKey(name)
+    fun hasRoomNamed(name: R): Boolean = rooms.containsKey(name)
 
     fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
@@ -111,7 +112,7 @@ class World {
         inventory.setInformation(item,property)
     }
 
-    fun roomNamedOrDefault(name: String, default: Room) :Room = rooms.getOrDefault(name, default)
+    fun roomNamedOrDefault(name: R, default: Room) :Room = rooms.getOrDefault(name, default)
 
     fun say(s: String) {
         response.say(s)
@@ -121,6 +122,6 @@ class World {
         say( inventory.asCarried() )
     }
 
-    fun unsafeRoomNamed(name: String): Room = rooms.unsafeRoomNamed(name)
+    fun unsafeRoomNamed(name: R): Room = rooms.unsafeRoomNamed(name)
 }
 

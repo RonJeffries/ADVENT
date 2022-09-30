@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class RoomTest {
     @Test
     fun description() {
-        val room = Room("somewhere")
+        val room = Room(R.First)
         room.desc("You are somewhere", "You are somewhere very mysterious with a kind of spooky feeling:")
         assertThat(room.shortDesc).isEqualTo("You are somewhere")
     }
@@ -14,30 +14,30 @@ class RoomTest {
     @Test
     fun `room go has optional block`() {
         val myWorld = world {
-            room("first") {
+            room(R.First) {
                 desc("first room", "the long first room")
-                go(D.north, R.second) { true }
-                go(D.south,R.second) {
+                go(D.north, R.Second) { true }
+                go(D.south,R.Second) {
                     it.say("The grate is closed!")
                     false
                 }
             }
-            room("second"){}
+            room(R.Second){}
         }
-        val myRoom = myWorld.unsafeRoomNamed("first")
-        val secondRoom = myWorld.unsafeRoomNamed("second")
+        val myRoom = myWorld.unsafeRoomNamed(R.First)
+        val secondRoom = myWorld.unsafeRoomNamed(R.Second)
         val cmd = Command("s")
         val resp1 = myWorld.command(cmd, myRoom)
-        assertThat(resp1.nextRoomName).isEqualTo("first")
+        assertThat(resp1.nextRoomName).isEqualTo(R.First)
         assertThat(resp1.sayings).isEqualTo("The grate is closed!\n")
         val resp2 = myWorld.command(Command("s"), secondRoom)
-        assertThat(resp2.nextRoomName).isEqualTo("second")
+        assertThat(resp2.nextRoomName).isEqualTo(R.Second)
     }
 
     @Test
     fun `room has contents`() {
         val world = world {
-            room("storage") {
+            room(R.First) {
                 desc("storage room", "large storage room")
                 item("broom") {
                     desc("a broom")
@@ -53,7 +53,7 @@ class RoomTest {
                 }
             }
         }
-        val room = world.unsafeRoomNamed("storage")
+        val room = world.unsafeRoomNamed(R.First)
         assertThat(room.contents.contains("broom")).isEqualTo(true)
         assertThat(room.contents.size).isEqualTo(3)
         val itemString = room.itemString()
@@ -65,14 +65,14 @@ class RoomTest {
     @Test
     fun `can take inventory`() {
         val world = world {
-            room("storage") {
+            room(R.First) {
                 desc("storage room", "large storage room")
                 item("broom") {
                     desc("a broom")
                 }
             }
         }
-        val player = Player(world, "storage")
+        val player = Player(world, R.First)
         var resultString = player.command("take broom")
         assertThat(resultString).isEqualTo("broom taken.\nlarge storage room\n")
         resultString = player.command("inventory")
@@ -82,7 +82,7 @@ class RoomTest {
     @Test
     fun `taking water`() {
         val world = world {
-            room("spring") {
+            room(R.Spring) {
                 desc("spring", "fresh water spring")
                 item("bottle") {
                     desc("a bottle")
@@ -99,7 +99,7 @@ class RoomTest {
                 }
             }
         }
-        val player = Player(world, "spring")
+        val player = Player(world, R.Spring)
         var resultString = player.command("take water")
         assertThat(resultString).contains("What would you keep it in?")
         resultString = player.command("take bottle")

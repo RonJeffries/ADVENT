@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-class Room(val roomName: String) {
+class Room(val roomName:R) {
     val contents: Items = Items()
     private val moves = mutableMapOf<D,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
     private val actionMap = mutableMapOf<Phrase,Action>(
@@ -28,7 +28,7 @@ class Room(val roomName: String) {
     }
 
     fun go(direction: D, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
-        moves += direction to Pair(roomName.name, allowed)
+        moves += direction to Pair(roomName, allowed)
     }
 
     // Game Play
@@ -98,5 +98,5 @@ class Room(val roomName: String) {
 
     // Utilities and Other
 
-    val roomReferences: Set<String> get () = moves.values.map {it.first}.toSet()
+    val roomReferences: Set<R> get () = moves.values.map {it.first}.toSet()
 }

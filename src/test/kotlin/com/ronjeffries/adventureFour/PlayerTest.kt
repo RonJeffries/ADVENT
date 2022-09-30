@@ -7,40 +7,40 @@ class PlayerTest {
     @Test
     fun gameCheck() {
         val world = world {
-            room("woods") {
-                go(D.south, R.clearing)
+            room(R.Woods) {
+                go(D.south, R.Clearing)
                 go(D.xyzzy, R.Y2)
             }
-            room("clearing") {
-                go(D.north,R.woods)
+            room(R.Clearing) {
+                go(D.north,R.Woods)
             }
-            room("Y2") {
-                go(D.xyzzy,R.woods)
+            room(R.Y2) {
+                go(D.xyzzy,R.Woods)
                 go(D.south,R.Y2)
             }
         }
-        val player = Player(world, "woods")
-        assertThat(player.currentRoomName).isEqualTo("woods")
+        val player = Player(world, R.Woods)
+        assertThat(player.currentRoomName).isEqualTo(R.Woods)
         player.command("s")
-        assertThat(player.currentRoomName).isEqualTo("clearing")
+        assertThat(player.currentRoomName).isEqualTo(R.Clearing)
         player.command("n")
-        assertThat(player.currentRoomName).isEqualTo("woods")
+        assertThat(player.currentRoomName).isEqualTo(R.Woods)
         player.command("xyzzy")
-        assertThat(player.currentRoomName).isEqualTo("Y2")
+        assertThat(player.currentRoomName).isEqualTo(R.Y2)
         player.command("xyzzy")
-        assertThat(player.currentRoomName).isEqualTo("woods")
+        assertThat(player.currentRoomName).isEqualTo(R.Woods)
         player.command("xyzzy")
-        assertThat(player.currentRoomName).isEqualTo("Y2")
+        assertThat(player.currentRoomName).isEqualTo(R.Y2)
         // cannot happen with new go command
 //        player.command("s") // points to Y3 erroneously
 //        assertThat(player.currentRoomName).isEqualTo("Y2")
         // no such room as Y3, defaults to stay in Y2
         player.command("xyzzy")
-        assertThat(player.currentRoomName).isEqualTo("woods")
+        assertThat(player.currentRoomName).isEqualTo(R.Woods)
         val refs = player.roomReferences
         // refs no longer valid with R enum in play
 //        assertThat(refs).contains("Y3")
-        val expected = setOf(/*"Y3",*/ "Y2", "clearing", "woods")
+        val expected = setOf( R.Y2, R.Clearing, R.Woods)
         assertThat(refs).isEqualTo(expected)
     }
 
@@ -48,27 +48,27 @@ class PlayerTest {
     fun roomDescriptions() {
         val long = "You're somewhere with a long descriptions"
         val world = world {
-            room("somewhere") {
+            room(R.First) {
                 desc("You're somewhere.", long)
             }
         }
-        val room = world.roomNamedOrDefault("somewhere", Room("xxxx"))
+        val room = world.roomNamedOrDefault(R.First, Room(R.Second))
         assertThat(room.longDesc).isEqualTo(long)
     }
 
     @Test
     fun `game gets good results`() {
         val world = world {
-            room("first"){
+            room(R.First){
                 desc("short first", "long first")
-                go(D.south,R.second)
+                go(D.south,R.Second)
             }
-            room("second") {
+            room(R.Second) {
                 desc("short second", "long second")
-                go(D.north,R.first)
+                go(D.north,R.First)
             }
         }
-        val player = Player(world, "first")
+        val player = Player(world, R.First)
         var resultString = player.command("s")
         assertThat(resultString).isEqualTo("long second\n")
         resultString = player.command("s")
@@ -78,19 +78,19 @@ class PlayerTest {
     @Test
     fun `game can provide sayings`() {
         val myWorld = world {
-            room("first") {
+            room(R.First) {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
-                go(D.north,R.second) { true }
-                go(D.south,R.second) {
+                go(D.north,R.Second) { true }
+                go(D.south,R.Second) {
                     it.say("The grate is closed!")
                     false
                 }
             }
-            room("second") {
+            room(R.Second) {
                 desc("second room", "the long second room")
             }
         }
-        val player = Player(myWorld, "first")
+        val player = Player(myWorld, R.First)
         val resultString = player.command("s")
         assertThat(resultString).isEqualTo("The grate is closed!\n" +
                 "You find yourself in the fascinating first room.\n")
@@ -99,11 +99,11 @@ class PlayerTest {
     @Test
     fun `magic unlocks door`() {
         val world = world {
-            room("palace") {
+            room(R.Palace) {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
-                go(D.east,R.treasure) {
+                go(D.east,R.Treasure) {
                     if (flag("unlocked").isTrue)
                         true
                     else {
@@ -112,13 +112,13 @@ class PlayerTest {
                     }
                 }
             }
-            room("treasure") {
+            room(R.Treasure) {
                 desc("You're in the treasure room",
                     "You are in a treasure room, rich with gold and jewels")
-                go(D.west,R.palace)
+                go(D.west,R.Palace)
             }
         }
-        val player = Player(world,"palace")
+        val player = Player(world,R.Palace)
         var resultString = player.command("e")
         assertThat(resultString).isEqualTo("The room is locked by a glowing lock!\n" +
                 "You are in an empty room in the palace. There is a padlocked door to the east.\n")
