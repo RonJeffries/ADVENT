@@ -20,8 +20,8 @@ fun makeGameWorld(): World {
                         "with a tinge or iron that has leached from the surrounding rocks, " +
                         "and a minor tang of fluoride, which is good for your teeth.)")
             }
-            go(D.east, R.Wellhouse)
-            go(D.west, R.Woods)
+            go(D.East, R.Wellhouse)
+            go(D.West, R.Woods)
             go(D.South, R.WoodsNearCave)
             action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
@@ -34,11 +34,11 @@ fun makeGameWorld(): World {
         room(R.Woods) {
             desc("woods", "You are in a dark and forbidding wooded area. " +
                     "It's not clear which way to go.")
-            go(D.east, R.Spring)
-            go(D.north, R.Woods)
-            go(D.west, R.Woods)
-            go(D.northwest, R.Woods)
-            go(D.southwest, R.Woods)
+            go(D.East, R.Spring)
+            go(D.North, R.Woods)
+            go(D.West, R.Woods)
+            go(D.Northwest, R.Woods)
+            go(D.Southwest, R.Woods)
         }
         room(R.Wellhouse ) {
             desc("well house", "You are in a small house near a spring. " +
@@ -46,19 +46,19 @@ fun makeGameWorld(): World {
                     "It appears to be well kept.")
             item("bottle")
             item("keys")
-            go(D.west, R.Spring)
+            go(D.West, R.Spring)
         }
         room(R.WoodsNearCave) {
             desc("breezy woods", "You are in the woods. " +
                     "There is a cool breeze coming from the west.")
-            go(D.west,R.CaveEntrance)
-            go(D.north, R.Spring)
+            go(D.West,R.CaveEntrance)
+            go(D.North, R.Spring)
         }
         room(R.CaveEntrance) {
             desc("cave entrance",
                 "You are at an entrance to a cave. " +
                         "There is a locked gate blocking your way west.")
-            go(D.east,R.WoodsNearCave)
+            go(D.East,R.WoodsNearCave)
         }
     }
     return theWorld

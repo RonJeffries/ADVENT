@@ -9,9 +9,9 @@ enum class R {
 }
 
 enum class D {
-    north, South, east, west,
-    northwest, southwest,northeast,southeast,
-    up, down, xyzzy;
+    North, South, East, West,
+    Northwest, Southwest,Northeast,Southeast,
+    Up, Down, XYZZY;
 
     companion object {
         fun valueMatching(desired: String): D {

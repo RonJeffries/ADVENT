@@ -9,13 +9,13 @@ class PlayerTest {
         val world = world {
             room(R.Woods) {
                 go(D.South, R.Clearing)
-                go(D.xyzzy, R.Y2)
+                go(D.XYZZY, R.Y2)
             }
             room(R.Clearing) {
-                go(D.north,R.Woods)
+                go(D.North,R.Woods)
             }
             room(R.Y2) {
-                go(D.xyzzy,R.Woods)
+                go(D.XYZZY,R.Woods)
                 go(D.South,R.Y2)
             }
         }
@@ -65,7 +65,7 @@ class PlayerTest {
             }
             room(R.Second) {
                 desc("short second", "long second")
-                go(D.north,R.First)
+                go(D.North,R.First)
             }
         }
         val player = Player(world, R.First)
@@ -80,7 +80,7 @@ class PlayerTest {
         val myWorld = world {
             room(R.First) {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
-                go(D.north,R.Second) { true }
+                go(D.North,R.Second) { true }
                 go(D.South,R.Second) {
                     it.say("The grate is closed!")
                     false
@@ -103,7 +103,7 @@ class PlayerTest {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
-                go(D.east,R.Treasure) {
+                go(D.East,R.Treasure) {
                     if (flag("unlocked").isTrue)
                         true
                     else {
@@ -115,7 +115,7 @@ class PlayerTest {
             room(R.Treasure) {
                 desc("You're in the treasure room",
                     "You are in a treasure room, rich with gold and jewels")
-                go(D.west,R.Palace)
+                go(D.West,R.Palace)
             }
         }
         val player = Player(world,R.Palace)

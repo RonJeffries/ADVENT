@@ -26,7 +26,7 @@ class WorldTest {
                 go(D.South,R.Clearing)
             }
             room(R.Clearing) {
-                go(D.north, R.Woods)
+                go(D.North, R.Woods)
             }
         }
         assertThat(world.roomCount).isEqualTo(2)
