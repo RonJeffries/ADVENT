@@ -9,13 +9,13 @@ class PlayerTest {
         val world = world {
             room(R.Woods) {
                 go(D.South, R.Clearing)
-                go(D.XYZZY, R.Y2)
+                go(D.West, R.Y2)
             }
             room(R.Clearing) {
                 go(D.North,R.Woods)
             }
             room(R.Y2) {
-                go(D.XYZZY,R.Woods)
+                go(D.West,R.Woods)
                 go(D.South,R.Y2)
             }
         }
@@ -25,17 +25,17 @@ class PlayerTest {
         assertThat(player.currentRoomName).isEqualTo(R.Clearing)
         player.command("n")
         assertThat(player.currentRoomName).isEqualTo(R.Woods)
-        player.command("xyzzy")
+        player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Y2)
-        player.command("xyzzy")
+        player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Woods)
-        player.command("xyzzy")
+        player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Y2)
         // cannot happen with new go command
 //        player.command("s") // points to Y3 erroneously
 //        assertThat(player.currentRoomName).isEqualTo("Y2")
         // no such room as Y3, defaults to stay in Y2
-        player.command("xyzzy")
+        player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Woods)
         val refs = player.roomReferences
         // refs no longer valid with R enum in play
@@ -103,6 +103,10 @@ class PlayerTest {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
+                action("say", "wd40") {
+                    flags.get("unlocked").set(true)
+                    say("The padlock is unlocked!")
+                }
                 go(D.East,R.Treasure) {
                     if (flag("unlocked").isTrue)
                         true
