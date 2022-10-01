@@ -11,7 +11,7 @@ enum class R {
 enum class D {
     North, South, East, West,
     Northwest, Southwest,Northeast,Southeast,
-    Up, Down, XYZZY;
+    Up, Down;
 
     companion object {
         fun executeIfDirectionExists(desired: String, function: (D) -> Unit) {
@@ -80,7 +80,11 @@ class World {
     private fun makeActions(): Actions {
         return Actions(mutableMapOf(
             Phrase("go") to { imp: Imperative -> imp.room.move(imp, imp.world) },
-            Phrase("say") to { imp: Imperative -> imp.room.castSpell(imp, imp.world) },
+            Phrase("say", "wd40") to { imp: Imperative ->
+                imp.world.say("Very slick, but there's nothing to lubricate here.")
+            },
+            Phrase("say") to { imp: Imperative ->
+                imp.world.say("Nothing happens here!") },
             Phrase("take") to { imp: Imperative -> imp.room.take(imp, imp.world) },
             Phrase("inventory") to { imp: Imperative -> imp.world.showInventory() },
             Phrase("look") to { imp: Imperative-> imp.room.look()},

@@ -33,17 +33,6 @@ class Room(val roomName:R) {
 
     // Game Play
 
-    fun castSpell(imperative: Imperative, world: World) {
-        when (imperative.noun) {
-            "wd40" -> {
-                world.flags.get("unlocked").set(true)
-                world.response.say("The magic wd40 works! The padlock is unlocked!")
-            }
-            "xyzzy" -> { move(imperative, world) }
-            else -> { world.response.say("Nothing happens here.") }
-        }
-    }
-
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)

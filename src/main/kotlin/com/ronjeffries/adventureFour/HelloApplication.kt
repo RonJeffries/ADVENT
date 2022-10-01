@@ -47,6 +47,10 @@ fun makeGameWorld(): World {
             item("bottle")
             item("keys")
             go(D.West, R.Spring)
+            action("say", "xyzzy" ) {
+                say("Swoosh!")
+                response.nextRoomName = R.WoodsNearCave
+            }
         }
         room(R.WoodsNearCave) {
             desc("breezy woods", "You are in the woods. " +
@@ -95,8 +99,6 @@ class MainView: View() {
         myCommand.appendText("")
     }
 }
-
-
 
 class HelloApplication : App(MainView::class)
 
