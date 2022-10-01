@@ -34,6 +34,14 @@ fun world(details: World.()->Unit): World{
 class World {
     var actions: Actions = makeActions()
     val lexicon = makeLexicon()
+    val flags = GameStatusMap()
+    val inventory: Items = Items()
+    val name = "world"
+    private val rooms = Rooms()
+    var response: GameResponse = GameResponse()
+
+    val roomCount get() = rooms.size
+    val roomReferences: Set<R> get() = rooms.roomReferences
 
 // creation utilities
 
@@ -80,15 +88,6 @@ class World {
             Phrase() to { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         ))
     }
-
-    val flags = GameStatusMap()
-    val inventory: Items = Items()
-    val name = "world"
-    private val rooms = Rooms()
-    var response: GameResponse = GameResponse()
-
-    val roomCount get() = rooms.size
-    val roomReferences: Set<R> get() = rooms.roomReferences
 
 // DSL
 

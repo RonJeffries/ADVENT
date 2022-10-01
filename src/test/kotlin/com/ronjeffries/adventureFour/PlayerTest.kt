@@ -82,7 +82,7 @@ class PlayerTest {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
                 go(D.North,R.Second) { true }
                 go(D.South,R.Second) {
-                    it.say("The grate is closed!")
+                    say("The grate is closed!")
                     false
                 }
             }
