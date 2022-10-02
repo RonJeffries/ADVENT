@@ -37,11 +37,11 @@ class PlayerTest {
         // no such room as Y3, defaults to stay in Y2
         player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Woods)
-        val refs = player.roomReferences
+//        val refs = player.roomReferences
         // refs no longer valid with R enum in play
 //        assertThat(refs).contains("Y3")
-        val expected = setOf( R.Y2, R.Clearing, R.Woods)
-        assertThat(refs).isEqualTo(expected)
+//        val expected = setOf( R.Y2, R.Clearing, R.Woods)
+//        assertThat(refs).isEqualTo(expected)
     }
 
     @Test

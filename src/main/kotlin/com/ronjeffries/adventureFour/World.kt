@@ -44,8 +44,6 @@ class World {
     val flags = GameStatusMap()
     val inventory: Items = Items()
     val name = "world"
-    private val rooms = Rooms()
-    val roomReferences: Set<R> get() = rooms.roomReferences
     var response: GameResponse = GameResponse()
 
 // creation utilities
@@ -103,7 +101,6 @@ class World {
     fun room(name: R, details: Room.()->Unit) : Room {
         val room = name.room
         name.clear()
-        rooms.add(room)
         room.details()
         return room
     }

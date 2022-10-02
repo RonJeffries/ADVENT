@@ -6,7 +6,6 @@ class Player(private val world: World, startingName: R) {
     var currentRoom = startingName.room
 
     val currentRoomName get() = currentRoom.roomName
-    val roomReferences: Set<R> get() = world.roomReferences
 
     fun command(commandString: String): String {
         val response = world.command(Command(commandString), currentRoom)
