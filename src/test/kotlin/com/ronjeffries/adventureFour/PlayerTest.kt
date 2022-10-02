@@ -47,12 +47,12 @@ class PlayerTest {
     @Test
     fun roomDescriptions() {
         val long = "You're somewhere with a long descriptions"
-        val world = world {
+        world {
             room(R.First) {
                 desc("You're somewhere.", long)
             }
         }
-        val room = world.roomNamedOrDefault(R.First, Room(R.Second))
+        val room = R.First.room
         assertThat(room.longDesc).isEqualTo(long)
     }
 

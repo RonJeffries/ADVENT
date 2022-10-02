@@ -117,7 +117,7 @@ class World {
     fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse(currentRoom.roomName)
         currentRoom.command(cmd, this)
-        response.nextRoom = roomNamedOrDefault(response.nextRoomName, currentRoom)
+        response.nextRoom = response.nextRoomName.room
         return response
     }
 
@@ -128,8 +128,6 @@ class World {
     fun inventorySetInformation(item: String, property: String) {
         inventory.setInformation(item,property)
     }
-
-    fun roomNamedOrDefault(name: R, default: Room) :Room = rooms.getOrDefault(name, default)
 
     fun say(s: String) {
         response.say(s)
