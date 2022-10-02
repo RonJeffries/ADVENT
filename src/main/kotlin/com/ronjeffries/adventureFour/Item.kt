@@ -33,6 +33,10 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         map[item]?.setInformation(property)
     }
 
+    fun clear() {
+        map.clear()
+    }
+
 }
 
 class Item(val name: String) {

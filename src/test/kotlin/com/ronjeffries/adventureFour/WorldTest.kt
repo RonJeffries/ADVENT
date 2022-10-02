@@ -11,15 +11,6 @@ class WorldTest {
     }
 
     @Test
-    fun worldWithRoom() {
-        val world = world {
-            room(R.First) {}
-        }
-        assertThat(world.roomCount).isEqualTo(1)
-        assertThat(world.hasRoomNamed(R.First)).isEqualTo(true)
-    }
-
-    @Test
     fun roomsWithGo() {
         val world = world {
             room(R.Woods) {
@@ -30,7 +21,6 @@ class WorldTest {
             }
         }
         assertThat(world.roomCount).isEqualTo(2)
-        assert(world.hasRoomNamed(R.Clearing))
         val player = Player(world, R.Clearing)
         player.command("go n")
         assertThat(world.response.nextRoomName).isEqualTo(R.Woods)

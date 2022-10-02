@@ -6,6 +6,13 @@ typealias GoTarget = Pair<R, (World)->Boolean>
 enum class R {
     Spring, Wellhouse, Woods, WoodsNearCave, CaveEntrance,
     First, Second, Palace, Treasure, Clearing, Y2
+    ;
+
+    fun clear() {
+        room.clear()
+    }
+
+    val room = Room(this)
 }
 
 enum class D {
@@ -95,7 +102,8 @@ class World {
 // DSL
 
     fun room(name: R, details: Room.()->Unit) : Room {
-        val room = Room(name)
+        val room = name.room
+        name.clear()
         rooms.add(room)
         room.details()
         return room
@@ -115,8 +123,6 @@ class World {
     }
 
     fun flag(name: String) = flags.get(name)
-
-    fun hasRoomNamed(name: R): Boolean = rooms.containsKey(name)
 
     fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
