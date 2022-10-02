@@ -20,7 +20,6 @@ class WorldTest {
                 go(D.North, R.Woods)
             }
         }
-        assertThat(world.roomCount).isEqualTo(2)
         val player = Player(world, R.Clearing)
         player.command("go n")
         assertThat(world.response.nextRoomName).isEqualTo(R.Woods)

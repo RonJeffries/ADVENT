@@ -45,7 +45,6 @@ class World {
     val inventory: Items = Items()
     val name = "world"
     private val rooms = Rooms()
-    val roomCount get() = rooms.size
     val roomReferences: Set<R> get() = rooms.roomReferences
     var response: GameResponse = GameResponse()
 
