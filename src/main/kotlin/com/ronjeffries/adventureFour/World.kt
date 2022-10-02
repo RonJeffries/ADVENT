@@ -8,11 +8,14 @@ enum class R {
     First, Second, Palace, Treasure, Clearing, Y2
     ;
 
-    fun clear() {
-        room.clear()
-    }
+    var room = Room(this)
+        get() = field
+        private set
 
-    val room = Room(this)
+    fun freshRoom(): Room {
+        room = Room(this)
+        return room
+    }
 }
 
 enum class D {
@@ -99,8 +102,7 @@ class World {
 // DSL
 
     fun room(name: R, details: Room.()->Unit) : Room {
-        val room = name.room
-        name.clear()
+        val room = name.freshRoom()
         room.details()
         return room
     }

@@ -86,12 +86,4 @@ class Room(val roomName:R) {
     fun unknown(imperative: Imperative, world: World ) {
         world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
     }
-
-    fun clear() {
-        contents.clear()
-    }
-
-    // Utilities and Other
-
-    val roomReferences: Set<R> get () = moves.values.map {it.first}.toSet()
 }
