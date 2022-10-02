@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class PlayerResponseTest {
     @Test
     fun `response has say method`() {
-        val r = GameResponse(R.First)
+        val r = GameResponse(R.ZTestFirst)
         r.say("One thing")
         r.say("Another thing")
         assertThat(r.sayings).isEqualTo("One thing\nAnother thing\n")

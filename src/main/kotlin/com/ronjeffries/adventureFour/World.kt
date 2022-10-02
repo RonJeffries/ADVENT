@@ -5,11 +5,11 @@ typealias GoTarget = Pair<R, (World)->Boolean>
 
 enum class R {
     Spring, Wellhouse, Woods, WoodsNearCave, CaveEntrance,
-    First, Second, Palace, Treasure, Clearing, Y2
+    Clearing, Y2,
+    ZTestFirst, ZTestSecond, ZTestPalace, ZTestTreasure,
     ;
 
     var room = Room(this)
-        get() = field
         private set
 
     fun freshRoom(): Room {
