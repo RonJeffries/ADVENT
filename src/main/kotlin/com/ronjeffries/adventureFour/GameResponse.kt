@@ -2,7 +2,7 @@ package com.ronjeffries.adventureFour
 
 import tornadofx.singleAssign
 
-class GameResponse(var nextRoomName:R = R.ZTestFirst) {
+class GameResponse(var nextRoomName:R = R.Z_FIRST) {
     var sayings = ""
     var nextRoom: Room by singleAssign()
     val resultString: String get() = sayings + nextRoom.description() +"\n"+ nextRoom.itemString()

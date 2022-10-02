@@ -48,27 +48,27 @@ class PlayerTest {
     fun roomDescriptions() {
         val long = "You're somewhere with a long descriptions"
         world {
-            room(R.ZTestFirst) {
+            room(R.Z_FIRST) {
                 desc("You're somewhere.", long)
             }
         }
-        val room = R.ZTestFirst.room
+        val room = R.Z_FIRST.room
         assertThat(room.longDesc).isEqualTo(long)
     }
 
     @Test
     fun `game gets good results`() {
         val world = world {
-            room(R.ZTestFirst){
+            room(R.Z_FIRST){
                 desc("short first", "long first")
-                go(D.South,R.ZTestSecond)
+                go(D.South,R.Z_SECOND)
             }
-            room(R.ZTestSecond) {
+            room(R.Z_SECOND) {
                 desc("short second", "long second")
-                go(D.North,R.ZTestFirst)
+                go(D.North,R.Z_FIRST)
             }
         }
-        val player = Player(world, R.ZTestFirst)
+        val player = Player(world, R.Z_FIRST)
         var resultString = player.command("s")
         assertThat(resultString).isEqualTo("long second\n")
         resultString = player.command("s")
@@ -78,19 +78,19 @@ class PlayerTest {
     @Test
     fun `game can provide sayings`() {
         val myWorld = world {
-            room(R.ZTestFirst) {
+            room(R.Z_FIRST) {
                 desc("You're in the first room.", "You find yourself in the fascinating first room.")
-                go(D.North,R.ZTestSecond) { true }
-                go(D.South,R.ZTestSecond) {
+                go(D.North,R.Z_SECOND) { true }
+                go(D.South,R.Z_SECOND) {
                     say("The grate is closed!")
                     false
                 }
             }
-            room(R.ZTestSecond) {
+            room(R.Z_SECOND) {
                 desc("second room", "the long second room")
             }
         }
-        val player = Player(myWorld, R.ZTestFirst)
+        val player = Player(myWorld, R.Z_FIRST)
         val resultString = player.command("s")
         assertThat(resultString).isEqualTo("The grate is closed!\n" +
                 "You find yourself in the fascinating first room.\n")
@@ -99,7 +99,7 @@ class PlayerTest {
     @Test
     fun `magic unlocks door`() {
         val world = world {
-            room(R.ZTestPalace) {
+            room(R.Z_PALACE) {
                 desc("You are in an empty room.",
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
@@ -107,7 +107,7 @@ class PlayerTest {
                     flags.get("unlocked").set(true)
                     say("The padlock is unlocked!")
                 }
-                go(D.East,R.ZTestTreasure) {
+                go(D.East,R.Z_TREASURE) {
                     if (flag("unlocked").isTrue)
                         true
                     else {
@@ -116,13 +116,13 @@ class PlayerTest {
                     }
                 }
             }
-            room(R.ZTestTreasure) {
+            room(R.Z_TREASURE) {
                 desc("You're in the treasure room",
                     "You are in a treasure room, rich with gold and jewels")
-                go(D.West,R.ZTestPalace)
+                go(D.West,R.Z_PALACE)
             }
         }
-        val player = Player(world,R.ZTestPalace)
+        val player = Player(world,R.Z_PALACE)
         var resultString = player.command("e")
         assertThat(resultString).isEqualTo("The room is locked by a glowing lock!\n" +
                 "You are in an empty room in the palace. There is a padlocked door to the east.\n")

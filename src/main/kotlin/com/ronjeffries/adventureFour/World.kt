@@ -6,7 +6,7 @@ typealias GoTarget = Pair<R, (World)->Boolean>
 enum class R {
     Spring, Wellhouse, Woods, WoodsNearCave, CaveEntrance,
     Clearing, Y2,
-    ZTestFirst, ZTestSecond, ZTestPalace, ZTestTreasure,
+    Z_FIRST, Z_SECOND, Z_PALACE, Z_TREASURE,
     ;
 
     var room = Room(this)

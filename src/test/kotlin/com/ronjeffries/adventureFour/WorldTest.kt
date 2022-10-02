@@ -98,13 +98,13 @@ class WorldTest {
     @Test
     fun `room action`() {
         val world = world {
-            room(R.ZTestPalace) {
+            room(R.Z_PALACE) {
                 desc("you are in a busy room", "you are in a very busy room")
                 action("look","around",
                     {imp-> imp.world.say("Lots happening")})
             }
         }
-        val room = R.ZTestPalace.room
+        val room = R.Z_PALACE.room
         val command = Command("look around")
         val response = world.command(command, room)
         assertThat(response.resultString).contains("Lots happening")

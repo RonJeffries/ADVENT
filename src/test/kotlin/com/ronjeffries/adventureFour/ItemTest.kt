@@ -8,7 +8,7 @@ class ItemTest {
     fun `initial item`() {
         var myItem = Item("nothing")
         world {
-            room(R.ZTestFirst) {
+            room(R.Z_FIRST) {
                 myItem = item("axe") {
                     desc("an axe", "an ornate axe belonging to the dwarf Bridget Ingridsdotter")
                 }
