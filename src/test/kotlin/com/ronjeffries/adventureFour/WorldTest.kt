@@ -62,7 +62,7 @@ class WorldTest {
                 item("axe") {}
             }
         }
-        val room = world.unsafeRoomNamed(R.Woods)
+        val room = R.Woods.room
         val response = world.command(Command("take axe"), room)
         assertThat(response.resultString).contains("You are in the dark woods.\n")
         assertThat(response.resultString).doesNotContain("take axe taken")
@@ -89,7 +89,7 @@ class WorldTest {
                 desc("You are in the woods.", "You are in the dark woods.")
             }
         }
-        val room = world.unsafeRoomNamed(R.Woods)
+        val room = R.Woods.room
         val badCommand = Command("abcd efgh")
         val response = world.command(badCommand, room)
         assertThat(response.resultString).contains("I do not understand 'abcd efgh'.")
@@ -104,7 +104,7 @@ class WorldTest {
                     {imp-> imp.world.say("Lots happening")})
             }
         }
-        val room = world.unsafeRoomNamed(R.Palace)
+        val room = R.Palace.room
         val command = Command("look around")
         val response = world.command(command, room)
         assertThat(response.resultString).contains("Lots happening")

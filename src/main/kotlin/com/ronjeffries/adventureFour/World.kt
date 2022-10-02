@@ -137,6 +137,5 @@ class World {
         say( inventory.asCarried() )
     }
 
-    fun unsafeRoomNamed(name: R): Room = rooms.unsafeRoomNamed(name)
 }
 

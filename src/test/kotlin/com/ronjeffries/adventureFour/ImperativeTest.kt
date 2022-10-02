@@ -9,7 +9,7 @@ val world = world {
     room(R.First) {}
 }
 
-var room = world.unsafeRoomNamed(R.First)
+var room = R.First.room
 
 class ImperativeTest {
     private fun getFactory() = PhraseFactory(getLexicon())

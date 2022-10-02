@@ -24,8 +24,8 @@ class RoomTest {
             }
             room(R.Second){}
         }
-        val myRoom = myWorld.unsafeRoomNamed(R.First)
-        val secondRoom = myWorld.unsafeRoomNamed(R.Second)
+        val myRoom = R.First.room
+        val secondRoom = R.Second.room
         val cmd = Command("s")
         val resp1 = myWorld.command(cmd, myRoom)
         assertThat(resp1.nextRoomName).isEqualTo(R.First)
@@ -36,7 +36,7 @@ class RoomTest {
 
     @Test
     fun `room has contents`() {
-        val world = world {
+        world {
             room(R.First) {
                 desc("storage room", "large storage room")
                 item("broom") {
@@ -53,7 +53,7 @@ class RoomTest {
                 }
             }
         }
-        val room = world.unsafeRoomNamed(R.First)
+        val room = R.First.room
         assertThat(room.contents.contains("broom")).isEqualTo(true)
         assertThat(room.contents.size).isEqualTo(3)
         val itemString = room.itemString()
