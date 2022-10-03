@@ -26,7 +26,7 @@ class Verbs(private val map:Map<String, Phrase>) {
     fun translate(verb:String): Phrase = map.getValue(verb)
 }
 
-class Actions(private val map: ActionMap) {
+class Actions(private val map: ActionMap = mutableMapOf<Phrase,Action>()) {
     fun act(imperative: Imperative) {
         val action: (Imperative) -> Unit = find(imperative)
         action(imperative)

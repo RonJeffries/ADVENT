@@ -3,10 +3,13 @@ package com.ronjeffries.adventureFour
 class Room(val roomName:R) {
     val contents: Items = Items()
     private val moves = mutableMapOf<D,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
-    private val actionMap = mutableMapOf<Phrase,Action>(
-        Phrase() to {imp -> imp.notHandled()}
-    )
-    private val actions = Actions(actionMap)
+//    private val actionMap = mutableMapOf<Phrase,Action>(
+//        Phrase() to {imp -> imp.notHandled()}
+//    )
+    private val actions = Actions()
+    init {
+        actions.add(Phrase()) { imp -> imp.notHandled() }
+    }
     var shortDesc = ""
     var longDesc = ""
     var theDesc = ""
