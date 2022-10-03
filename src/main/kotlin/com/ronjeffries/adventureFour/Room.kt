@@ -2,14 +2,17 @@ package com.ronjeffries.adventureFour
 
 class Room(val roomName:R) {
     val contents: Items = Items()
-    private val moves = mutableMapOf<D,GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
-//    private val actionMap = mutableMapOf<Phrase,Action>(
+    private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
+
+    //    private val actionMap = mutableMapOf<Phrase,Action>(
 //        Phrase() to {imp -> imp.notHandled()}
 //    )
     private val actions = Actions()
+
     init {
         actions.add(Phrase()) { imp -> imp.notHandled() }
     }
+
     var shortDesc = ""
     var longDesc = ""
     var theDesc = ""
@@ -17,11 +20,7 @@ class Room(val roomName:R) {
     // DSL Builders
 
     fun action(verb: String, noun: String, action: Action) {
-        action(Phrase(verb,noun), action)
-    }
-
-    private fun action(phrase: Phrase, action: Action) {
-        actions.add(phrase, action)
+        actions.add(Phrase(verb, noun), action)
     }
 
     fun desc(short: String, long: String) {
@@ -30,7 +29,7 @@ class Room(val roomName:R) {
         theDesc = long
     }
 
-    fun go(direction: D, roomName: R, allowed: (World)->Boolean = { _:World -> true}){
+    fun go(direction: D, roomName: R, allowed: (World) -> Boolean = { _: World -> true }) {
         moves += direction to Pair(roomName, allowed)
     }
 
@@ -39,18 +38,18 @@ class Room(val roomName:R) {
     fun command(command: Command, world: World) {
         world.response.nextRoomName = roomName
         val phrase: Phrase = makePhrase(command, world.lexicon)
-        val imp = Imperative(phrase,world, this)
+        val imp = Imperative(phrase, world, this)
         imp.act(actions, world.actions)
     }
 
     fun description(): String {
-        return theDesc.also {setShortDesc()}
+        return theDesc.also { setShortDesc() }
     }
 
-    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase
-        = PhraseFactory(lexicon).fromString(command.input)
+    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase =
+        PhraseFactory(lexicon).fromString(command.input)
 
-    fun item(thing: String, details: Item.()->Unit = {}): Item {
+    fun item(thing: String, details: Item.() -> Unit = {}): Item {
         val item = Item(thing)
         contents.add(item)
         item.details()
@@ -72,22 +71,27 @@ class Room(val roomName:R) {
     }
 
     fun move(imperative: Imperative, world: World) {
-        D.executeIfDirectionExists(imperative.noun) { direction:D ->
+        D.executeIfDirectionExists(imperative.noun) { direction: D ->
             val (targetName, allowed) = moves.getValue(direction)
             if (allowed(world)) world.response.nextRoomName = targetName
         }
     }
 
     fun take(imp: Imperative, world: World) {
-        with (world) { imp.noun.let {
-        response.say(
-            when (contents.moveItemTo(it, inventory)) {
-                true -> "$it taken."
-                false -> "I see no $it here!" }) }}
+        with(world) {
+            imp.noun.let {
+                response.say(
+                    when (contents.moveItemTo(it, inventory)) {
+                        true -> "$it taken."
+                        false -> "I see no $it here!"
+                    }
+                )
+            }
+        }
     }
 
-    fun unknown(imperative: Imperative, world: World ) {
-        when(imperative.noun) {
+    fun unknown(imperative: Imperative, world: World) {
+        when (imperative.noun) {
             "none" -> world.response.say("I do not understand '${imperative.verb}'.")
             else -> world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
         }

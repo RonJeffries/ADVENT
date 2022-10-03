@@ -54,11 +54,12 @@ class World {
     private fun makeLexicon(): Lexicon = Lexicon(makeSynonyms(), makeVerbs())
 
     private fun makeSynonyms(): Synonyms {
-        return Synonyms( mutableMapOf(
+        return Synonyms(mutableMapOf(
             "e" to "east", "ne" to "northeast",
             "n" to "north", "se" to "southeast",
             "w" to "west", "nw" to "northwest",
-            "s" to "south", "sw" to "southwest").withDefault { it }
+            "s" to "south", "sw" to "southwest"
+        ).withDefault { it }
         )
     }
 
@@ -76,8 +77,8 @@ class World {
             "say" to Phrase("say", "irrelevant"),
             "look" to Phrase("look", "around"),
             "xyzzy" to Phrase("say", "xyzzy"),
-            "wd40" to Phrase("say","wd40"),
-        ).withDefault { Phrase(it, "none")})
+            "wd40" to Phrase("say", "wd40"),
+        ).withDefault { Phrase(it, "none") })
     }
 
     private fun makeActions(): Actions {
@@ -87,24 +88,21 @@ class World {
                 imp.world.say("Very slick, but there's nothing to lubricate here.")
             }
             it.add(Phrase("say")) { imp: Imperative ->
-                imp.world.say("Nothing happens here!") }
+                imp.world.say("Nothing happens here!")
+            }
             it.add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
             it.add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
-            it.add(Phrase("look")) { imp: Imperative-> imp.room.look()}
+            it.add(Phrase("look")) { imp: Imperative -> imp.room.look() }
             it.add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         }
     }
 
-// DSL
+    // DSL
     fun action(verb: String, noun: String, action: Action) {
-        action(Phrase(verb,noun), action)
+        actions.add(Phrase(verb, noun), action)
     }
 
-    private fun action(phrase: Phrase, action: Action) {
-        actions.add(phrase, action)
-    }
-
-    fun room(name: R, details: Room.()->Unit) : Room {
+    fun room(name: R, details: Room.() -> Unit): Room {
         val room = name.freshRoom()
         room.details()
         return room
@@ -112,7 +110,7 @@ class World {
 
 // Game Play
 
-    fun addToInventory(item:Item) {
+    fun addToInventory(item: Item) {
         inventory.add(item)
     }
 
@@ -128,7 +126,7 @@ class World {
     fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
     fun inventorySetInformation(item: String, property: String) {
-        inventory.setInformation(item,property)
+        inventory.setInformation(item, property)
     }
 
     fun say(s: String) {
@@ -136,7 +134,7 @@ class World {
     }
 
     private fun showInventory() {
-        say( inventory.asCarried() )
+        say(inventory.asCarried())
     }
 
 }
