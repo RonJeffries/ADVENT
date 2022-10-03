@@ -141,7 +141,7 @@ class PlayerTest {
             }
         }
         val player = Player(world, R.Z_FIRST)
-        var resultString = player.command("exhibit curiosity")
+        val resultString = player.command("exhibit curiosity")
         assertThat(resultString).contains("remember the cat")
     }
 }
