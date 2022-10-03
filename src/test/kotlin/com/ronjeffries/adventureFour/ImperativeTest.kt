@@ -15,7 +15,7 @@ class ImperativeTest {
     private fun getFactory() = PhraseFactory(getLexicon())
     private fun getVerbs() = Verbs(TestVerbTable)
     private fun getSynonyms() = Synonyms(TestSynonymTable)
-    private fun getActions() = Actions(TestActionTable)
+    private fun getActions() = makeTestActions()
     private fun getLexicon() = Lexicon(getSynonyms(), getVerbs())
 
     @BeforeEach
@@ -180,12 +180,14 @@ private val TestVerbTable = mutableMapOf(
     "xyzzy" to Phrase("say", "xyzzy"),
     ).withDefault { Phrase(it, "none") }
 
-private val TestActionTable = mutableMapOf(
-    Phrase("take", "cows") to {imp: Imperative -> imp.testingSay("no cows for you")},
-    Phrase("hassle") to { imp: Imperative -> imp.testingSay("please do not bug the ${imp.noun}")},
-    Phrase(noun="cows") to {imp:Imperative -> imp.testingSay("what is it with you and cows?")},
-    Phrase("go") to { imp: Imperative -> imp.testingSay("went ${imp.noun}")},
-    Phrase("say") to { imp: Imperative -> imp.testingSay("said ${imp.noun}")},
-    Phrase("inventory") to { imp: Imperative -> imp.testingSay("You got nothing")},
-    Phrase() to { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }
-)
+private fun makeTestActions(): Actions {
+    return Actions().also {
+        it.add(Phrase("take", "cows")) { imp: Imperative -> imp.testingSay("no cows for you") }
+        it.add(Phrase("hassle")) { imp: Imperative -> imp.testingSay("please do not bug the ${imp.noun}") }
+        it.add(Phrase(noun = "cows")) { imp: Imperative -> imp.testingSay("what is it with you and cows?") }
+        it.add(Phrase("go")) { imp: Imperative -> imp.testingSay("went ${imp.noun}") }
+        it.add(Phrase("say")) { imp: Imperative -> imp.testingSay("said ${imp.noun}") }
+        it.add(Phrase("inventory")) { imp: Imperative -> imp.testingSay("You got nothing") }
+        it.add(Phrase()) { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }
+    }
+}
