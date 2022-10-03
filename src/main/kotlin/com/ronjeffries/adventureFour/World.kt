@@ -4,8 +4,8 @@ package com.ronjeffries.adventureFour
 typealias GoTarget = Pair<R, (World)->Boolean>
 
 enum class R {
-    Spring, Wellhouse, Woods, WoodsNearCave, CaveEntrance,
-    Clearing, Y2,
+    Spring, Wellhouse, Woods12, Woods9, Woods6, WoodsS,  WoodsNearCave, CaveEntrance,
+    LowCave, Clearing, Y2,
     Z_FIRST, Z_SECOND, Z_PALACE, Z_TREASURE,
     ;
 
@@ -69,14 +69,10 @@ class World {
             "west" to Phrase("go", "west"),
             "north" to Phrase("go", "north"),
             "south" to Phrase("go", "south"),
-            "e" to Phrase("go", "east"),
-            "w" to Phrase("go", "west"),
-            "n" to Phrase("go", "north"),
-            "s" to Phrase("go", "south"),
-            "nw" to Phrase("go", "northwest"),
-            "ne" to Phrase("go", "northeast"),
-            "sw" to Phrase("go", "southwest"),
-            "se" to Phrase("go", "southeast"),
+            "northwest" to Phrase("go", "northwest"),
+            "southwest" to Phrase("go", "southwest"),
+            "northeast" to Phrase("go", "northeast"),
+            "southeast" to Phrase("go", "southeast"),
             "say" to Phrase("say", "irrelevant"),
             "look" to Phrase("look", "around"),
             "xyzzy" to Phrase("say", "xyzzy"),

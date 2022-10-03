@@ -7,28 +7,28 @@ class PlayerTest {
     @Test
     fun gameCheck() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 go(D.South, R.Clearing)
                 go(D.West, R.Y2)
             }
             room(R.Clearing) {
-                go(D.North,R.Woods)
+                go(D.North,R.WoodsS)
             }
             room(R.Y2) {
-                go(D.West,R.Woods)
+                go(D.West,R.WoodsS)
                 go(D.South,R.Y2)
             }
         }
-        val player = Player(world, R.Woods)
-        assertThat(player.currentRoomName).isEqualTo(R.Woods)
+        val player = Player(world, R.WoodsS)
+        assertThat(player.currentRoomName).isEqualTo(R.WoodsS)
         player.command("s")
         assertThat(player.currentRoomName).isEqualTo(R.Clearing)
         player.command("n")
-        assertThat(player.currentRoomName).isEqualTo(R.Woods)
+        assertThat(player.currentRoomName).isEqualTo(R.WoodsS)
         player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Y2)
         player.command("west")
-        assertThat(player.currentRoomName).isEqualTo(R.Woods)
+        assertThat(player.currentRoomName).isEqualTo(R.WoodsS)
         player.command("west")
         assertThat(player.currentRoomName).isEqualTo(R.Y2)
         // cannot happen with new go command
@@ -36,7 +36,7 @@ class PlayerTest {
 //        assertThat(player.currentRoomName).isEqualTo("Y2")
         // no such room as Y3, defaults to stay in Y2
         player.command("west")
-        assertThat(player.currentRoomName).isEqualTo(R.Woods)
+        assertThat(player.currentRoomName).isEqualTo(R.WoodsS)
 //        val refs = player.roomReferences
         // refs no longer valid with R enum in play
 //        assertThat(refs).contains("Y3")

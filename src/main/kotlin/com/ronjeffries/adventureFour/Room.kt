@@ -87,6 +87,9 @@ class Room(val roomName:R) {
     }
 
     fun unknown(imperative: Imperative, world: World ) {
-        world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
+        when(imperative.noun) {
+            "none" -> world.response.say("I do not understand '${imperative.verb}'.")
+            else -> world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
+        }
     }
 }

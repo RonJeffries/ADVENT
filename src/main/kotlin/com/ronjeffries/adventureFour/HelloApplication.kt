@@ -13,7 +13,7 @@ var textContents = "Welcome to Tiny Adventure!"
 fun makeGameWorld(): World {
     val theWorld = world {
         room(R.Spring) {
-            desc("spring", "You are at a clear water spring. " +
+            desc("You are at the spring.", "You are at a clear water spring. " +
                     "There is a well house to the east, and a wooded area to the west and south.")
             item("water") {
                 desc("water", "Perfectly ordinary sparkling spring water, " +
@@ -21,8 +21,9 @@ fun makeGameWorld(): World {
                         "and a minor tang of fluoride, which is good for your teeth.)")
             }
             go(D.East, R.Wellhouse)
-            go(D.West, R.Woods)
-            go(D.South, R.WoodsNearCave)
+            go(D.West, R.Woods6)
+            go(D.South, R.WoodsS)
+            go(D.Northwest, R.Woods12)
             action("take", "water") { imp->
                 if (inventoryHas("bottle")) {
                     inventorySetInformation("bottle", " of water")
@@ -31,38 +32,76 @@ fun makeGameWorld(): World {
                     imp.say("What would you keep it in?") }
             }
         }
-        room(R.Woods) {
-            desc("woods", "You are in a dark and forbidding wooded area. " +
-                    "It's not clear which way to go.")
-            go(D.East, R.Spring)
-            go(D.North, R.Woods)
-            go(D.West, R.Woods)
-            go(D.Northwest, R.Woods)
-            go(D.Southwest, R.Woods)
-        }
         room(R.Wellhouse ) {
-            desc("well house", "You are in a small house near a spring. " +
+            desc("You are in the well house.", "You are in a small house near a spring. " +
                     "The house is sparsely decorated, in a rustic style. " +
                     "It appears to be well kept.")
-            item("bottle")
             item("keys")
+            item("matches")
+            item("magazine")
             go(D.West, R.Spring)
             action("say", "xyzzy" ) {
                 say("Swoosh!")
                 response.nextRoomName = R.WoodsNearCave
             }
         }
+        room(R.Woods6) {
+            desc("You are lost in the woods.", "You are in a dark and forbidding wooded area. " +
+                    "It's not clear which way to go.")
+            go(D.Northeast, R.Spring)
+            go(D.West, R.Woods9)
+        }
+        room(R.Woods9) {
+            desc("You are lost in the woods.", "You are in a dark and forbidding wooded area. " +
+                    "It's not clear which way to go.")
+            go(D.Southeast, R.Woods6)
+            go(D.North, R.Woods12)
+        }
+        room(R.Woods12) {
+            desc("You are lost in the woods.", "You are in a dark and forbidding wooded area. " +
+                    "It's not clear which way to go.")
+            go(D.West, R.Woods9)
+            go(D.South, R.Spring)
+            item("bottle")
+        }
+        room(R.WoodsS) {
+            desc("You are lost in the woods.", "You are in a dark and forbidding wooded area. " +
+                    "It's not clear which way to go.")
+            go(D.South, R.WoodsNearCave)
+            go(D.Northwest, R.Woods6)
+        }
         room(R.WoodsNearCave) {
-            desc("breezy woods", "You are in the woods. " +
+            desc("You are in the breezy woods.", "You are in the woods. " +
                     "There is a cool breeze coming from the west.")
             go(D.West,R.CaveEntrance)
-            go(D.North, R.Spring)
+            go(D.North, R.WoodsS)
         }
         room(R.CaveEntrance) {
-            desc("cave entrance",
+            desc("You are at the cave entrance.",
                 "You are at an entrance to a cave. " +
+                        "A cool breeze emanates from the cave." +
                         "There is a locked gate blocking your way west.")
             go(D.East,R.WoodsNearCave)
+            action("unlock", "gate") {
+                if (inventoryHas("keys")) {
+                    say("You fumble through the keys and finally unlock the gate!")
+                    flags.get("openGate").set(true)
+                } else {
+                    say("The gate is locked.")
+                }
+            }
+            go(D.West, R.LowCave) {when(flags.get("openGate").isTrue) {
+                true -> true
+                false-> {
+                    say("The gate is locked")
+                    false }
+                }
+            }
+        }
+        room(R.LowCave) {
+            desc("You are in a low cave.", "You are in a low cave room. " +
+            "The cave continues to the west.")
+            go(D.East, R.CaveEntrance)
         }
     }
     return theWorld

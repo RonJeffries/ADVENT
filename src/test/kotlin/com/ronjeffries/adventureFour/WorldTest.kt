@@ -13,17 +13,17 @@ class WorldTest {
     @Test
     fun roomsWithGo() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 go(D.South,R.Clearing)
                 go(D.Southwest, R.Clearing)
             }
             room(R.Clearing) {
-                go(D.North, R.Woods)
+                go(D.North, R.WoodsS)
             }
         }
         val player = Player(world, R.Clearing)
         player.command("go n")
-        assertThat(world.response.nextRoomName).isEqualTo(R.Woods)
+        assertThat(world.response.nextRoomName).isEqualTo(R.WoodsS)
         player.command("go sw")
         assertThat(world.response.nextRoomName).isEqualTo(R.Clearing)
     }
@@ -31,26 +31,26 @@ class WorldTest {
     @Test
     fun `go blue`() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 go(D.South,R.Clearing)
             }
         }
-        val player = Player(world, R.Woods)
+        val player = Player(world, R.WoodsS)
         player.command("go blue")
-        assertThat(world.response.nextRoomName).isEqualTo(R.Woods)
+        assertThat(world.response.nextRoomName).isEqualTo(R.WoodsS)
     }
 
     @Test
     fun `world has inventory`() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 go(D.South,R.Clearing)
             }
         }
         world.addToInventory(Item("axe"))
         world.addToInventory(Item("bottle"))
         assertThat(world.inventoryHas("axe"))
-        val player = Player(world,R.Woods)
+        val player = Player(world,R.WoodsS)
         val resultString = player.command("inventory")
         assertThat(resultString).contains("axe")
         assertThat(resultString).contains("bottle")
@@ -60,12 +60,12 @@ class WorldTest {
     @Test
     fun `take command works`() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 desc("You are in the woods.", "You are in the dark woods.")
                 item("axe") {}
             }
         }
-        val room = R.Woods.room
+        val room = R.WoodsS.room
         val response = world.command(Command("take axe"), room)
         assertThat(response.resultString).contains("You are in the dark woods.\n")
         assertThat(response.resultString).doesNotContain("take axe taken")
@@ -80,7 +80,7 @@ class WorldTest {
         val world = world {}
         val lex = world.lexicon
         assertThat(lex.synonym("e")).isEqualTo("east")
-        val imp = lex.translate("e")
+        val imp = lex.translate("east")
         assertThat(imp.verb).isEqualTo("go")
         assertThat(imp.noun).isEqualTo("east")
     }
@@ -88,11 +88,11 @@ class WorldTest {
     @Test
     fun `unknown command`() {
         val world = world {
-            room(R.Woods) {
+            room(R.WoodsS) {
                 desc("You are in the woods.", "You are in the dark woods.")
             }
         }
-        val room = R.Woods.room
+        val room = R.WoodsS.room
         val badCommand = Command("abcd efgh")
         val response = world.command(badCommand, room)
         assertThat(response.resultString).contains("I do not understand 'abcd efgh'.")
