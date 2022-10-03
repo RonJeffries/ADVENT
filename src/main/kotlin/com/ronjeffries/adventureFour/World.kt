@@ -55,10 +55,10 @@ class World {
 
     private fun makeSynonyms(): Synonyms {
         return Synonyms( mutableMapOf(
-            "e" to "east",
-            "n" to "north",
-            "w" to "west",
-            "s" to "south").withDefault { it }
+            "e" to "east", "ne" to "northeast",
+            "n" to "north", "se" to "southeast",
+            "w" to "west", "nw" to "northwest",
+            "s" to "south", "sw" to "southwest").withDefault { it }
         )
     }
 

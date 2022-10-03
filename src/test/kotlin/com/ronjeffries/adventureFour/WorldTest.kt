@@ -15,6 +15,7 @@ class WorldTest {
         val world = world {
             room(R.Woods) {
                 go(D.South,R.Clearing)
+                go(D.Southwest, R.Clearing)
             }
             room(R.Clearing) {
                 go(D.North, R.Woods)
@@ -23,6 +24,8 @@ class WorldTest {
         val player = Player(world, R.Clearing)
         player.command("go n")
         assertThat(world.response.nextRoomName).isEqualTo(R.Woods)
+        player.command("go sw")
+        assertThat(world.response.nextRoomName).isEqualTo(R.Clearing)
     }
 
     @Test
