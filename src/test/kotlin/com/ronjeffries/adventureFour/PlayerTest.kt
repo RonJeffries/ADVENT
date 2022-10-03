@@ -131,4 +131,17 @@ class PlayerTest {
         resultString = player.command("e")
         assertThat(resultString).contains("rich with gold")
     }
+
+    @Test
+    fun `world can have special action`() {
+        val world = world {
+            action("exhibit","curiosity") { _: Imperative -> say("remember the cat")}
+            room(R.Z_FIRST){
+                desc("short first", "long first")
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        var resultString = player.command("exhibit curiosity")
+        assertThat(resultString).contains("remember the cat")
+    }
 }

@@ -85,21 +85,28 @@ class World {
     }
 
     private fun makeActions(): Actions {
-        return Actions(mutableMapOf(
-            Phrase("go") to { imp: Imperative -> imp.room.move(imp, imp.world) },
-            Phrase("say", "wd40") to { imp: Imperative ->
+        return Actions().also {
+            it.add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
+            it.add(Phrase("say", "wd40")) { imp: Imperative ->
                 imp.world.say("Very slick, but there's nothing to lubricate here.")
-            },
-            Phrase("say") to { imp: Imperative ->
-                imp.world.say("Nothing happens here!") },
-            Phrase("take") to { imp: Imperative -> imp.room.take(imp, imp.world) },
-            Phrase("inventory") to { imp: Imperative -> imp.world.showInventory() },
-            Phrase("look") to { imp: Imperative-> imp.room.look()},
-            Phrase() to { imp: Imperative -> imp.room.unknown(imp, imp.world) }
-        ))
+            }
+            it.add(Phrase("say")) { imp: Imperative ->
+                imp.world.say("Nothing happens here!") }
+            it.add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
+            it.add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
+            it.add(Phrase("look")) { imp: Imperative-> imp.room.look()}
+            it.add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+        }
     }
 
 // DSL
+    fun action(verb: String, noun: String, action: Action) {
+        action(Phrase(verb,noun), action)
+    }
+
+    private fun action(phrase: Phrase, action: Action) {
+        actions.add(phrase, action)
+    }
 
     fun room(name: R, details: Room.()->Unit) : Room {
         val room = name.freshRoom()

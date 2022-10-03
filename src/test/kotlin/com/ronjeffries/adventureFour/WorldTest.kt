@@ -109,4 +109,5 @@ class WorldTest {
         val response = world.command(command, room)
         assertThat(response.resultString).contains("Lots happening")
     }
+
 }
