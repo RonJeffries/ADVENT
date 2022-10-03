@@ -17,8 +17,8 @@ class Room(val roomName:R) {
         action(Phrase(verb,noun), action)
     }
 
-    fun action(phrase: Phrase, action: Action) {
-        actionMap[phrase] = action
+    private fun action(phrase: Phrase, action: Action) {
+        actions.add(phrase, action)
     }
 
     fun desc(short: String, long: String) {

@@ -26,7 +26,7 @@ class Verbs(private val map:Map<String, Phrase>) {
     fun translate(verb:String): Phrase = map.getValue(verb)
 }
 
-class Actions(val map: ActionMap) {
+class Actions(private val map: ActionMap) {
     fun act(imperative: Imperative) {
         val action: (Imperative) -> Unit = find(imperative)
         action(imperative)
@@ -40,6 +40,10 @@ class Actions(val map: ActionMap) {
                     map.getValue(Phrase()) }
             }
         }
+    }
+
+    fun add(phrase: Phrase, action: (Imperative) -> Unit) {
+        map[phrase] = action
     }
 }
 
