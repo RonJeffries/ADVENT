@@ -130,4 +130,23 @@ class RoomTest {
         result = player.command("open gate")
         assertThat(result).contains("unlocking")
     }
+
+    @Test
+    fun `world actions with one and two words, in a list`() {
+        val world = world {
+            val actions = listOf("wave wand", "lux", "say aperto")
+            action(actions) {
+                say("no magic allowed here")
+            }
+            room(R.Z_FIRST) {
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        var result = player.command("wave wand")
+        assertThat(result).contains("no magic allowed here")
+        result = player.command("lux")
+        assertThat(result).contains("no magic allowed here")
+        result = player.command("say aperto")
+        assertThat(result).contains("no magic allowed here")
+    }
 }
