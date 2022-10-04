@@ -49,53 +49,6 @@ class World {
     val name = "world"
     var response: GameResponse = GameResponse()
 
-// creation utilities
-
-    private fun makeLexicon(): Lexicon = Lexicon(makeSynonyms(), makeVerbs())
-
-    private fun makeSynonyms(): Synonyms {
-        return Synonyms(mutableMapOf(
-            "e" to "east", "ne" to "northeast",
-            "n" to "north", "se" to "southeast",
-            "w" to "west", "nw" to "northwest",
-            "s" to "south", "sw" to "southwest"
-        ).withDefault { it }
-        )
-    }
-
-    private fun makeVerbs(): Verbs {
-        return Verbs(mutableMapOf(
-            "go" to Phrase("go", "irrelevant"),
-            "east" to Phrase("go", "east"),
-            "west" to Phrase("go", "west"),
-            "north" to Phrase("go", "north"),
-            "south" to Phrase("go", "south"),
-            "northwest" to Phrase("go", "northwest"),
-            "southwest" to Phrase("go", "southwest"),
-            "northeast" to Phrase("go", "northeast"),
-            "southeast" to Phrase("go", "southeast"),
-            "say" to Phrase("say", "irrelevant"),
-            "look" to Phrase("look", "around"),
-            "xyzzy" to Phrase("say", "xyzzy"),
-            "wd40" to Phrase("say", "wd40"),
-        ).withDefault { Phrase(it, "none") })
-    }
-
-    private fun makeActions(): Actions {
-        return Actions().also {
-            it.add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
-            it.add(Phrase("say", "wd40")) { imp: Imperative ->
-                imp.world.say("Very slick, but there's nothing to lubricate here.")
-            }
-            it.add(Phrase("say")) { imp: Imperative ->
-                imp.world.say("Nothing happens here!")
-            }
-            it.add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
-            it.add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
-            it.add(Phrase("look")) { imp: Imperative -> imp.room.look() }
-            it.add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
-        }
-    }
 
     // DSL
     fun action(verb: String, noun: String, action: Action) {
@@ -145,6 +98,54 @@ class World {
 
     private fun showInventory() {
         say(inventory.asCarried())
+    }
+
+// creation utilities
+
+    private fun makeLexicon(): Lexicon = Lexicon(makeSynonyms(), makeVerbs())
+
+    private fun makeSynonyms(): Synonyms {
+        return Synonyms(mutableMapOf(
+            "e" to "east", "ne" to "northeast",
+            "n" to "north", "se" to "southeast",
+            "w" to "west", "nw" to "northwest",
+            "s" to "south", "sw" to "southwest"
+        ).withDefault { it }
+        )
+    }
+
+    private fun makeVerbs(): Verbs {
+        return Verbs(mutableMapOf(
+            "go" to Phrase("go", "irrelevant"),
+            "east" to Phrase("go", "east"),
+            "west" to Phrase("go", "west"),
+            "north" to Phrase("go", "north"),
+            "south" to Phrase("go", "south"),
+            "northwest" to Phrase("go", "northwest"),
+            "southwest" to Phrase("go", "southwest"),
+            "northeast" to Phrase("go", "northeast"),
+            "southeast" to Phrase("go", "southeast"),
+            "say" to Phrase("say", "irrelevant"),
+            "look" to Phrase("look", "around"),
+            "xyzzy" to Phrase("say", "xyzzy"),
+            "wd40" to Phrase("say", "wd40"),
+        ).withDefault { Phrase(it, "none") })
+    }
+
+    private fun makeActions(): Actions {
+        return Actions().also {
+            it.add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
+            it.add(Phrase("say", "wd40")) { imp: Imperative ->
+                imp.world.say("Very slick, but there's nothing to lubricate here.")
+            }
+            it.add(Phrase("say")) { imp: Imperative ->
+                imp.world.say("Nothing happens here!")
+            }
+            it.add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
+            it.add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
+            it.add(Phrase("look")) { imp: Imperative -> imp.room.look() }
+            it.add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+        }
     }
 
 }
