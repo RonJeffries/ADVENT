@@ -8,13 +8,13 @@ data class Imperative(
     val verb = phrase.verb!!
     val noun = phrase.noun!!
 
-    fun act(roomActions: Actions, worldActions: Actions) {
+    fun act(roomActions: IActions, worldActions: IActions) {
         worldNeeded = false
         act(roomActions)
         if (worldNeeded) act(worldActions)
     }
 
-    fun act(actions: Actions) {
+    fun act(actions: IActions) {
         actions.act(this)
     }
 

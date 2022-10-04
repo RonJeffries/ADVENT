@@ -26,19 +26,36 @@ class Verbs(private val map:Map<String, Phrase>) {
     fun translate(verb:String): Phrase = map.getValue(verb)
 }
 
-class Actions() {
+interface IActions {
+    fun act(imperative: Imperative)
+    fun action(verb: String, noun: String, action: Action)
+    fun action(verb: String, action: Action)
+    fun action(commands: List<String>, action: Action)
+    fun add(phrase: Phrase, action: (Imperative) -> Unit)
+}
+
+class Actions() : IActions {
     private val map: ActionMap = mutableMapOf<Phrase,Action>()
 
-    fun action(verb: String, noun: String, action: Action) {
+    override fun act(imperative: Imperative) {
+        val action: (Imperative) -> Unit = find(imperative)
+        action(imperative)
+    }
+
+    override fun action(verb: String, noun: String, action: Action) {
         add(Phrase(verb, noun), action)
     }
 
-    fun action(verb: String, action: Action) {
+    override fun action(verb: String, action: Action) {
         add(Phrase(verb), action)
     }
 
-    fun action(commands: List<String>, action: Action) {
+    override fun action(commands: List<String>, action: Action) {
         commands.forEach { makeAction(it, action) }
+    }
+
+    override fun add(phrase: Phrase, action: (Imperative) -> Unit) {
+        map[phrase] = action
     }
 
     fun makeAction(command:String, action: Action) {
@@ -47,10 +64,6 @@ class Actions() {
             1 -> action(words[0], action)
             else -> action(words[0], words[1], action)
         }
-    }
-    fun act(imperative: Imperative) {
-        val action: (Imperative) -> Unit = find(imperative)
-        action(imperative)
     }
 
     private fun find(imperative: Imperative): Action {
@@ -61,10 +74,6 @@ class Actions() {
                     map.getValue(Phrase()) }
             }
         }
-    }
-
-    fun add(phrase: Phrase, action: (Imperative) -> Unit) {
-        map[phrase] = action
     }
 }
 

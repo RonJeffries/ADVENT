@@ -1,13 +1,10 @@
 package com.ronjeffries.adventureFour
 
-class Room(val roomName:R) {
+class Room(val roomName:R, private val actions:IActions = Actions()): IActions by actions {
     val contents: Items = Items()
     private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
 
-    //    private val actionMap = mutableMapOf<Phrase,Action>(
-//        Phrase() to {imp -> imp.notHandled()}
-//    )
-    private val actions = Actions()
+
 
     init {
         actions.add(Phrase()) { imp -> imp.notHandled() }
@@ -18,18 +15,18 @@ class Room(val roomName:R) {
     var theDesc = ""
 
     // DSL Builders
-
-    fun action(verb: String, noun: String, action: Action) {
-        actions.action(verb,noun,action)
-    }
-
-    fun action(verb: String, action: Action) {
-        actions.action(verb,action)
-    }
-
-    fun action(commands: List<String>, action: Action) {
-        actions.action(commands, action)
-    }
+//
+//    fun action(verb: String, noun: String, action: Action) {
+//        actions.action(verb,noun,action)
+//    }
+//
+//    fun action(verb: String, action: Action) {
+//        actions.action(verb,action)
+//    }
+//
+//    fun action(commands: List<String>, action: Action) {
+//        actions.action(commands, action)
+//    }
 
     fun desc(short: String, long: String) {
         shortDesc = short
