@@ -28,6 +28,26 @@ class Verbs(private val map:Map<String, Phrase>) {
 
 class Actions() {
     private val map: ActionMap = mutableMapOf<Phrase,Action>()
+
+    fun action(verb: String, noun: String, action: Action) {
+        add(Phrase(verb, noun), action)
+    }
+
+    fun action(verb: String, action: Action) {
+        add(Phrase(verb), action)
+    }
+
+    fun action(commands: List<String>, action: Action) {
+        commands.forEach { makeAction(it, action) }
+    }
+
+    fun makeAction(command:String, action: Action) {
+        val words = command.lowercase().split(" ")
+        when (words.size) {
+            1 -> action(words[0], action)
+            else -> action(words[0], words[1], action)
+        }
+    }
     fun act(imperative: Imperative) {
         val action: (Imperative) -> Unit = find(imperative)
         action(imperative)
