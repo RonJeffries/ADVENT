@@ -13,18 +13,6 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     var theDesc = ""
 
     // DSL Builders
-//
-//    fun action(verb: String, noun: String, action: Action) {
-//        actions.action(verb,noun,action)
-//    }
-//
-//    fun action(verb: String, action: Action) {
-//        actions.action(verb,action)
-//    }
-//
-//    fun action(commands: List<String>, action: Action) {
-//        actions.action(commands, action)
-//    }
 
     fun desc(short: String, long: String) {
         shortDesc = short
