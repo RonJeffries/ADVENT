@@ -81,7 +81,7 @@ class ImperativeTest {
         return Lexicon(synonyms, verbs)
     }
 
-    private fun testActions(): Actions {
+    private fun testActions(): IActions {
         return world.actions
     }
 

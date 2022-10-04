@@ -4,8 +4,6 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     val contents: Items = Items()
     private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
 
-
-
     init {
         actions.add(Phrase()) { imp -> imp.notHandled() }
     }

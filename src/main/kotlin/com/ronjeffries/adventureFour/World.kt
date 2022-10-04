@@ -42,7 +42,7 @@ fun world(details: World.()->Unit): World{
 
 
 class World {
-    var actions: Actions = makeActions()
+    var actions: IActions = makeActions()
     val lexicon = makeLexicon()
     val flags = GameStatusMap()
     val inventory: Items = Items()
@@ -141,7 +141,7 @@ class World {
         ).withDefault { Phrase(it, "none") })
     }
 
-    private fun makeActions(): Actions {
+    private fun makeActions(): IActions {
         return Actions().also {
             it.add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
             it.add(Phrase("say", "wd40")) { imp: Imperative ->

@@ -18,7 +18,7 @@ data class Imperative(
         actions.act(this)
     }
 
-    fun actForTesting(actions: Actions): String {
+    fun actForTesting(actions: IActions): String {
         act(actions)
         return testingSaid
     }
