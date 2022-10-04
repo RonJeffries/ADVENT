@@ -111,4 +111,23 @@ class RoomTest {
         resultString = player.command("inventory")
         assertThat(resultString).contains("bottle of water")
     }
+
+    @Test
+    fun `actions with one and two words, in a list`() {
+        val world = world {
+            room(R.Z_FIRST) {
+                val actions = listOf("unlock gate", "unlock", "open gate")
+                action(actions) {
+                    say("unlocking")
+                }
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        var result = player.command("unlock gate")
+        assertThat(result).contains("unlocking")
+        result = player.command("unlock")
+        assertThat(result).contains("unlocking")
+        result = player.command("open gate")
+        assertThat(result).contains("unlocking")
+    }
 }

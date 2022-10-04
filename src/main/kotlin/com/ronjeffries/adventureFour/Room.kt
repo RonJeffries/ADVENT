@@ -23,6 +23,22 @@ class Room(val roomName:R) {
         actions.add(Phrase(verb, noun), action)
     }
 
+    fun action(verb: String, action: Action) {
+        actions.add(Phrase(verb), action)
+    }
+
+    fun action(actions: List<String>, action: Action) {
+        actions.forEach { makeAction(it, action) }
+    }
+
+    fun makeAction(command:String, action: Action) {
+        val words = command.lowercase().split(" ")
+        when (words.size) {
+            1 -> action(words[0], action)
+            else -> action(words[0], words[1], action)
+        }
+    }
+
     fun desc(short: String, long: String) {
         shortDesc = short
         longDesc = long
