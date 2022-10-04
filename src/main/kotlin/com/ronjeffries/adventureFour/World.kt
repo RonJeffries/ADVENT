@@ -41,8 +41,10 @@ fun world(details: World.()->Unit): World{
 }
 
 
-class World {
-    var actions: IActions = makeActions()
+class World( val actions: IActions = Actions()) :IActions by actions {
+    init {
+        makeActions()
+    }
     val lexicon = makeLexicon()
     val flags = GameStatusMap()
     val inventory: Items = Items()
@@ -51,18 +53,6 @@ class World {
 
 
     // DSL
-
-    fun action(verb: String, noun: String, action: Action) {
-        actions.action(verb,noun,action)
-    }
-
-    fun action(verb: String, action: Action) {
-        actions.action(verb,action)
-    }
-
-    fun action(commands: List<String>, action: Action) {
-        actions.action(commands, action)
-    }
 
     fun room(name: R, details: Room.() -> Unit): Room {
         val room = name.freshRoom()
@@ -141,19 +131,19 @@ class World {
         ).withDefault { Phrase(it, "none") })
     }
 
-    private fun makeActions(): IActions {
-        return Actions().also {
-            it.add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
-            it.add(Phrase("say", "wd40")) { imp: Imperative ->
+    private fun makeActions() {
+        with(actions) {
+            add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
+            add(Phrase("say", "wd40")) { imp: Imperative ->
                 imp.world.say("Very slick, but there's nothing to lubricate here.")
             }
-            it.add(Phrase("say")) { imp: Imperative ->
+            add(Phrase("say")) { imp: Imperative ->
                 imp.world.say("Nothing happens here!")
             }
-            it.add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
-            it.add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
-            it.add(Phrase("look")) { imp: Imperative -> imp.room.look() }
-            it.add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
+            add(Phrase("take")) { imp: Imperative -> imp.room.take(imp, imp.world) }
+            add(Phrase("inventory")) { imp: Imperative -> imp.world.showInventory() }
+            add(Phrase("look")) { imp: Imperative -> imp.room.look() }
+            add(Phrase()) { imp: Imperative -> imp.room.unknown(imp, imp.world) }
         }
     }
 

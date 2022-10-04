@@ -32,6 +32,7 @@ interface IActions {
     fun action(verb: String, action: Action)
     fun action(commands: List<String>, action: Action)
     fun add(phrase: Phrase, action: (Imperative) -> Unit)
+    fun clear()
 }
 
 class Actions() : IActions {
@@ -56,6 +57,10 @@ class Actions() : IActions {
 
     override fun add(phrase: Phrase, action: (Imperative) -> Unit) {
         map[phrase] = action
+    }
+
+    override fun clear() {
+        map.clear()
     }
 
     fun makeAction(command:String, action: Action) {
