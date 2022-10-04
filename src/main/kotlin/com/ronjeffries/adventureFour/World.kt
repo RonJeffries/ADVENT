@@ -133,6 +133,16 @@ class World {
         response.say(s)
     }
 
+    fun yes(s:String): Boolean {
+        say(s)
+        return true
+    }
+
+    fun no(s:String): Boolean {
+        say(s)
+        return false
+    }
+
     private fun showInventory() {
         say(inventory.asCarried())
     }

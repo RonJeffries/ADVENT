@@ -4,6 +4,7 @@ class GameStatusMap {
     private val map = mutableMapOf<String, GameStatus>()
 
     fun get(name:String): GameStatus = map.getOrPut(name) { GameStatus() }
+    fun truth(name: String): Boolean = map.getOrPut(name){ GameStatus() }.isTrue
 }
 
 class GameStatus(var value: Int = 0) {

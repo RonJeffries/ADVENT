@@ -77,11 +77,13 @@ fun makeGameWorld(): World {
             go(D.North, R.WoodsS)
         }
         room(R.CaveEntrance) {
-            desc("You are at the cave entrance.",
+            desc(
+                "You are at the cave entrance.",
                 "You are at an entrance to a cave. " +
                         "A cool breeze emanates from the cave." +
-                        "There is a locked gate blocking your way west.")
-            go(D.East,R.WoodsNearCave)
+                        "There is a locked gate blocking your way west."
+            )
+            go(D.East, R.WoodsNearCave)
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {
                     say("You fumble through the keys and finally unlock the gate!")
@@ -90,11 +92,10 @@ fun makeGameWorld(): World {
                     say("The gate is locked.")
                 }
             }
-            go(D.West, R.LowCave) {when(flags.get("openGate").isTrue) {
-                true -> true
-                false-> {
-                    say("The gate is locked")
-                    false }
+            go(D.West, R.LowCave) {
+                when (flags.truth("openGate")) {
+                    true -> yes("You open the gate and enter.")
+                    false -> no("The gate is locked.")
                 }
             }
         }
