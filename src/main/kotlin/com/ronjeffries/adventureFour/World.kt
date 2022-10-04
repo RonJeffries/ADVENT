@@ -53,23 +53,15 @@ class World {
     // DSL
 
     fun action(verb: String, noun: String, action: Action) {
-        actions.add(Phrase(verb, noun), action)
+        actions.action(verb,noun,action)
     }
 
     fun action(verb: String, action: Action) {
-        actions.add(Phrase(verb), action)
+        actions.action(verb,action)
     }
 
-    fun action(actions: List<String>, action: Action) {
-        actions.forEach { makeAction(it, action) }
-    }
-
-    fun makeAction(command:String, action: Action) {
-        val words = command.lowercase().split(" ")
-        when (words.size) {
-            1 -> action(words[0], action)
-            else -> action(words[0], words[1], action)
-        }
+    fun action(commands: List<String>, action: Action) {
+        actions.action(commands, action)
     }
 
     fun room(name: R, details: Room.() -> Unit): Room {
