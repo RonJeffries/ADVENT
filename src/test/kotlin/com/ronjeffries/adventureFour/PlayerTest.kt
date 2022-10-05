@@ -108,7 +108,7 @@ class PlayerTest {
                     say("The padlock is unlocked!")
                 }
                 go(D.East,R.Z_TREASURE) {
-                    if (flag("unlocked").isTrue)
+                    if (flags.truth("unlocked"))
                         true
                     else {
                         say("The room is locked by a glowing lock!")

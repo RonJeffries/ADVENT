@@ -73,8 +73,6 @@ class World( val actions: IActions = Actions()) :IActions by actions {
         return response
     }
 
-    fun flag(name: String) = flags.get(name)
-
     fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
     fun inventorySetInformation(item: String, property: String) {
