@@ -35,6 +35,8 @@ class StatusTest {
         assertThat(facts.value("counter")).isEqualTo(5)
         facts.increment("counter")
         assertThat(facts.value("counter")).isEqualTo(6)
+        facts.decrement(("counter"))
+        assertThat(facts.value("counter")).isEqualTo(5)
     }
 }
 
