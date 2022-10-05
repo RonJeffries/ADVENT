@@ -27,7 +27,7 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     // Game Play
 
     fun command(command: Command, world: World) {
-        world.response.nextRoomName = roomName
+        world.response.moveToRoomNamed( roomName)
         val phrase: Phrase = makePhrase(command, world.lexicon)
         val imp = Imperative(phrase, world, this)
         imp.act(actions, world.actions)
@@ -64,7 +64,7 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     fun move(imperative: Imperative, world: World) {
         D.executeIfDirectionExists(imperative.noun) { direction: D ->
             val (targetName, allowed) = moves.getValue(direction)
-            if (allowed(world)) world.response.nextRoomName = targetName
+            if (allowed(world)) world.response.moveToRoomNamed(targetName)
         }
     }
 

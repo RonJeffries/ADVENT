@@ -42,7 +42,7 @@ fun makeGameWorld(): World {
             go(D.West, R.Spring)
             action("say", "xyzzy" ) {
                 say("Swoosh!")
-                response.nextRoomName = R.WoodsNearCave
+                response.moveToRoomNamed(R.WoodsNearCave)
             }
         }
         room(R.Woods6) {

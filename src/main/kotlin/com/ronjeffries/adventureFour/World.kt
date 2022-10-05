@@ -69,7 +69,7 @@ class World( val actions: IActions = Actions()) :IActions by actions {
     fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse(currentRoom.roomName)
         currentRoom.command(cmd, this)
-        response.nextRoom = response.nextRoomName.room
+//        response.nextRoom = response.nextRoomName.room
         return response
     }
 
