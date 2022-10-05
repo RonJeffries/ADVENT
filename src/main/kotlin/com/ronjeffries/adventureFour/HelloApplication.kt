@@ -87,13 +87,13 @@ fun makeGameWorld(): World {
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {
                     say("You fumble through the keys and finally unlock the gate!")
-                    gameVariables["openGate"].set(true)
+                    facts["openGate"].set(true)
                 } else {
                     say("The gate is locked.")
                 }
             }
             go(D.West, R.LowCave) {
-                when (gameVariables["openGate"].isTrue) {
+                when (facts["openGate"].isTrue) {
                     true -> yes("You open the gate and enter.")
                     false -> no("The gate is locked.")
                 }

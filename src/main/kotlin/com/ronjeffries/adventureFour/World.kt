@@ -46,7 +46,7 @@ class World( val actions: IActions = Actions()) :IActions by actions {
         makeActions()
     }
     val lexicon = makeLexicon()
-    val gameVariables = GameStatusMap()
+    val facts = GameStatusMap()
     val inventory: Items = Items()
     val name = "world"
     var response: GameResponse = GameResponse()

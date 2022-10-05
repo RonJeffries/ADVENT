@@ -104,11 +104,11 @@ class PlayerTest {
                     "You are in an empty room in the palace. "
                             + "There is a padlocked door to the east.")
                 action("say", "wd40") {
-                    gameVariables["unlocked"].set(true)
+                    facts["unlocked"].set(true)
                     say("The padlock is unlocked!")
                 }
                 go(D.East,R.Z_TREASURE) {
-                    if (gameVariables["unlocked"].isTrue)
+                    if (facts["unlocked"].isTrue)
                         true
                     else {
                         say("The room is locked by a glowing lock!")
