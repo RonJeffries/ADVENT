@@ -3,7 +3,8 @@ package com.ronjeffries.adventureFour
 class GameStatusMap {
     private val map = mutableMapOf<String, GameStatus>()
 
-    fun get(name:String): GameStatus = map.getOrPut(name) { GameStatus() }
+    operator fun get(s: String) = map.getOrPut(s) { GameStatus() }
+//    fun get(name:String): GameStatus = map.getOrPut(name) { GameStatus() }
     fun truth(name: String): Boolean = map.getOrPut(name){ GameStatus() }.isTrue
     fun not(name:String) = map.getOrPut(name){ GameStatus() }.not()
 }
