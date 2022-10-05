@@ -2,19 +2,17 @@ package com.ronjeffries.adventureFour
 
 class GameStatusMap {
     private val map = mutableMapOf<String, GameStatus>()
+    operator fun get(name: String) = map.getOrPut(name) { GameStatus() }
 
-    operator fun get(s: String) = map.getOrPut(s) { GameStatus() }
-//    fun get(name:String): GameStatus = map.getOrPut(name) { GameStatus() }
-    private fun fetch(name: String) = map.getOrPut(name) { GameStatus()}
-    fun truth(name: String): Boolean = fetch(name).isTrue
-    fun not(name:String) = fetch(name).not()
-    fun value(name: String) = fetch(name).value
-    fun increment(name: String) = fetch(name).increment()
-    fun decrement(name: String) = fetch(name).decrement()
-    fun set(name: String, truth: Boolean) = fetch(name).set(truth)
-    fun set(name:String, amount:Int) = fetch(name).set(amount)
-    fun isTrue(name: String) = fetch(name).isTrue
-    fun isFalse(name: String) = fetch(name).isFalse
+    fun decrement(name: String) = this[name].decrement()
+    fun increment(name: String) = this[name].increment()
+    fun isFalse(name: String) = this[name].isFalse
+    fun isTrue(name: String) = this[name].isTrue
+    fun not(name:String) = this[name].not()
+    fun set(name: String, truth: Boolean) = this[name].set(truth)
+    fun set(name:String, amount:Int) = this[name].set(amount)
+    fun truth(name: String): Boolean = this[name].isTrue
+    fun value(name: String) = this[name].value
 }
 
 class GameStatus(var value: Int = 0) {

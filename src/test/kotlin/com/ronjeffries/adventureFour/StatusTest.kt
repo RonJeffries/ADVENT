@@ -38,5 +38,11 @@ class StatusTest {
         facts.decrement(("counter"))
         assertThat(facts.value("counter")).isEqualTo(5)
     }
+
+    @Test
+    fun `subscripting format`() {
+        val facts = GameStatusMap()
+        assertThat(facts["unlocked"].isTrue).isEqualTo(false)
+    }
 }
 
