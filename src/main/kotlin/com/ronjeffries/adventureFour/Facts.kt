@@ -1,8 +1,8 @@
 package com.ronjeffries.adventureFour
 
-class GameStatusMap {
-    private val map = mutableMapOf<String, GameStatus>()
-    operator fun get(name: String) = map.getOrPut(name) { GameStatus() }
+class Facts {
+    private val map = mutableMapOf<String, Fact>()
+    operator fun get(name: String) = map.getOrPut(name) { Fact() }
 
     fun decrement(name: String): Unit        = this[name].decrement()
     fun increment(name: String): Unit        = this[name].increment()
@@ -15,7 +15,7 @@ class GameStatusMap {
     fun value(name: String): Int             = this[name].value
 }
 
-class GameStatus(var value: Int = 0) {
+class Fact(var value: Int = 0) {
     val isTrue: Boolean get() = value != 0
     val isFalse: Boolean get() = value == 0
     fun increment() { value++ }

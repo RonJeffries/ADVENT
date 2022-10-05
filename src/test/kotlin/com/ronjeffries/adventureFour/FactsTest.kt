@@ -3,27 +3,27 @@ package com.ronjeffries.adventureFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class StatusTest {
+class FactsTest {
     @Test
     fun `status isTrue`() {
-        val status = GameStatus()
-        assertThat(status.isTrue).isEqualTo(false)
-        status.set(true)
-        assertThat(status.isTrue).isEqualTo(true)
-        assertThat(status.isFalse).isEqualTo(false)
-        status.increment()
-        assertThat(status.value).isEqualTo(2)
-        status.increment()
-        assertThat(status.value).isEqualTo(3)
-        assertThat(status.isTrue).describedAs("three is true").isEqualTo(true)
-        status.not()
-        assertThat(status.isTrue).isEqualTo(false)
-        assertThat(status.value).isEqualTo(0)
+        val fact = Fact()
+        assertThat(fact.isTrue).isEqualTo(false)
+        fact.set(true)
+        assertThat(fact.isTrue).isEqualTo(true)
+        assertThat(fact.isFalse).isEqualTo(false)
+        fact.increment()
+        assertThat(fact.value).isEqualTo(2)
+        fact.increment()
+        assertThat(fact.value).isEqualTo(3)
+        assertThat(fact.isTrue).describedAs("three is true").isEqualTo(true)
+        fact.not()
+        assertThat(fact.isTrue).isEqualTo(false)
+        assertThat(fact.value).isEqualTo(0)
     }
 
     @Test
     fun `Status map`() {
-        val facts = GameStatusMap()
+        val facts = Facts()
         assertThat(facts.truth("unlocked")).isEqualTo(false)
         assertThat(facts.isTrue("unlocked")).isEqualTo(false)
         assertThat(facts.isFalse("unlocked")).isEqualTo(true)
@@ -41,7 +41,7 @@ class StatusTest {
 
     @Test
     fun `subscripting format`() {
-        val facts = GameStatusMap()
+        val facts = Facts()
         assertThat(facts["unlocked"].isTrue).isEqualTo(false)
     }
 }
