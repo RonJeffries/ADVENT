@@ -33,10 +33,6 @@ class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
         map[item]?.setInformation(property)
     }
 
-    fun clear() {
-        map.clear()
-    }
-
 }
 
 class Item(val name: String) {
@@ -52,6 +48,6 @@ class Item(val name: String) {
     val carriedDescription: String get() = "$shortDesc$info"
 
     fun setInformation(infoString: String) {
-        info = infoString
+        info = " " + infoString.trimStart()
     }
 }

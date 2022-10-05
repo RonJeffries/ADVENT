@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-class Room(val roomName:R, private val actions:IActions = Actions()): IActions by actions {
+class Room(val roomName: R, private val actions: IActions = Actions()) : IActions by actions {
     val contents: Items = Items()
     private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
 
@@ -27,7 +27,7 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     // Game Play
 
     fun command(command: Command, world: World) {
-        world.response.moveToRoomNamed( roomName)
+        world.response.moveToRoomNamed(roomName)
         val phrase: Phrase = makePhrase(command, world.lexicon)
         val imp = Imperative(phrase, world, this)
         imp.act(actions, world.actions)
@@ -69,16 +69,12 @@ class Room(val roomName:R, private val actions:IActions = Actions()): IActions b
     }
 
     fun take(imp: Imperative, world: World) {
-        with(world) {
-            imp.noun.let {
-                response.say(
-                    when (contents.moveItemTo(it, inventory)) {
-                        true -> "$it taken."
-                        false -> "I see no $it here!"
-                    }
-                )
+        world.response.say(
+            when (contents.moveItemTo(imp.noun, world.inventory)) {
+                true -> "${imp.noun} taken."
+                false -> "I see no ${imp.noun} here!"
             }
-        }
+        )
     }
 
     fun unknown(imperative: Imperative, world: World) {
