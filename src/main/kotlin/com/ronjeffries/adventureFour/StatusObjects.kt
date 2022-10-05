@@ -4,15 +4,15 @@ class GameStatusMap {
     private val map = mutableMapOf<String, GameStatus>()
     operator fun get(name: String) = map.getOrPut(name) { GameStatus() }
 
-    fun decrement(name: String) = this[name].decrement()
-    fun increment(name: String) = this[name].increment()
-    fun isFalse(name: String) = this[name].isFalse
-    fun isTrue(name: String) = this[name].isTrue
-    fun not(name:String) = this[name].not()
-    fun set(name: String, truth: Boolean) = this[name].set(truth)
-    fun set(name:String, amount:Int) = this[name].set(amount)
-    fun truth(name: String): Boolean = this[name].isTrue
-    fun value(name: String) = this[name].value
+    fun decrement(name: String): Unit        = this[name].decrement()
+    fun increment(name: String): Unit        = this[name].increment()
+    fun isFalse(name: String): Boolean       = this[name].isFalse
+    fun isTrue(name: String): Boolean        = this[name].isTrue
+    fun not(name: String): Unit              = this[name].not()
+    fun set(name: String, truth: Boolean)    = this[name].set(truth)
+    fun set(name: String, amount: Int): Unit = this[name].set(amount)
+    fun truth(name: String): Boolean         = this[name].isTrue
+    fun value(name: String): Int             = this[name].value
 }
 
 class GameStatus(var value: Int = 0) {
