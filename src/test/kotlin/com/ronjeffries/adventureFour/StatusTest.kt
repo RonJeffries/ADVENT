@@ -23,16 +23,18 @@ class StatusTest {
 
     @Test
     fun `Status map`() {
-        val map = GameStatusMap().apply {
-            assertThat(get("unlocked").isFalse).isEqualTo(true)
-            get("unlocked").not()
-            assertThat(get("unlocked").isTrue).isEqualTo(true)
-        }
-        assertThat(map.truth("unlocked")).isEqualTo(true)
-        map.not("unlocked")
-        assertThat(map.truth("unlocked")).isEqualTo(false)
-        map.get("counter").set(5)
-        assertThat(map.get("counter").value).isEqualTo(5)
+        val facts = GameStatusMap()
+        assertThat(facts.truth("unlocked")).isEqualTo(false)
+        assertThat(facts.isTrue("unlocked")).isEqualTo(false)
+        assertThat(facts.isFalse("unlocked")).isEqualTo(true)
+        facts.not("unlocked")
+        assertThat(facts.truth("unlocked")).isEqualTo(true)
+        assertThat(facts.isTrue("unlocked")).isEqualTo(true)
+        assertThat(facts.isFalse("unlocked")).isEqualTo(false)
+        facts.set("counter", 5)
+        assertThat(facts.value("counter")).isEqualTo(5)
+        facts.increment("counter")
+        assertThat(facts.value("counter")).isEqualTo(6)
     }
 }
 
