@@ -84,16 +84,17 @@ fun makeGameWorld(): World {
                         "There is a locked gate blocking your way west."
             )
             go(D.East, R.WoodsNearCave)
+            val gate = facts["openGate"]
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {
                     say("You fumble through the keys and finally unlock the gate!")
-                    facts["openGate"].set(true)
+                    gate.set(true)
                 } else {
                     say("The gate is locked.")
                 }
             }
             go(D.West, R.LowCave) {
-                when (facts["openGate"].isTrue) {
+                when (gate.truth) {
                     true -> yes("You open the gate and enter.")
                     false -> no("The gate is locked.")
                 }

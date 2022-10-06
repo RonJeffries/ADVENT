@@ -25,4 +25,5 @@ class Fact(var value: Int = 0) {
     fun not()                  { value = if (isTrue) 0 else 1 }
     fun set(amount:Int)        { value = amount }
     fun set(truth: Boolean)    { value = if (truth) 1 else 0 }
+    val truth: Boolean get()   = value != 0
 }
