@@ -1,5 +1,7 @@
 package com.ronjeffries.adventureFour
 
+// TODO maybe make flags and numbers separate instead of this cuteness?
+
 class Facts {
     private val map = mutableMapOf<String, Fact>()
     operator fun get(name: String) = map.getOrPut(name) { Fact() }
