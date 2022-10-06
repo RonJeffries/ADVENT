@@ -1,5 +1,7 @@
 package com.ronjeffries.adventureFour
 
+typealias descString = ()->String
+
 class Room(val roomName: R, private val actions: IActions = Actions()) : IActions by actions {
     val contents: Items = Items()
     private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
@@ -14,7 +16,7 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
 
     // DSL Builders
 
-    fun desc(short: ()->String, long: ()->String ) {
+    fun desc(short: descString, long: descString ) {
         shortDesc = short
         longDesc = long
         theDesc = long
@@ -22,6 +24,14 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
 
     fun desc(short: String, long: String) {
         desc({short}, {long})
+    }
+
+    fun desc(short: String, long: descString) {
+        desc({short}, long)
+    }
+
+    fun desc(short: descString, long: String) {
+        desc(short, {long})
     }
 
     fun go(direction: D, roomName: R, allowed: (World) -> Boolean = { _: World -> true }) {
