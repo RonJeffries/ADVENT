@@ -115,7 +115,7 @@ class WorldTest {
 
     @Test
     fun `variable description`() {
-        var theFacts: Facts = Facts()
+        var theFacts = Facts()
         val world = world {
             theFacts = facts
             val door = facts["door"]
