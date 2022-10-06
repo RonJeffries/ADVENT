@@ -77,14 +77,13 @@ fun makeGameWorld(): World {
             go(D.North, R.WoodsS)
         }
         room(R.CaveEntrance) {
+            val gate = facts["openGate"]
             desc(
                 "You are at the cave entrance.",
-                "You are at an entrance to a cave. " +
-                        "A cool breeze emanates from the cave." +
-                        "There is a locked gate blocking your way west."
-            )
+                "To the west, there is a gated entrance to a cave. " +
+                        "A cool breeze emanates from the cave. "
+            ) { if (gate.isTrue) "The gate is unlocked." else "The gate is locked."}
             go(D.East, R.WoodsNearCave)
-            val gate = facts["openGate"]
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {
                     say("You fumble through the keys and finally unlock the gate!")

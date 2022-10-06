@@ -113,4 +113,26 @@ class WorldTest {
         assertThat(response.resultString).contains("Lots happening")
     }
 
+    @Test
+    fun `variable description`() {
+        var theFacts: Facts = Facts()
+        val world = world {
+            theFacts = facts
+            val door = facts["door"]
+            room(R.Z_PALACE) {
+                desc("Palace", "Grand Palace") {
+                    if (door.isTrue) "A treasure room is off to the east."
+                    else "I smell treasure here."
+                }
+            }
+        }
+        val room = R.Z_PALACE.room
+        val command = Command("look around")
+        var response = world.command(command,room)
+        assertThat(response.resultString).contains("smell")
+        theFacts["door"].not()
+        response = world.command(command,room)
+        assertThat(response.resultString).contains("treasure room")
+    }
+
 }
