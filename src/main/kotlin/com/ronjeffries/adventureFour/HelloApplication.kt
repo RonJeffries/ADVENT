@@ -82,7 +82,7 @@ fun makeGameWorld(): World {
                 "You are at the cave entrance.",
                 "To the west, there is a gated entrance to a cave. " +
                         "A cool breeze emanates from the cave. "
-            ) { if (gate.isTrue) "The gate is unlocked." else "The gate is locked."}
+            )
             go(D.East, R.WoodsNearCave)
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {

@@ -8,7 +8,7 @@ class RoomTest {
     fun description() {
         val room = Room(R.Z_FIRST)
         room.desc("You are somewhere", "You are somewhere very mysterious with a kind of spooky feeling:")
-        assertThat(room.shortDesc).isEqualTo("You are somewhere")
+        assertThat(room.shortDesc()).isEqualTo("You are somewhere")
     }
 
     @Test

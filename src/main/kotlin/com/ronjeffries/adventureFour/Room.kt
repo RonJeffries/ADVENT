@@ -8,18 +8,20 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
         actions.add(Phrase()) { imp -> imp.notHandled() }
     }
 
-    var shortDesc = ""
-    var longDesc = ""
-    var theDesc = ""
-    var theSubs: () -> String = {""}
+    var shortDesc: () -> String = {""}
+    var longDesc: () -> String = {""}
+    var theDesc: () -> String = {""}
 
     // DSL Builders
 
-    fun desc(short: String, long: String, subs: () -> String = {""}) {
+    fun desc(short: ()->String, long: ()->String ) {
         shortDesc = short
         longDesc = long
         theDesc = long
-        theSubs = subs
+    }
+
+    fun desc(short: String, long: String) {
+        desc({short}, {long})
     }
 
     fun go(direction: D, roomName: R, allowed: (World) -> Boolean = { _: World -> true }) {
@@ -36,7 +38,7 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
     }
 
     fun description(): String {
-        return theDesc+theSubs().also { setShortDesc() }
+        return theDesc().also { setShortDesc() }
     }
 
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase =

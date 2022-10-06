@@ -53,7 +53,7 @@ class PlayerTest {
             }
         }
         val room = R.Z_FIRST.room
-        assertThat(room.longDesc).isEqualTo(long)
+        assertThat(room.longDesc()).isEqualTo(long)
     }
 
     @Test

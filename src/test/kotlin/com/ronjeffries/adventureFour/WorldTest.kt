@@ -120,19 +120,23 @@ class WorldTest {
             theFacts = facts
             val door = facts["door"]
             room(R.Z_PALACE) {
-                desc("Palace", "Grand Palace") {
-                    if (door.isTrue) "A treasure room is off to the east."
-                    else "I smell treasure here."
+                fun doorInfo() = when(door.isTrue) {
+                    true-> "The treasure room door is open to the west."
+                    false -> "There is a locked door to the west."
                 }
+                desc(
+                    { "You're in the Palace. " + doorInfo() },
+                    { "You are in a Grand Palace. " + doorInfo() })
             }
         }
         val room = R.Z_PALACE.room
         val command = Command("look around")
         var response = world.command(command,room)
-        assertThat(response.resultString).contains("smell")
-        theFacts["door"].not()
+        assertThat(response.resultString).contains("locked door")
+        val door = theFacts["door"]
+        door.not()
         response = world.command(command,room)
-        assertThat(response.resultString).contains("treasure room")
+        assertThat(response.resultString).contains("door is open")
     }
 
 }
