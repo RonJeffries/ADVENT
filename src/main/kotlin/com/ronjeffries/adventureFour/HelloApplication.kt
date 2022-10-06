@@ -77,25 +77,31 @@ fun makeGameWorld(): World {
             go(D.North, R.WoodsS)
         }
         room(R.CaveEntrance) {
-            val gate = facts["openGate"]
+            val gateIsUnlocked = facts["gateIsUnlocked"]
+            fun gateMessage()  = when(gateIsUnlocked.isTrue) {
+                true -> "The gate is unlocked."
+                false -> "The gate is locked."
+            }
             desc(
-                "You are at the cave entrance.",
-                "To the west, there is a gated entrance to a cave. " +
-                        "A cool breeze emanates from the cave. "
+                { "You are at the cave entrance. " + gateMessage() },
+                {
+                    "To the west, there is a gated entrance to a cave. " +
+                            "A cool breeze emanates from the cave. " + gateMessage()
+                }
             )
             go(D.East, R.WoodsNearCave)
             action("unlock", "gate") {
                 if (inventoryHas("keys")) {
                     say("You fumble through the keys and finally unlock the gate!")
-                    gate.set(true)
+                    gateIsUnlocked.set(true)
                 } else {
                     say("The gate is locked.")
                 }
             }
             go(D.West, R.LowCave) {
-                when (gate.truth) {
-                    true -> yes("You open the gate and enter.")
-                    false -> no("The gate is locked.")
+                when (gateIsUnlocked.truth) {
+                    true -> yes("You swing open the unlocked gate and enter.")
+                    false -> no("The gate is locked. I believe that I mentioned that earlier.")
                 }
             }
         }
