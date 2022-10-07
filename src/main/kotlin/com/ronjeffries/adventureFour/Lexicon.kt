@@ -26,12 +26,13 @@ class Verbs(private val map:Map<String, Phrase>) {
     fun translate(verb:String): Phrase = map.getValue(verb)
 }
 
+
 interface IActions {
     fun act(imperative: Imperative)
     fun action(verb: String, noun: String, action: Action)
     fun action(verb: String, action: Action)
     fun action(commands: List<String>, action: Action)
-    fun add(phrase: Phrase, action: (Imperative) -> Unit)
+    fun add(phrase: Phrase, action: Action)
     fun clear()
 }
 
@@ -39,7 +40,7 @@ class Actions() : IActions {
     private val map: ActionMap = mutableMapOf<Phrase,Action>()
 
     override fun act(imperative: Imperative) {
-        val action: (Imperative) -> Unit = find(imperative)
+        val action: Action = find(imperative)
         action(imperative)
     }
 
@@ -55,7 +56,7 @@ class Actions() : IActions {
         commands.forEach { makeAction(it, action) }
     }
 
-    override fun add(phrase: Phrase, action: (Imperative) -> Unit) {
+    override fun add(phrase: Phrase, action: Action) {
         map[phrase] = action
     }
 

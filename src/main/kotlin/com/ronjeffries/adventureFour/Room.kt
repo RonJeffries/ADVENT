@@ -1,6 +1,6 @@
 package com.ronjeffries.adventureFour
 
-typealias descLambda = ()->String
+typealias DescLambda = ()->String
 
 class Room(val roomName: R, private val actions: IActions = Actions()) : IActions by actions {
     val contents: Items = Items()
@@ -10,13 +10,13 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
         actions.add(Phrase()) { imp -> imp.notHandled() }
     }
 
-    var shortDesc: descLambda = {""}
-    var longDesc: descLambda = {""}
-    var theDesc: descLambda = {""}
+    var shortDesc: DescLambda = {""}
+    var longDesc: DescLambda = {""}
+    var theDesc: DescLambda = {""}
 
     // DSL Builders
 
-    fun desc(short: descLambda, long: descLambda ) {
+    fun desc(short: DescLambda, long: DescLambda ) {
         shortDesc = short
         longDesc = long
         theDesc = long
@@ -26,11 +26,11 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
         desc({ short }, { long })
     }
 
-    fun desc(short: String, long: descLambda) {
+    fun desc(short: String, long: DescLambda) {
         desc({ short }, long)
     }
 
-    fun desc(short: descLambda, long: String) {
+    fun desc(short: DescLambda, long: String) {
         desc(short) { long } // irritating formatting requirement
     }
 

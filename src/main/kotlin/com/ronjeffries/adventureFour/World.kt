@@ -41,7 +41,9 @@ fun world(details: World.()->Unit): World{
 }
 
 
-class World( val actions: IActions = Actions()) :IActions by actions {
+typealias RoomLambda = Room.() -> Unit
+
+class World(val actions: IActions = Actions()) :IActions by actions {
     init {
         makeActions()
     }
@@ -54,7 +56,7 @@ class World( val actions: IActions = Actions()) :IActions by actions {
 
     // DSL
 
-    fun room(name: R, details: Room.() -> Unit): Room {
+    fun room(name: R, details: RoomLambda): Room {
         val room = name.freshRoom()
         room.details()
         return room

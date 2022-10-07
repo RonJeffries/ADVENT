@@ -1,6 +1,5 @@
 package com.ronjeffries.adventureFour
 
-//typealias Items = MutableMap<String, Item>
 typealias ItemMap = MutableMap<String, Item>
 
 class Items(private val map: ItemMap = mutableMapOf<String, Item>()) {
