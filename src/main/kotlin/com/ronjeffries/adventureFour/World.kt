@@ -12,10 +12,7 @@ enum class R {
     var room = Room(this)
         private set
 
-    fun freshRoom(): Room {
-        room = Room(this)
-        return room
-    }
+    fun freshRoom(): Room = Room(this).apply {room = this }
 }
 
 enum class D {
@@ -24,23 +21,17 @@ enum class D {
     Up, Down;
 
     companion object {
-        fun executeIfDirectionExists(desired: String, function: (D) -> Unit) {
-            valuesMatching(desired)?.let { function(it) }
+        fun executeIfDirectionExists(direction: String, function: (D) -> Unit) {
+            valueMatching(direction)?.let { function(it) }
         }
 
-        private fun valuesMatching(desired: String): D? {
-            return values().find {it.name.equals(desired, ignoreCase = true)}
+        private fun valueMatching(direction: String): D? {
+            return values().find {it.name.equals(direction, ignoreCase = true)}
         }
     }
 }
 
-fun world(details: World.()->Unit): World{
-    val world = World()
-    world.details()
-    return world
-}
-
-
+fun world(details: World.()->Unit): World = World().apply { details() }
 
 class World(val actions: IActions = Actions()) :IActions by actions {
     init {
@@ -55,11 +46,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
 
     // DSL
 
-    fun room(name: R, details: RoomLambda): Room {
-        val room = name.freshRoom()
-        room.details()
-        return room
-    }
+    fun room(name: R, details: RoomLambda): Room = name.freshRoom().apply {details()}
 
 // Game Play
 
@@ -70,7 +57,6 @@ class World(val actions: IActions = Actions()) :IActions by actions {
     fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse(currentRoom.roomName)
         currentRoom.command(cmd, this)
-//        response.nextRoom = response.nextRoomName.room
         return response
     }
 
@@ -80,9 +66,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
         inventory.setInformation(item, property)
     }
 
-    fun say(s: String) {
-        response.say(s)
-    }
+    fun say(s: String) = response.say(s)
 
     fun yes(s:String): Boolean {
         say(s)
@@ -94,9 +78,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
         return false
     }
 
-    private fun showInventory() {
-        say(inventory.asCarried())
-    }
+    private fun showInventory() = say(inventory.asCarried())
 
 // creation utilities
 
