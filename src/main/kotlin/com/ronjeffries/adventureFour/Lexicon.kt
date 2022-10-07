@@ -1,5 +1,8 @@
 package com.ronjeffries.adventureFour
 
+typealias Action = (Imperative) -> Unit
+typealias ActionMap = MutableMap<Phrase, Action>
+
 data class Phrase(val verb: String?=null, val noun: String?=null) {
     fun asVerb() = Phrase(this.verb)
     fun asNoun() = Phrase(noun=this.noun)
@@ -9,9 +12,6 @@ data class Phrase(val verb: String?=null, val noun: String?=null) {
         return Phrase(this.verb,noun)
     }
 }
-
-typealias Action = (Imperative) -> Unit
-typealias ActionMap = MutableMap<Phrase, Action>
 
 class Lexicon(private val synonyms: Synonyms, private val verbs: Verbs) {
     fun synonym(word:String):String = synonyms.synonym(word)

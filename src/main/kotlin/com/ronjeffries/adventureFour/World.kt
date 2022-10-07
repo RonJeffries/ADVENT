@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
-
 typealias GoTarget = Pair<R, (World)->Boolean>
+typealias RoomLambda = Room.() -> Unit
 
 enum class R {
     Spring, Wellhouse, Woods12, Woods9, Woods6, WoodsS,  WoodsNearCave, CaveEntrance,
@@ -41,7 +41,6 @@ fun world(details: World.()->Unit): World{
 }
 
 
-typealias RoomLambda = Room.() -> Unit
 
 class World(val actions: IActions = Actions()) :IActions by actions {
     init {

@@ -3,12 +3,12 @@ package com.ronjeffries.adventureFour
 typealias DescLambda = ()->String
 
 class Room(val roomName: R, private val actions: IActions = Actions()) : IActions by actions {
-    val contents: Items = Items()
-    private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
-
     init {
         actions.add(Phrase()) { imp -> imp.notHandled() }
     }
+
+    val contents: Items = Items()
+    private val moves = mutableMapOf<D, GoTarget>().withDefault { Pair(roomName) { _: World -> true } }
 
     var shortDesc: DescLambda = {""}
     var longDesc: DescLambda = {""}
@@ -22,17 +22,11 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
         theDesc = long
     }
 
-    fun desc(short: String, long: String) {
-        desc({ short }, { long })
-    }
-
-    fun desc(short: String, long: DescLambda) {
-        desc({ short }, long)
-    }
-
-    fun desc(short: DescLambda, long: String) {
-        desc(short) { long } // irritating formatting requirement
-    }
+    @Suppress("unused")
+    fun desc(short: String, long: DescLambda) = desc({ short }, long)
+    @Suppress("MoveLambdaOutsideParentheses", "unused")
+    fun desc(short: DescLambda, long: String) = desc(short, { long })  // irritating formatting requirement
+    fun desc(short: String, long: String) = desc({ short }, { long })
 
     fun go(direction: D, roomName: R, allowed: (World) -> Boolean = { _: World -> true }) {
         moves += direction to Pair(roomName, allowed)
@@ -54,11 +48,9 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
     private fun makePhrase(command: Command, lexicon: Lexicon): Phrase =
         PhraseFactory(lexicon).fromString(command.input)
 
-    fun item(thing: String, details: Item.() -> Unit = {}): Item {
-        val item = Item(thing)
-        contents.add(item)
-        item.details()
-        return item
+    fun item(thing: String, details: Item.() -> Unit = {}): Item = Item(thing).apply {
+        contents.add(this)
+        details()
     }
 
     fun setLongDesc() {
@@ -71,9 +63,7 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
 
     fun itemString(): String = contents.asFound()
 
-    fun look() {
-        setLongDesc()
-    }
+    fun look() = setLongDesc()
 
     fun move(imperative: Imperative, world: World) {
         D.executeIfDirectionExists(imperative.noun) { direction: D ->
@@ -82,19 +72,15 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
         }
     }
 
-    fun take(imp: Imperative, world: World) {
-        world.response.say(
-            when (contents.moveItemTo(imp.noun, world.inventory)) {
-                true -> "${imp.noun} taken."
-                false -> "I see no ${imp.noun} here!"
-            }
-        )
-    }
-
-    fun unknown(imperative: Imperative, world: World) {
-        when (imperative.noun) {
-            "none" -> world.response.say("I do not understand '${imperative.verb}'.")
-            else -> world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
+    fun take(imp: Imperative, world: World) = world.response.say(
+        when (contents.moveItemTo(imp.noun, world.inventory)) {
+            true -> "${imp.noun} taken."
+            false -> "I see no ${imp.noun} here!"
         }
+    )
+
+    fun unknown(imperative: Imperative, world: World) = when (imperative.noun) {
+        "none" -> world.response.say("I do not understand '${imperative.verb}'.")
+        else -> world.response.say("I do not understand '${imperative.verb} ${imperative.noun}'.")
     }
 }
