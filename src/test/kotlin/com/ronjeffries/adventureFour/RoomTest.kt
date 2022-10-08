@@ -149,4 +149,19 @@ class RoomTest {
         result = player.command("say aperto")
         assertThat(result).contains("no magic allowed here")
     }
+
+    @Test
+    fun `can beam between rooms`() {
+        val world = world {
+            room(R.Z_FIRST) {
+                desc("first", "first")
+            }
+            room(R.Z_SECOND) {
+                desc("second", "second")
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        val result = player.command("beam Z_SECOND")
+        assertThat(result).contains("second")
+    }
 }

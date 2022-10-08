@@ -55,6 +55,12 @@ class World(val actions: IActions = Actions()) :IActions by actions {
         inventory.add(item)
     }
 
+    fun beam(imp: Imperative ) {
+        val match = R.values().find { it.name.equals(imp.noun, ignoreCase = true)}
+        match?.let { response.moveToRoomNamed(it)}
+    }
+
+
     fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse(currentRoom.roomName)
         currentRoom.command(cmd, this)
@@ -117,6 +123,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
     private fun makeActions() {
         with(actions) {
             add(Phrase("go")) { imp: Imperative -> imp.room.move(imp, imp.world) }
+            add(Phrase("beam")) { imp -> imp.world.beam(imp)}
             add(Phrase("say", "wd40")) { imp: Imperative ->
                 imp.world.say("Very slick, but there's nothing to lubricate here.")
             }
