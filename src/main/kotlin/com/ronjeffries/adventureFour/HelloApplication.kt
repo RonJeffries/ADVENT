@@ -11,7 +11,14 @@ var myCommand: TextField by singleAssign()
 var textContents = "Welcome to Tiny Adventure!"
 
 fun makeGameWorld(): World {
-    val theWorld = world {
+    val theWorld = world {}
+    makeEasternArea(theWorld)
+    makePitArea(theWorld)
+    return theWorld
+}
+
+private fun makeEasternArea(theWorld: World) {
+    with(theWorld) {
         room(R.Spring) {
             desc(
                 "You are at the spring.", "You are at a clear water spring. " +
@@ -167,8 +174,6 @@ fun makeGameWorld(): World {
             }
         }
     }
-    makePitArea(theWorld)
-    return theWorld
 }
 
 fun makePitArea(world:World) {
