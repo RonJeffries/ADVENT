@@ -60,7 +60,6 @@ class World(val actions: IActions = Actions()) :IActions by actions {
         match?.let { response.moveToRoomNamed(it)}
     }
 
-
     fun command(cmd: Command, currentRoom: Room): GameResponse {
         response = GameResponse(currentRoom.roomName)
         currentRoom.command(cmd, this)
