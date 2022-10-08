@@ -24,6 +24,7 @@ fun makeGameWorld(): World {
                             "and a minor tang of fluoride, which is good for your teeth.)"
                 )
             }
+            go(D.Up, R.EastPit)
             go(D.East, R.Wellhouse)
             go(D.West, R.Woods6)
             go(D.South, R.WoodsS)
@@ -166,7 +167,31 @@ fun makeGameWorld(): World {
             }
         }
     }
+    makePitArea(theWorld)
     return theWorld
+}
+
+fun makePitArea(world:World) {
+    with(world) {
+        room(R.EastPit) {
+            desc(
+                "You are at the pit window.",
+                "You're at a low window overlooking a huge pit, "
+                        +"which extends up out of sight. "
+                        +"A floor is indistinctly visible over 50 feet below. "
+                        +"Traces of white mist cover the floor of the pit, "
+                        +"becoming thicker to the right. "
+                        +"Marks in the dust around the window would "
+                        +"seem to indicate that someone has been here recently. "
+                        +"Directly across the pit from you and 25 feet away there "
+                        +"is a similar window looking into a lighted room. "
+                        +"A shadowy figure can be seen there peering back at you."
+            )
+            go(D.South, R.Spring)
+            action("wave") {
+                say("The shadowy figure waves back!")}
+        }
+    }
 }
 
 class MainView : View() {

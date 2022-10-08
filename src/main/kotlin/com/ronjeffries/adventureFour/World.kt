@@ -6,6 +6,7 @@ typealias RoomLambda = Room.() -> Unit
 enum class R {
     Spring, Wellhouse, Woods12, Woods9, Woods6, WoodsS,  WoodsNearCave, CaveEntrance,
     LowCave, Clearing, Y2,
+    EastPit, WestPit, BottomPit,
     Z_FIRST, Z_SECOND, Z_PALACE, Z_TREASURE,
     ;
 
@@ -101,6 +102,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
             "west" to Phrase("go", "west"),
             "north" to Phrase("go", "north"),
             "south" to Phrase("go", "south"),
+            "up" to Phrase("go", "up"),
             "northwest" to Phrase("go", "northwest"),
             "southwest" to Phrase("go", "southwest"),
             "northeast" to Phrase("go", "northeast"),
