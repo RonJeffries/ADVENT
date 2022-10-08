@@ -226,10 +226,10 @@ class MainView : View() {
     private fun someoneTyped() {
         val cmd = myCommand.text
         val resultString = player.command(cmd)
+        myCommand.text = ""
         myText.appendText("\n> $cmd")
         myText.appendText("\n" + resultString)
-        myCommand.text = ""
-        myCommand.appendText("")
+        myText.appendText("") // necessary to force scrolling? superstition?
     }
 }
 
