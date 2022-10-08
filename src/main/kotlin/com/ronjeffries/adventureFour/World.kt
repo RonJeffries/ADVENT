@@ -57,7 +57,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
 
     fun beam(imp: Imperative ) {
         val match = R.values().find { it.name.equals(imp.noun, ignoreCase = true)}
-        if (match!=null) response.moveToRoomNamed(match) else say("I canna make contact with ${imp.noun}, cap'n.")
+        if (match!=null) response.moveToRoomNamed(match) else say("No such place as ${imp.noun}.")
     }
 
     fun command(cmd: Command, currentRoom: Room): GameResponse {
