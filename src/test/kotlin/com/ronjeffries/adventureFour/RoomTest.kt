@@ -163,5 +163,7 @@ class RoomTest {
         val player = Player(world, R.Z_FIRST)
         val result = player.command("beam Z_SECOND")
         assertThat(result).contains("second")
+        val r2 = player.command("beam Z_NO_SUCH")
+        assertThat(r2).contains("I canna make contact with z_no_such, cap'n.")
     }
 }
