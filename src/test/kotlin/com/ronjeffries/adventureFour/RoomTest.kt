@@ -166,4 +166,34 @@ class RoomTest {
         val r2 = player.command("beam Z_NO_SUCH")
         assertThat(r2).contains("No such place as z_no_such.")
     }
+
+    @Test
+    fun `darkness room`() {
+        val world = world {
+            room(R.Z_FIRST) {
+                desc("You are in nondescript room.",
+                    "You are in a nondescript room. A darkened hall leads south.")
+                go(D.South, R.Darkness)
+            }
+            room(R.Darkness) {
+                desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
+                go(D.North, R.Z_FIRST)
+                action() {
+                    if (it.verb=="go" && it.noun=="north") {
+                        response.moveToRoomNamed(R.Z_FIRST)
+                    } else {
+                        say("You have been eaten by a grue!")
+                    }
+                }
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        var result = player.command("s")
+        assertThat(result).contains("grue")
+        result = player.command("n")
+        assertThat(result).contains("nondescript")
+        result = player.command("s")
+        result = player.command("e")
+        assertThat(result).contains("You have been eaten")
+    }
 }

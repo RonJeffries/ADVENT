@@ -7,6 +7,7 @@ enum class R {
     Spring, Wellhouse, Woods12, Woods9, Woods6, WoodsS,  WoodsNearCave, CaveEntrance,
     LowCave, Clearing, Y2,
     EastPit, WestPit, BottomPit,
+    Darkness,
     Z_FIRST, Z_SECOND, Z_PALACE, Z_TREASURE,
     ;
 

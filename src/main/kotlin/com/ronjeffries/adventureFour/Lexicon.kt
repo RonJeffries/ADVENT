@@ -31,6 +31,7 @@ interface IActions {
     fun act(imperative: Imperative)
     fun action(verb: String, noun: String, action: Action)
     fun action(verb: String, action: Action)
+    fun action(action:Action)
     fun action(commands: List<String>, action: Action)
     fun add(phrase: Phrase, action: Action)
     fun clear()
@@ -50,6 +51,10 @@ class Actions() : IActions {
 
     override fun action(verb: String, action: Action) {
         add(Phrase(verb), action)
+    }
+
+    override fun action(action: Action) {
+        add(Phrase(), action)
     }
 
     override fun action(commands: List<String>, action: Action) {
