@@ -192,7 +192,7 @@ class RoomTest {
         assertThat(result).contains("grue")
         result = player.command("n")
         assertThat(result).contains("nondescript")
-        result = player.command("s")
+        player.command("s")
         result = player.command("e")
         assertThat(result).contains("You have been eaten")
     }
