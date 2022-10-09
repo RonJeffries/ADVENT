@@ -180,7 +180,7 @@ class RoomTest {
                 go(D.North, R.Z_FIRST)
                 action() {
                     if (it.verb=="go" && it.noun=="north") {
-                        response.moveToRoomNamed(R.Z_FIRST)
+                        it.notHandled()
                     } else {
                         say("You have been eaten by a grue!")
                     }
