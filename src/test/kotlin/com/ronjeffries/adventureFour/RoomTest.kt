@@ -192,7 +192,7 @@ class RoomTest {
         assertThat(result).contains("grue")
         result = player.command("n")
         assertThat(result).contains("nondescript")
-        player.command("s")
+        player.command("s") // get back mama. maybe do this in other order?
         result = player.command("e")
         assertThat(result).contains("You have been eaten")
     }
