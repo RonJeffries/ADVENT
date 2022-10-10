@@ -24,13 +24,13 @@ class RoomTest {
             }
             room(R.Z_SECOND){}
         }
-        val myRoom = R.Z_FIRST.room
-        val secondRoom = R.Z_SECOND.room
+        val myRoomName = R.Z_FIRST
+        val secondRoomName = R.Z_SECOND
         val cmd = Command("s")
-        val resp1 = myWorld.command(cmd, myRoom)
+        val resp1 = myWorld.command(cmd, myRoomName)
         assertThat(resp1.nextRoomName).isEqualTo(R.Z_FIRST)
         assertThat(resp1.sayings).isEqualTo("The grate is closed!\n")
-        val resp2 = myWorld.command(Command("s"), secondRoom)
+        val resp2 = myWorld.command(Command("s"), secondRoomName)
         assertThat(resp2.nextRoomName).isEqualTo(R.Z_SECOND)
     }
 
@@ -195,5 +195,32 @@ class RoomTest {
         player.command("s") // get back mama. maybe do this in other order?
         result = player.command("e")
         assertThat(result).contains("You have been eaten")
+    }
+
+    @Test
+    fun `lamp on returns player to prior room`() {
+        val world = world {
+            room(R.Z_FIRST) {
+                desc("You are in well-lighted room.",
+                    "You are in a well-lighted room. A darkened hall leads south.")
+                go(D.South, R.Darkness)
+            }
+            room(R.Darkness) {
+                desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
+                action {
+                    if (it.verb == "lamp" && it.noun=="on") {
+//                        response.goToPriorRoom()
+                    } else if (it.verb=="do" && it.noun == "something"){
+                        // ignore command
+                    }
+                }
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        var result = player.command("s")
+        assertThat(result).contains("Darkness")
+//        player.command("do something")
+//        result = player.command("lamp on")
+//        assertThat(result).contains("well-lighted")
     }
 }
