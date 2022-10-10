@@ -64,8 +64,8 @@ class World(val actions: IActions = Actions()) :IActions by actions {
         if (match!=null) response.moveToRoomNamed(match) else say("No such place as ${imp.noun}.")
     }
 
-    fun command(cmd: Command, currentRoomName: R): GameResponse {
-        response = GameResponse(currentRoomName)
+    fun command(cmd: Command, currentRoomName: R, player: Player): GameResponse {
+        response = GameResponse(currentRoomName).also { it.definePlayer(player) }
         currentRoomName.command(cmd, this)
         return response
     }

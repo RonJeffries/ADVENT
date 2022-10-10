@@ -27,10 +27,11 @@ class RoomTest {
         val myRoomName = R.Z_FIRST
         val secondRoomName = R.Z_SECOND
         val cmd = Command("s")
-        val resp1 = myWorld.command(cmd, myRoomName)
+        val fakePlayer = Player(myWorld,R.Z_FIRST)
+        val resp1 = myWorld.command(cmd, myRoomName, fakePlayer)
         assertThat(resp1.nextRoomName).isEqualTo(R.Z_FIRST)
         assertThat(resp1.sayings).isEqualTo("The grate is closed!\n")
-        val resp2 = myWorld.command(Command("s"), secondRoomName)
+        val resp2 = myWorld.command(Command("s"), secondRoomName, fakePlayer)
         assertThat(resp2.nextRoomName).isEqualTo(R.Z_SECOND)
     }
 
@@ -209,7 +210,7 @@ class RoomTest {
                 desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
                 action {
                     if (it.verb == "lamp" && it.noun=="on") {
-//                        response.goToPriorRoom()
+                        response.goToPriorRoom()
                     } else if (it.verb=="do" && it.noun == "something"){
                         // ignore command
                     }
@@ -217,10 +218,35 @@ class RoomTest {
             }
         }
         val player = Player(world, R.Z_FIRST)
-        val result = player.command("s")
+        var result = player.command("s")
         assertThat(result).contains("Darkness")
-//        player.command("do something")
-//        result = player.command("lamp on")
-//        assertThat(result).contains("well-lighted")
+        player.command("do something")
+        result = player.command("lamp on")
+        assertThat(result).contains("well-lighted")
+    }
+
+    @Test
+    fun `player knows prior room`() {
+        val world = world {
+            room(R.Z_FIRST) {
+                desc("F", "F")
+                go(D.South, R.Z_SECOND)
+            }
+            room(R.Z_SECOND) {
+                desc("S","S")
+                go(D.North, R.Z_FIRST)
+            }
+        }
+        val player = Player(world, R.Z_FIRST)
+        assertThat(player.priorRoomName).isEqualTo(R.Z_FIRST)
+        player.command("s")
+        assertThat(player.currentRoomName).isEqualTo(R.Z_SECOND)
+        assertThat(player.priorRoomName).isEqualTo(R.Z_FIRST)
+        player.command("n")
+        assertThat(player.currentRoomName).isEqualTo(R.Z_FIRST)
+        assertThat(player.priorRoomName).describedAs("second prior").isEqualTo(R.Z_SECOND)
+        player.command("inventory")
+        assertThat(player.currentRoomName).isEqualTo(R.Z_FIRST)
+        assertThat(player.priorRoomName).describedAs("second prior").isEqualTo(R.Z_SECOND)
     }
 }

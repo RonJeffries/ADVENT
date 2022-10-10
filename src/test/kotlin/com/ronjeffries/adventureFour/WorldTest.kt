@@ -66,12 +66,13 @@ class WorldTest {
             }
         }
         val roomName = R.WoodsS
-        val response = world.command(Command("take axe"), roomName)
+        val fakePlayer = Player(world, R.WoodsS)
+        val response = world.command(Command("take axe"), roomName, fakePlayer)
         assertThat(response.resultString).contains("You are in the dark woods.\n")
         assertThat(response.resultString).doesNotContain("take axe taken")
         assertThat(response.resultString).contains("axe taken")
         assertThat(response.resultString).doesNotContain("You find axe.")
-        val r2 =world.command(Command("take axe"), roomName)
+        val r2 =world.command(Command("take axe"), roomName, fakePlayer)
         assertThat(r2.resultString).contains("I see no axe here!\n")
     }
 
@@ -94,7 +95,7 @@ class WorldTest {
         }
         val roomName = R.WoodsS
         val badCommand = Command("abcd efgh")
-        val response = world.command(badCommand, roomName)
+        val response = world.command(badCommand, roomName, Player(world,R.WoodsS))
         assertThat(response.resultString).contains("I do not understand 'abcd efgh'.")
     }
 
@@ -109,7 +110,7 @@ class WorldTest {
         }
         val roomName = R.Z_PALACE
         val command = Command("look around")
-        val response = world.command(command, roomName)
+        val response = world.command(command, roomName, Player(world, R.Z_PALACE))
         assertThat(response.resultString).contains("Lots happening")
     }
 
@@ -131,11 +132,12 @@ class WorldTest {
         }
         val roomName = R.Z_PALACE
         val command = Command("look around")
-        var response = world.command(command,roomName)
+        val fakePlayer = Player(world, R.Z_PALACE)
+        var response = world.command(command,roomName, fakePlayer)
         assertThat(response.resultString).contains("locked door")
         val door = theFacts["door"]
         door.not()
-        response = world.command(command,roomName)
+        response = world.command(command,roomName, fakePlayer)
         assertThat(response.resultString).contains("door is open")
     }
 
