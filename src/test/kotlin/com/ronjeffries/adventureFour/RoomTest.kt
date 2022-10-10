@@ -217,7 +217,7 @@ class RoomTest {
             }
         }
         val player = Player(world, R.Z_FIRST)
-        var result = player.command("s")
+        val result = player.command("s")
         assertThat(result).contains("Darkness")
 //        player.command("do something")
 //        result = player.command("lamp on")

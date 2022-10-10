@@ -15,6 +15,7 @@ enum class R {
         private set
 
     fun freshRoom(): Room = Room(this).apply {room = this }
+    fun command(cmd: Command, world: World) = room.command(cmd,world)
 }
 
 enum class D {
@@ -63,7 +64,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
 
     fun command(cmd: Command, currentRoomName: R): GameResponse {
         response = GameResponse(currentRoomName)
-        currentRoomName.room.command(cmd, this)
+        currentRoomName.command(cmd, this)
         return response
     }
 
