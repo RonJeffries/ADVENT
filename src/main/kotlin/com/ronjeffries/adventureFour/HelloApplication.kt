@@ -208,8 +208,8 @@ class MainView : View() {
         minHeight = 200.0
         myText = textarea(
             textContents + "\n"
-                    + player.currentRoom.description() + ".\n"
-                    + player.currentRoom.itemString()
+                    + player.currentRoomName.description() + ".\n"
+                    + player.currentRoomName.itemString()
         ) {
             isEditable = false
             isWrapText = true
