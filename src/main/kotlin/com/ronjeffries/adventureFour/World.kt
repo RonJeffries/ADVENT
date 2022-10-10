@@ -16,6 +16,8 @@ enum class R {
 
     fun freshRoom(): Room = Room(this).apply {room = this }
     fun command(cmd: Command, world: World) = room.command(cmd,world)
+    fun description(): String = room.description()
+    fun itemString(): String = room.itemString()
 }
 
 enum class D {
