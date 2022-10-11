@@ -46,7 +46,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
     val facts = Facts()
     val inventory: Items = Items()
     val name = "world"
-    var response: GameResponse = GameResponse(R.Z_FIRST, Player(this, R.Z_FIRST) )
+    var response: GameResponse = GameResponse(Player(this, R.Z_FIRST))
 
 
     // DSL
@@ -65,7 +65,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
     }
 
     fun command(cmd: Command, currentRoomName: R, player: Player): GameResponse {
-        response = GameResponse(currentRoomName, player)
+        response = GameResponse(player)
         currentRoomName.command(cmd, this)
         return response
     }

@@ -1,7 +1,7 @@
 package com.ronjeffries.adventureFour
 
-class GameResponse(startingRoomName:R = R.Z_FIRST, private val player: Player) {
-    var nextRoomName = startingRoomName
+class GameResponse(private val player: Player) {
+    var nextRoomName = player.currentRoomName
         get() = field // used only by tests
 
     val resultString: String get() = sayings + nextRoomName.description() + "\n"+ nextRoomName.itemString()
