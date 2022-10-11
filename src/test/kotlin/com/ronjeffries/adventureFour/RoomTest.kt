@@ -179,7 +179,7 @@ class RoomTest {
             room(R.Darkness) {
                 desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
                 go(D.North, R.Z_FIRST)
-                action {
+                handleAllActions {
                     say("You have been eaten by a grue!")
                 }
                 action("go", "north") {
@@ -207,8 +207,7 @@ class RoomTest {
             }
             room(R.Darkness) {
                 desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
-                action {
-                }
+                handleAllActions {}
                 action("do", "something") {
                     say("I can't see to do anything.")
                 }

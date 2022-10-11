@@ -31,10 +31,10 @@ interface IActions {
     fun act(imperative: Imperative)
     fun action(verb: String, noun: String, action: Action)
     fun action(verb: String, action: Action)
-    fun action(action:Action)
     fun action(commands: List<String>, action: Action)
     fun add(phrase: Phrase, action: Action)
     fun clear()
+    fun handleAllActions(action:Action)
 }
 
 class Actions() : IActions {
@@ -53,10 +53,6 @@ class Actions() : IActions {
         add(Phrase(verb), action)
     }
 
-    override fun action(action: Action) {
-        add(Phrase(), action)
-    }
-
     override fun action(commands: List<String>, action: Action) {
         commands.forEach { makeAction(it, action) }
     }
@@ -67,6 +63,10 @@ class Actions() : IActions {
 
     override fun clear() {
         map.clear()
+    }
+
+    override fun handleAllActions(action: Action) {
+        add(Phrase(), action)
     }
 
     fun makeAction(command:String, action: Action) {
