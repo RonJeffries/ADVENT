@@ -40,34 +40,21 @@ interface IActions {
 class Actions() : IActions {
     private val map: ActionMap = mutableMapOf<Phrase,Action>()
 
-    override fun act(imperative: Imperative) {
-        val action: Action = find(imperative)
-        action(imperative)
-    }
+    override fun act(imperative: Imperative) = find(imperative)(imperative)
 
-    override fun action(verb: String, noun: String, action: Action) {
-        add(Phrase(verb, noun), action)
-    }
+    override fun action(verb: String, noun: String, action: Action) = add(Phrase(verb, noun), action)
 
-    override fun action(verb: String, action: Action) {
-        add(Phrase(verb), action)
-    }
+    override fun action(verb: String, action: Action) = add(Phrase(verb), action)
 
-    override fun action(commands: List<String>, action: Action) {
-        commands.forEach { makeAction(it, action) }
-    }
+    override fun action(commands: List<String>, action: Action) = commands.forEach { makeAction(it, action) }
 
     override fun add(phrase: Phrase, action: Action) {
         map[phrase] = action
     }
 
-    override fun clear() {
-        map.clear()
-    }
+    override fun clear() = map.clear()
 
-    override fun handleAllActions(action: Action) {
-        add(Phrase(), action)
-    }
+    override fun handleAllActions(action: Action) = add(Phrase(), action)
 
     fun makeAction(command:String, action: Action) {
         val words = command.lowercase().split(" ")

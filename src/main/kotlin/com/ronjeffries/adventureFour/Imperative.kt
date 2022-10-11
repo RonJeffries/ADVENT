@@ -16,9 +16,7 @@ data class Imperative(
         if (lookInWorld) act(worldActions)
     }
 
-    fun act(actions: IActions) {
-        actions.act(this)
-    }
+    fun act(actions: IActions) = actions.act(this)
 
     fun actForTesting(actions: IActions): String {
         act(actions)
