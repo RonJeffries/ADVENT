@@ -6,9 +6,7 @@ class GameResponse(private val player: Player) {
     val resultString: String get() = sayings + nextRoomName.description() + "\n"+ nextRoomName.itemString()
     var sayings = ""
 
-    fun goToPriorRoom() {
-         moveToRoomNamed(player.priorRoomName)
-    }
+    fun goToPriorRoom() = moveToRoomNamed(player.priorRoomName)
 
     fun moveToRoomNamed(roomName: R) {
         nextRoomName = roomName
