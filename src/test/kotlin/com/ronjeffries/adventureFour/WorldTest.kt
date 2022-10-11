@@ -66,13 +66,13 @@ class WorldTest {
             }
         }
         val roomName = R.WoodsS
-        val fakePlayer = Player(world, R.WoodsS)
-        val response = world.command(Command("take axe"), roomName, fakePlayer)
-        assertThat(response.resultString).contains("You are in the dark woods.\n")
-        assertThat(response.resultString).doesNotContain("take axe taken")
-        assertThat(response.resultString).contains("axe taken")
-        assertThat(response.resultString).doesNotContain("You find axe.")
-        val r2 =world.command(Command("take axe"), roomName, fakePlayer)
+        val player = Player(world, R.WoodsS)
+        val response = player.command("take axe")
+        assertThat(response).contains("You are in the dark woods.\n")
+        assertThat(response).doesNotContain("take axe taken")
+        assertThat(response).contains("axe taken")
+        assertThat(response).doesNotContain("You find axe.")
+        val r2 =world.command(Command("take axe"), roomName, player)
         assertThat(r2.resultString).contains("I see no axe here!\n")
     }
 
@@ -93,10 +93,9 @@ class WorldTest {
                 desc("You are in the woods.", "You are in the dark woods.")
             }
         }
-        val roomName = R.WoodsS
-        val badCommand = Command("abcd efgh")
-        val response = world.command(badCommand, roomName, Player(world,R.WoodsS))
-        assertThat(response.resultString).contains("I do not understand 'abcd efgh'.")
+        val player = Player(world, R.WoodsS)
+        val response = player.command("abcd efgh")
+        assertThat(response).contains("I do not understand 'abcd efgh'.")
     }
 
     @Test
@@ -108,10 +107,9 @@ class WorldTest {
                     {imp-> imp.world.say("Lots happening")})
             }
         }
-        val roomName = R.Z_PALACE
-        val command = Command("look around")
-        val response = world.command(command, roomName, Player(world, R.Z_PALACE))
-        assertThat(response.resultString).contains("Lots happening")
+        val player = Player(world, R.Z_PALACE)
+        val response = player.command("look around")
+        assertThat(response).contains("Lots happening")
     }
 
     @Test
@@ -130,15 +128,13 @@ class WorldTest {
                     { "You are in a Grand Palace. " + doorInfo() })
             }
         }
-        val roomName = R.Z_PALACE
-        val command = Command("look around")
-        val fakePlayer = Player(world, R.Z_PALACE)
-        var response = world.command(command,roomName, fakePlayer)
-        assertThat(response.resultString).contains("locked door")
+        val player = Player(world, R.Z_PALACE)
+        var response = player.command("look around")
+        assertThat(response).contains("locked door")
         val door = theFacts["door"]
         door.not()
-        response = world.command(command,roomName, fakePlayer)
-        assertThat(response.resultString).contains("door is open")
+        response = player.command("look around")
+        assertThat(response).contains("door is open")
     }
 
 }
