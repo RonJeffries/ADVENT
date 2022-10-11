@@ -208,11 +208,12 @@ class RoomTest {
             room(R.Darkness) {
                 desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
                 action {
-                    if (it.verb == "lamp" && it.noun=="on") {
-                        response.goToPriorRoom()
-                    } else if (it.verb=="do" && it.noun == "something"){
-                        say("I can't see to do anything.")
-                    }
+                }
+                action("do", "something") {
+                    say("I can't see to do anything.")
+                }
+                action("lamp", "on") {
+                    response.goToPriorRoom()
                 }
             }
         }
