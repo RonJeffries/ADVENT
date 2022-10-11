@@ -135,7 +135,9 @@ class PlayerTest {
     @Test
     fun `world can have special action`() {
         val world = world {
-            action("exhibit","curiosity") { _: Imperative -> say("remember the cat")}
+            action("exhibit","curiosity") {
+                    say("remember the cat")
+            }
             room(R.Z_FIRST){
                 desc("short first", "long first")
             }
