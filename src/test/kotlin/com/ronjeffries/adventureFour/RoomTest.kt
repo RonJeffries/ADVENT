@@ -180,11 +180,10 @@ class RoomTest {
                 desc("Darkness", "Darkness. You are likely to be eaten by a grue.")
                 go(D.North, R.Z_FIRST)
                 action {
-                    if (it.verb=="go" && it.noun=="north") {
-                        it.notHandled()
-                    } else {
-                        say("You have been eaten by a grue!")
-                    }
+                    say("You have been eaten by a grue!")
+                }
+                action("go", "north") {
+                    it.notHandled()
                 }
             }
         }
