@@ -211,7 +211,7 @@ class RoomTest {
                     if (it.verb == "lamp" && it.noun=="on") {
                         response.goToPriorRoom()
                     } else if (it.verb=="do" && it.noun == "something"){
-                        // ignore command
+                        say("I can't see to do anything.")
                     }
                 }
             }
@@ -219,7 +219,8 @@ class RoomTest {
         val player = Player(world, R.Z_FIRST)
         var result = player.command("s")
         assertThat(result).contains("Darkness")
-        player.command("do something")
+        result = player.command("do something")
+        assertThat(result).contains("can't see")
         result = player.command("lamp on")
         assertThat(result).contains("well-lighted")
     }
