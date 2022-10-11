@@ -43,9 +43,8 @@ class Room(val roomName: R, private val actions: IActions = Actions()) : IAction
 
     fun description(): String = theDesc().also { setShortDesc() }
 
-    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase {
-        return PhraseFactory(lexicon).fromString(command.input)
-    }
+    private fun makePhrase(command: Command, lexicon: Lexicon): Phrase =
+        PhraseFactory(lexicon).fromString(command.input)
 
     fun item(thing: String, details: Item.() -> Unit = {}): Item {
         return Item(thing).apply {

@@ -55,9 +55,7 @@ class World(val actions: IActions = Actions()) :IActions by actions {
 
 // Game Play
 
-    fun addToInventory(item: Item) {
-        inventory.add(item)
-    }
+    fun addToInventory(item: Item) = inventory.add(item)
 
     fun beam(imp: Imperative ) {
         val match = R.values().find { it.name.equals(imp.noun, ignoreCase = true)}
@@ -72,21 +70,13 @@ class World(val actions: IActions = Actions()) :IActions by actions {
 
     fun inventoryHas(item: String): Boolean = inventory.contains(item)
 
-    fun inventorySetInformation(item: String, property: String) {
-        inventory.setInformation(item, property)
-    }
+    fun inventorySetInformation(item: String, property: String) = inventory.setInformation(item, property)
 
     fun say(s: String) = response.say(s)
 
-    fun yes(s:String): Boolean {
-        say(s)
-        return true
-    }
+    fun yes(s:String): Boolean = true.also { say(s) }
 
-    fun no(s:String): Boolean {
-        say(s)
-        return false
-    }
+    fun no(s:String): Boolean = false. also {say(s)}
 
     private fun showInventory() = say(inventory.asCarried())
 
