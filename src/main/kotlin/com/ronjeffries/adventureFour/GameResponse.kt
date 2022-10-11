@@ -1,17 +1,14 @@
 package com.ronjeffries.adventureFour
 
-class GameResponse(startingRoomName:R = R.Z_FIRST) {
+class GameResponse(startingRoomName:R = R.Z_FIRST, private val player: Player) {
     var nextRoomName = startingRoomName
         get() = field // used only by tests
-
-    var player: Player? = null
 
     val resultString: String get() = sayings + nextRoomName.description() + "\n"+ nextRoomName.itemString()
     var sayings = ""
 
     fun goToPriorRoom() {
-        val name = player?.priorRoomName
-        if (name != null ) moveToRoomNamed(name)
+         moveToRoomNamed(player.priorRoomName)
     }
 
     fun moveToRoomNamed(roomName: R) {
@@ -20,9 +17,5 @@ class GameResponse(startingRoomName:R = R.Z_FIRST) {
 
     fun say(s:String) {
         sayings += s+"\n"
-    }
-
-    fun definePlayer(currentPlayer: Player) {
-        this.player = currentPlayer
     }
 }
