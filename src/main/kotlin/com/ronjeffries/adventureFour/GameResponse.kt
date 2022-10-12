@@ -2,7 +2,7 @@ package com.ronjeffries.adventureFour
 
 class GameResponse(private val player: Player) {
     var nextRoomName: R = player.currentRoomName
-    private set
+        private set
 
     val resultString: String get() = buildString {
         append(sayings)
