@@ -30,7 +30,6 @@ data class Imperative(
     fun say(s: String) = world.say(s)
 
     private var testingSaid: String = ""
-
     fun testingSay(s:String)  {
         testingSaid = s
     }

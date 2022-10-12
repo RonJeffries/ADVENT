@@ -182,12 +182,12 @@ private val TestVerbTable = mutableMapOf(
 private fun makeTestActions() {
     world.actions.clear()
     with(world.actions) {
-        add(Phrase("take", "cows")) { imp: Imperative -> imp.testingSay("no cows for you") }
-        add(Phrase("hassle")) { imp: Imperative -> imp.testingSay("please do not bug the ${imp.noun}") }
-        add(Phrase(noun = "cows")) { imp: Imperative -> imp.testingSay("what is it with you and cows?") }
-        add(Phrase("go")) { imp: Imperative -> imp.testingSay("went ${imp.noun}") }
-        add(Phrase("say")) { imp: Imperative -> imp.testingSay("said ${imp.noun}") }
-        add(Phrase("inventory")) { imp: Imperative -> imp.testingSay("You got nothing") }
-        add(Phrase()) { imp: Imperative -> imp.testingSay("I can't ${imp.verb} a ${imp.noun}") }
+        add(Phrase("take", "cows")) { it.testingSay("no cows for you") }
+        add(Phrase("hassle")) { it.testingSay("please do not bug the ${it.noun}") }
+        add(Phrase(noun = "cows")) { it.testingSay("what is it with you and cows?") }
+        add(Phrase("go")) { it.testingSay("went ${it.noun}") }
+        add(Phrase("say")) { it.testingSay("said ${it.noun}") }
+        add(Phrase("inventory")) { it.testingSay("You got nothing") }
+        add(Phrase()) { it.testingSay("I can't ${it.verb} a ${it.noun}") }
     }
 }
